@@ -23,6 +23,7 @@ export default tseslint.config([
       // Общие "чистые" правила кода
       'prefer-spread': 'warn',      // Предпочитать [...arr] вместо apply()
       'prefer-rest-params': 'warn', // Предпочитать ...args вместо arguments
+      "object-curly-spacing": ["warn", "always"], // Пробелы внутри фигурных скобок в импортировании и деструктуризации
       'prefer-const': 'warn',       // Использовать const если переменная не меняется
       'prefer-arrow-callback': 'warn', // Предпочитать стрелочные функции в коллбеках
       'no-var': 'error',            // Запрещён var
