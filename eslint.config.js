@@ -40,6 +40,9 @@ export default tseslint.config([
       'no-nested-ternary': 'error', // Запрещены вложенные тернарники
       'no-console': 'warn', // console.log разрешён, но предупреждение
       'no-debugger': 'warn', // debugger разрешён, но предупреждение
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'max-len': ['error', 140],
 
       // Правила для пробелов и отступов
       'no-multi-spaces': 'error', // Запрещает множественные пробелы
