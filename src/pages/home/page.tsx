@@ -9,7 +9,7 @@ export const HomePage = () => {
   return (
     <Container p={0} fluid>
       <Box pos="relative" h={550}>
-        <Image src="/public/road.png" w="100%" h="100%" style={{ zIndex: 1, objectFit: 'cover' }} />
+        <Image src="/road.png" w="100%" h="100%" style={{ zIndex: 1, objectFit: 'cover' }} />
         <Box pos="absolute" top="50%" left="50%" style={{ transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 2 }}>
           <Text c="white" fz={40} mb="md">
             Добро пожаловать на аукцион CarsOutlet!
