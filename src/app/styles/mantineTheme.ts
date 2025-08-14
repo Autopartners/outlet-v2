@@ -1,6 +1,6 @@
 import { createTheme } from '@mantine/core'
 
-const theme = createTheme({
+const mantineTheme = createTheme({
     cursorType: 'pointer',
     components: {
         Button: { defaultProps: { radius: 'md' } },
@@ -17,4 +17,4 @@ const theme = createTheme({
     },
 });
 
-export default theme;
+export default mantineTheme;
