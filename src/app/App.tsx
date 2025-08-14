@@ -1,5 +1,11 @@
+import { Navbar } from '../widgets/Navbar/Navbar.tsx';
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <Navbar />
+    </>
+  );
 }
 
 export default App;
