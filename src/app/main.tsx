@@ -10,16 +10,19 @@ import { queryClient } from '../shared/lib/react-query';
 import mantineTheme from './styles/mantineTheme.ts';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
+import MeProvider from './providers/me/meProvider.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <MantineProvider theme={mantineTheme}>
-        <ModalsProvider>
-          <Notifications />
-          <App />
-        </ModalsProvider>
-      </MantineProvider>
+      <MeProvider>
+        <MantineProvider theme={mantineTheme}>
+          <ModalsProvider>
+            <Notifications />
+            <App />
+          </ModalsProvider>
+        </MantineProvider>
+      </MeProvider>
     </QueryClientProvider>
   </StrictMode>
 );
