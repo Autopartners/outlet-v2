@@ -1,7 +1,5 @@
 import { Box } from '@mantine/core';
 
-const AboutPage = () => {
-  return <Box/>
-}
-
-export default AboutPage;
+export const AboutPage = () => {
+  return <Box />;
+};
