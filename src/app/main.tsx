@@ -10,7 +10,7 @@ import { queryClient } from '../shared/lib/react-query';
 import mantineTheme from './styles/mantineTheme.ts';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
-import MeProvider from './providers/me/meProvider.ts';
+import MeProvider from './providers/me/meProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
