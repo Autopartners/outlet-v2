@@ -20,6 +20,12 @@ importers:
       '@mantine/notifications':
         specifier: 7.17.8
         version: 7.17.8(@mantine/core@7.17.8(@mantine/hooks@7.17.8(react@19.1.1))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mantine/hooks@7.17.8(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@tabler/icons-react':
+        specifier: ^3.34.1
+        version: 3.34.1(react@19.1.1)
+      '@tanstack/react-query':
+        specifier: ^5.85.1
+        version: 5.85.1(react@19.1.1)
       react:
         specifier: ^19.1.1
         version: 19.1.1
@@ -549,6 +555,22 @@ packages:
     resolution: {integrity: sha512-CvUo2ixeIQGtF6WvuB87XWqPQkoFAFqW+HUo/WzHwuHDvIwZCtjdWXoYCcr06iKGydiqTclC4jU/TNObC/xKZg==}
     cpu: [x64]
     os: [win32]
+
+  '@tabler/icons-react@3.34.1':
+    resolution: {integrity: sha512-Ld6g0NqOO05kyyHsfU8h787PdHBm7cFmOycQSIrGp45XcXYDuOK2Bs0VC4T2FWSKZ6bx5g04imfzazf/nqtk1A==}
+    peerDependencies:
+      react: '>= 16'
+
+  '@tabler/icons@3.34.1':
+    resolution: {integrity: sha512-9gTnUvd7Fd/DmQgr3MKY+oJLa1RfNsQo8c/ir3TJAWghOuZXodbtbVp0QBY2DxWuuvrSZFys0HEbv1CoiI5y6A==}
+
+  '@tanstack/query-core@5.85.1':
+    resolution: {integrity: sha512-TkPBjaILO6p02JNvRjwBbBJb4ZkI2vCGuV2B29od2j7UxFqYZ6sKwNVQ2CJ+qGDcJ9+qr4L1JGedVTms3V7bSQ==}
+
+  '@tanstack/react-query@5.85.1':
+    resolution: {integrity: sha512-MFnbAsADSE/RPUuJRVuR/0GOFu6s1X3aO/vrrw8U2NxDz0Nwub4Eb5BnJ9oGx+8PPnVGqkaSl6oCa5IaElBy2Q==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -1714,6 +1736,20 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.46.2':
     optional: true
+
+  '@tabler/icons-react@3.34.1(react@19.1.1)':
+    dependencies:
+      '@tabler/icons': 3.34.1
+      react: 19.1.1
+
+  '@tabler/icons@3.34.1': {}
+
+  '@tanstack/query-core@5.85.1': {}
+
+  '@tanstack/react-query@5.85.1(react@19.1.1)':
+    dependencies:
+      '@tanstack/query-core': 5.85.1
+      react: 19.1.1
 
   '@types/babel__core@7.20.5':
     dependencies:
