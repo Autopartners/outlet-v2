@@ -3,11 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "ca.ap-ru.com",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "start": "vite",
+    "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
     "production-deploy": "./deploy.sh -p '/home/ap-user/apps/outlet'"
   },
   "dependencies": {
@@ -26,9 +26,12 @@
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
     "eslint": "^9.33.0",
+    "eslint-config-airbnb-extended": "^2.1.2",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "prettier": "^3.6.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2"

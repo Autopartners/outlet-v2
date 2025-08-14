@@ -1,0 +1,16 @@
+.git
+.gitlab-ci.yml
+node_modules
+build
+dist
+dist-ssr
+.vscode
+.idea
+coverage
+server/db.json
+
+
+
+*.log
+*.cache
+*.tmp
