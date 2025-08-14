@@ -1,4 +1,4 @@
-import { Navbar } from '../widgets/Navbar/Navbar.tsx';
+import { Navbar } from '@/widgets/Navbar';
 
 function App() {
   return (

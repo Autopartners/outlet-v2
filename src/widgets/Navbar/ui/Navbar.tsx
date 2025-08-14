@@ -1,10 +1,9 @@
 import { AppShell, Image, Group, UnstyledButton } from '@mantine/core';
-import AppRouter from '../../app/routers/appRouter.tsx';
 
 export function Navbar() {
   return (
     <AppShell header={{ height: 60 }} padding="md">
-      <AppShell.Header style={{ zIndex: 999 }}>
+      <AppShell.Header>
         <Group h="100%" px="md">
           <Group justify="space-between" style={{ flex: 1 }}>
             <Image src={'public/outlet_circle.png'} h={35} />
@@ -17,9 +16,15 @@ export function Navbar() {
           </Group>
         </Group>
       </AppShell.Header>
-      <AppShell.Main p={0}>
-        <AppRouter />
-      </AppShell.Main>
+      <AppShell.Main></AppShell.Main>
+      <AppShell.Footer>
+        <Group justify={'space-around'} p="md" hiddenFrom="sm" fw={500}>
+          <UnstyledButton>Home</UnstyledButton>
+          <UnstyledButton>Blog</UnstyledButton>
+          <UnstyledButton>Contacts</UnstyledButton>
+          <UnstyledButton>Support</UnstyledButton>
+        </Group>
+      </AppShell.Footer>
     </AppShell>
   );
 }
