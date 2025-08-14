@@ -21,7 +21,7 @@ else
     git checkout HEAD -- package.json pnpm-lock.yaml &&
     git pull &&
     ~/.local/share/pnpm/pnpm update &&
-    NODE_OPTIONS=--max-old-space-size=4096 ~/.local/share/pnpm/pnpm assemble &&
+    NODE_OPTIONS=--max-old-space-size=4096 ~/.local/share/pnpm/pnpm build &&
     cp -r ./build/* $path/$now &&
     cd $path &&
     ls -t | grep -v repo | sed -e '1,${keep_releases}d' | xargs -r -d '\n' rm -r &&
