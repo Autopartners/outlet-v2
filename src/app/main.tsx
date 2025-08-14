@@ -11,18 +11,21 @@ import mantineTheme from './styles/mantineTheme.ts';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 import MeProvider from './providers/me/meProvider.tsx';
+import { BrowserRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <MeProvider>
-        <MantineProvider theme={mantineTheme}>
-          <ModalsProvider>
-            <Notifications />
-            <App />
-          </ModalsProvider>
-        </MantineProvider>
-      </MeProvider>
-    </QueryClientProvider>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <MeProvider>
+          <MantineProvider theme={mantineTheme}>
+            <ModalsProvider>
+              <Notifications />
+              <App />
+            </ModalsProvider>
+          </MantineProvider>
+        </MeProvider>
+      </QueryClientProvider>
+    </BrowserRouter>
   </StrictMode>
 );
