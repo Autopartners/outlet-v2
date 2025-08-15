@@ -26,11 +26,11 @@ export const AuthButtons = ({ isMobile, me, loading }: AuthButtonsProps) => {
     return (
       <>
         <Modal opened={opened} onClose={close} title="Вход и регистрация">
-          <Flex gap="md" direction="column">
-            <Button component={Link} variant="outline" to={`${connecturl}login`}>
+          <Flex gap="lg" direction="column">
+            <Button size={'lg'} radius={'lg'} component={Link} variant="outline" to={`${connecturl}login`}>
               Войти
             </Button>
-            <Button component={Link} to={`${connecturl}signup#outlet`}>
+            <Button size={'lg'} radius={'lg'} component={Link} to={`${connecturl}signup#outlet`}>
               Зарегистрироваться
             </Button>
           </Flex>
