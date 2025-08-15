@@ -1,8 +1,11 @@
 import { AppShell, Image, Group, UnstyledButton } from '@mantine/core';
 import { NavLink } from 'react-router';
 import { AppRouter } from '@/app/routers/appRouter.tsx';
+import { useNavigate } from 'react-router-dom';
 
 export function Navbar() {
+  const nav = useNavigate();
+
   return (
     <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header>
@@ -12,37 +15,37 @@ export function Navbar() {
               <Image src={'/outlet_circle.png'} h={35} />
             </NavLink>
             <Group ml="xl" gap={50} p="md" visibleFrom="sm" fw={500}>
-              <UnstyledButton component="a" href={'/'}>
+              <UnstyledButton onClick={() => nav('/')}>
                 Home
               </UnstyledButton>
-              <UnstyledButton component="a" href={'/lots'}>
+              <UnstyledButton onClick={() => nav('/lots')}>
                 Lots
               </UnstyledButton>
-              <UnstyledButton component="a" href={'/about'}>
+              <UnstyledButton onClick={() => nav('/about')}>
                 About
               </UnstyledButton>
-              <UnstyledButton component="a" href={'/rules'}>
+              <UnstyledButton onClick={() => nav('/rules')}>
                 Rules
               </UnstyledButton>
             </Group>
           </Group>
         </Group>
       </AppShell.Header>
-      <AppShell.Main>
+      <AppShell.Main p={0}>
         <AppRouter />
       </AppShell.Main>
       <AppShell.Footer>
         <Group justify={'space-around'} p="md" hiddenFrom="sm" fw={500}>
-          <UnstyledButton component="a" href={'/'}>
+          <UnstyledButton onClick={() => nav('/')}>
             Home
           </UnstyledButton>
-          <UnstyledButton component="a" href={'/lots'}>
+          <UnstyledButton onClick={() => nav('/lots')}>
             Lots
           </UnstyledButton>
-          <UnstyledButton component="a" href={'/about'}>
+          <UnstyledButton onClick={() => nav('/about')}>
             About
           </UnstyledButton>
-          <UnstyledButton component="a" href={'/rules'}>
+          <UnstyledButton onClick={() => nav('/rules')}>
             Rules
           </UnstyledButton>
         </Group>
