@@ -6,18 +6,19 @@ import { LotCard } from '@/pages/lots/ui/lotCard.tsx';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
-  const { lots, isLoading } = useLots({ page: 1, per_page: 20,
+  const { lots, isLoading } = useLots({ page: 1, per_page: 12,
     params: {
       vehicle_model_id: searchParams.get('vehicle_model_id'),
       vehicle_brand_id: searchParams.get('vehicle_brand_id'),
       city_id: searchParams.get('city_id'),
+      current: true
     }
   });
 
   if (isLoading || !lots) { return <Center mt={250}><Loader size={'xl'} /></Center>; }
 
   return (
-    <Container mt={200} size={'xl'}>
+    <Container mt={200} size={'xl'} mb={40}>
       <SimpleGrid spacing={30} cols={{ lg: 3, sm: 1 }}>
         {lots.map((lot: Lot) => (
           <Box key={lot.id}>

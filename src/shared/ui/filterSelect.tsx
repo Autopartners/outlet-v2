@@ -24,6 +24,7 @@ export const FilterSelect = ({ label, data, value, onChange, disabled }: FilterS
       onSearchChange={setSearch}
       clearable
       disabled={disabled}
+      comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 } }}
     />
   );
 };
