@@ -25,6 +25,7 @@ export const LotPages = ({ pages, pos }: LotPagesProps) => {
   return (
     <Center mt={pos === 'top' ? 40 : 20} mb={pos === 'bottom' ? (isMobile ? 100 : 40) : 20}>
       <Pagination
+        hideWithOnePage
         total={pages}
         value={currentPage}
         onChange={handlePageChange}

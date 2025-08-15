@@ -12,7 +12,7 @@ export const HomePage = () => {
   const nav = useNavigate();
   const { isMobile } = useApp()
   const { me } = useMe()
-  const { lots, isLoading } = useLots({ page: 1, per_page: 3, params: { current: true } })
+  const { lots, isLoading } = useLots({ page: '1', per_page: '3', params: { current: true } })
 
   return (
     <Container p={0} fluid>
@@ -42,7 +42,7 @@ export const HomePage = () => {
                 Смотреть все
         </Button>
       </Box>}
-      <Box ta='center' mt={20} mb={70} w={isMobile ? '90%' : '60%'} mx='auto'>
+      <Box ta='center' mt={20} mb={isMobile ? 100 : 40} w={isMobile ? '90%' : '60%'} mx='auto'>
         <Text fz={isMobile ? 30 : 40}>Наши преимущества</Text>
         <Divider mx='auto' w={100} color='blue.3' size={5} style={{ borderRadius: 20 }} />
         <Text fz={isMobile ? 18 : 20} mt={15}>
