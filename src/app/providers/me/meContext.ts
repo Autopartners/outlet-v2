@@ -1,14 +1,25 @@
 import { createContext } from 'react';
 
-interface MeContextType {
-    me: { username: string; fio: string };
+interface Me {
+  username: string;
+  fio: string;
+  id: null;
+  name: string;
 }
 
-const MeContext = createContext<MeContextType>({
+interface MeContextType {
+  me: Me;
+  setMe: React.Dispatch<React.SetStateAction<Me>>;
+  tryMe: () => Promise<boolean | void>;
+}
+
+export const MeContext = createContext<MeContextType>({
   me: {
     username: '',
-    fio: ''
-  }
+    fio: '',
+    id: null,
+    name: ''
+  },
+  setMe: () => {},
+  tryMe: async () => {}
 });
-
-export default MeContext;
