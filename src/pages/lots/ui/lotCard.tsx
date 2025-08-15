@@ -3,7 +3,7 @@ import type { Lot } from '@/entities/lot/model/lot.ts';
 import { ermurl } from '@/shared/lib/api.ts';
 import { Carousel } from '@mantine/carousel';
 import { useNavigate } from 'react-router-dom';
-import { IconClockHour8 } from '@tabler/icons-react';
+import { IconBuildingSkyscraper, IconHourglassHigh, IconHourglassLow, IconRoad } from '@tabler/icons-react';
 
 interface LotCardProps {
     lot: Lot
@@ -22,10 +22,22 @@ export const LotCard = ({ lot }: LotCardProps) => {
         ))}
       </Carousel>
       <Box p={10} ta='left' w='100%'>
-        <Text fw='bold' fz={20}>{lot.short_name}, {lot.year}г., {lot.km.toLocaleString('ru-RU')} км</Text>
+        <Text fw='bold' fz={20}>{lot.short_name.trim() || lot.vehicle_name.split(' ').slice(0, 2).join(' ')}, {lot.year}г.</Text>
         <Flex align='center' mt={5}>
-          <ThemeIcon variant='transparent' c='blue.4'><IconClockHour8 size={20} /></ThemeIcon>
-          <Text fz={14}>Аукцион завершается {(new Date(lot.end_at)).toLocaleDateString()}</Text>
+          <ThemeIcon variant='transparent' c='blue.4'><IconHourglassHigh size={20} /></ThemeIcon>
+          <Text fz={14}>Аукцион начинается <strong>{(new Date(lot.start_at)).toLocaleDateString()}</strong></Text>
+        </Flex>
+        <Flex align='center' mt={5}>
+          <ThemeIcon variant='transparent' c='blue.4'><IconHourglassLow size={20} /></ThemeIcon>
+          <Text fz={14}>Аукцион завершается <strong>{(new Date(lot.end_at)).toLocaleDateString()}</strong></Text>
+        </Flex>
+        <Flex align='center' mt={5}>
+          <ThemeIcon variant='transparent' c='blue.4'><IconBuildingSkyscraper size={20} /></ThemeIcon>
+          <Text fz={14}>Город <strong>{lot.vehicle.city_of_remarketing_name}</strong></Text>
+        </Flex>
+        <Flex align='center' mt={5}>
+          <ThemeIcon variant='transparent' c='blue.4'><IconRoad size={20} /></ThemeIcon>
+          <Text fz={14}>Пробег <strong>{lot.km.toLocaleString('ru-RU')} км</strong></Text>
         </Flex>
         <Flex mt={10} align='center' justify='space-between'>
           <Stack gap={0}>

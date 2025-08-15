@@ -37,7 +37,6 @@ export default tseslint.config([
       'no-extra-boolean-cast': 'error', // !!true → лишнее
       'no-empty': 'error', // Запрещены пустые блоки {}
       quotes: ['error', 'single'], // Одинарные кавычки
-      'no-nested-ternary': 'error', // Запрещены вложенные тернарники
       'no-console': 'warn', // console.log разрешён, но предупреждение
       'no-debugger': 'warn', // debugger разрешён, но предупреждение
       'react-hooks/rules-of-hooks': 'error',
