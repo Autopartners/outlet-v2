@@ -1,12 +1,11 @@
-import { AppShell, Image, Group, Button, Flex } from '@mantine/core';
+import { AppShell, Image, Group, Button } from '@mantine/core';
 import { NavLink, useLocation } from 'react-router';
 import { AppRouter } from '@/app/routers/appRouter.tsx';
 import { useNavigate } from 'react-router-dom';
 import { NavStatus } from '@/widgets/Navbar/ui/NavStatus';
 import { useMe } from '@/app/providers/me/useMe';
-import { connecturl } from '@/shared/lib/api';
-import { Link } from 'react-router-dom';
 import { useApp } from '@/app/providers/app/useApp.ts';
+import { AuthButtons } from '@/widgets/Navbar/ui/AuthButtons';
 
 export function Navbar() {
   const nav = useNavigate();
@@ -39,22 +38,7 @@ export function Navbar() {
                   Rules
                 </Button>
               </Group>
-              {me.id && !isMobile ? (
-                <NavStatus />
-              ) : (
-                !loading &&
-                !me.id &&
-                !isMobile && (
-                  <Flex gap={'md'}>
-                    <Button component={Link} variant={'outline'} to={`${connecturl}/login`}>
-                      Войти
-                    </Button>
-                    <Button component={Link} to={`${connecturl}/signup#outlet`}>
-                      Зарегистрироваться
-                    </Button>
-                  </Flex>
-                )
-              )}
+              {me.id && !isMobile ? <NavStatus /> : <AuthButtons isMobile={isMobile} me={me} loading={loading} />}
             </Group>
           </Group>
         </AppShell.Header>
@@ -75,18 +59,7 @@ export function Navbar() {
           <Button variant={pathname === '/about' ? 'light' : 'subtle'} size="sm" color="black" onClick={() => nav('/about')}>
             About
           </Button>
-          {me.id ? (
-            <NavStatus />
-          ) : (
-            <>
-              <Button size={'xs'} component={Link} variant={'outline'} to={`${connecturl}/login`}>
-                Войти
-              </Button>
-              <Button size={'xs'} component={Link} to={`${connecturl}/signup#outlet`}>
-                Зарегистрироваться
-              </Button>
-            </>
-          )}
+          {me.id && <NavStatus />}
         </Group>
       </AppShell.Footer>
     </AppShell>
