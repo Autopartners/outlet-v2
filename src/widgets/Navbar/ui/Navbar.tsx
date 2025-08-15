@@ -15,13 +15,13 @@ export function Navbar() {
             <NavLink to={'/'}>
               <Image src={'/outlet_circle.png'} h={35} />
             </NavLink>
-            <Group ml="xl" gap={50} p="md" visibleFrom="sm" fw={500}>
+            <Group ml="xl" gap={50} p="md" visibleFrom="md" fw={500}>
               <UnstyledButton onClick={() => nav('/')}>Home</UnstyledButton>
               <UnstyledButton onClick={() => nav('/lots')}>Lots</UnstyledButton>
               <UnstyledButton onClick={() => nav('/about')}>About</UnstyledButton>
               <UnstyledButton onClick={() => nav('/rules')}>Rules</UnstyledButton>
-              <NavStatus />
             </Group>
+            <NavStatus />
           </Group>
         </Group>
       </AppShell.Header>
@@ -29,7 +29,7 @@ export function Navbar() {
         <AppRouter />
       </AppShell.Main>
       <AppShell.Footer>
-        <Group justify={'space-around'} p="md" hiddenFrom="sm" fw={500}>
+        <Group justify={'space-around'} p="md" hiddenFrom="md" fw={500}>
           <UnstyledButton onClick={() => nav('/')}>Home</UnstyledButton>
           <UnstyledButton onClick={() => nav('/lots')}>Lots</UnstyledButton>
           <UnstyledButton onClick={() => nav('/about')}>About</UnstyledButton>
