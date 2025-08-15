@@ -26,19 +26,19 @@ let authurl = 'http://localhost:3005';
 let connecturl = 'http://localhost:3006/';
 
 const getApi = async () => {
-  let path = 'https://auth.ap-ru.com/api/v4/ping';
-  if (!isLocalhost) {
-    try {
-      const local = axios.get('https://a.ap-ru.com/api/v4/ping');
-      const external = axios.get('https://auth.ap-ru.com/api/v4/ping');
-      const {
-        config: { url }
-      } = await Promise.race([local, external]);
-      path = url;
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  let path = 'https://auth-test.ap-ru.com/api/v4/ping'; // временно тест
+  // if (!isLocalhost) {
+  //   try {
+  //     // const local = axios.get('https://a.ap-ru.com/api/v4/ping');
+  //     // const external = axios.get('https://auth.ap-ru.com/api/v4/ping');
+  //     // const {
+  //     //   config: { url }
+  //     // } = await Promise.race([local, external]);
+  //     // path = url;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
   connecturl = 'https://connect.ap-ru.com/';
   path = path.replace('/api/v4/ping', '');
   if (isLocalhost) {
