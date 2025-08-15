@@ -39,7 +39,8 @@ const getApi = async () => {
   //     console.log(err);
   //   }
   // }
-  connecturl = 'https://connect.ap-ru.com/';
+  // connecturl = 'https://connect.ap-ru.com/';
+  connecturl = 'https://connect-test.ap-ru.com/'; // временно на тест
   path = path.replace('/api/v4/ping', '');
   if (isLocalhost) {
     return 'http://localhost:3005';
@@ -62,4 +63,4 @@ const initialize = async (callback) => {
 
 const ermurl = 'https://e.ap-ru.com';
 
-export { initialize, connecturl, ermurl, getApi, isLocalhost, api };
+export { initialize, connecttesturl, connecturl, ermurl, getApi, isLocalhost, api };
