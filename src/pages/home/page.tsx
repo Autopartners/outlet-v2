@@ -25,57 +25,57 @@ export const HomePage = () => {
           </Text>
         </Box>
       </Box>
-      <Box ta={'center'} py={20} bg={'gray.1'} >
+      <Box ta='center' py={20} bg='gray.1' >
         <Text fz={isMobile ? 30 : 40}>Актуальные лоты</Text>
-        <Divider mx={'auto'} w={100} color={'blue.3'} size={5} style={{ borderRadius: 20 }} />
-        {isLoading ? <Center mt={40} mb={20}><Loader size={'lg'}/></Center> :
-          <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '60%'} mx={'auto'}>
+        <Divider mx='auto' w={100} color='blue.3' size={5} style={{ borderRadius: 20 }} />
+        {isLoading ? <Center mt={40} mb={20}><Loader size='lg'/></Center> :
+          <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '60%'} mx='auto'>
             {lots.map((lot: Lot) => (
               <Box key={lot.id}>
                 <LotCard lot={lot}/>
               </Box>
             ))}
           </SimpleGrid>}
-        <Button leftSection={<IconEye />} mt={20} size={'lg'} onClick={() => nav('/lots')}>
+        <Button leftSection={<IconEye />} mt={20} size='lg' onClick={() => nav('/lots')}>
           Смотреть все
         </Button>
       </Box>
-      <Box ta={'center'} mt={20} mb={70} w={isMobile ? '90%' : '60%'} mx={'auto'}>
+      <Box ta='center' mt={20} mb={70} w={isMobile ? '90%' : '60%'} mx='auto'>
         <Text fz={isMobile ? 30 : 40}>Наши преимущества</Text>
-        <Divider mx={'auto'} w={100} color={'blue.3'} size={5} style={{ borderRadius: 20 }} />
+        <Divider mx='auto' w={100} color='blue.3' size={5} style={{ borderRadius: 20 }} />
         <Text fz={isMobile ? 18 : 20} mt={15}>
           Почему стоит выбрать наш аукцион для покупки подержанного автомобиля
         </Text>
-        <SimpleGrid ta={'left'} cols={{ lg: 3, sm: 1 }} mt={40} spacing={80} verticalSpacing={40}>
+        <SimpleGrid ta='left' cols={{ lg: 3, sm: 1 }} mt={40} spacing={80} verticalSpacing={40}>
           <AdvantageCard
-            title={'Покупка у юридического лица'}
-            text={'Прозрачные сделки с официальным оформлением документов и гарантией безопасности'}
-            icon={<IconUser color={'white'} size={'40'} />}
+            title='Покупка у юридического лица'
+            text='Прозрачные сделки с официальным оформлением документов и гарантией безопасности'
+            icon={<IconUser color='white' size='40' />}
           />
           <AdvantageCard
-            title={'Проверка автомобилей перед продажей'}
-            text={'Прозрачные сделки с официальным оформлением документов и гарантией безопасности'}
-            icon={<IconSearch color={'white'} size={'40'} />}
+            title='Проверка автомобилей перед продажей'
+            text='Прозрачные сделки с официальным оформлением документов и гарантией безопасности'
+            icon={<IconSearch color='white' size='40' />}
           />
           <AdvantageCard
-            title={'Юридически чистая история автомобилей'}
-            text={'Полная проверка истории владения, отсутствие обременений и юридических проблем'}
-            icon={<IconGavel color={'white'} size={'40'} />}
+            title='Юридически чистая история автомобилей'
+            text='Полная проверка истории владения, отсутствие обременений и юридических проблем'
+            icon={<IconGavel color='white' size='40' />}
           />
           <AdvantageCard
-            title={'Реальный пробег'}
-            text={'Гарантируем достоверность показаний одометра и предоставляем полную историю эксплуатации'}
-            icon={<IconCar4wd color={'white'} size={'40'} />}
+            title='Реальный пробег'
+            text='Гарантируем достоверность показаний одометра и предоставляем полную историю эксплуатации'
+            icon={<IconCar4wd color='white' size='40' />}
           />
           <AdvantageCard
-            title={'Обслуживание в сертифицированных СТО'}
-            text={'Все автомобили проходили регулярное обслуживание в официальных сервисных центрах'}
-            icon={<IconShield color={'white'} size={'40'} />}
+            title='Обслуживание в сертифицированных СТО'
+            text='Все автомобили проходили регулярное обслуживание в официальных сервисных центрах'
+            icon={<IconShield color='white' size='40' />}
           />
           <AdvantageCard
-            title={'Возврат НДС (для юридических лиц)'}
-            text={'Возможность возврата налога на добавленную стоимость при покупке для бизнеса'}
-            icon={<IconCreditCardRefund color={'white'} size={'40'} />}
+            title='Возврат НДС (для юридических лиц)'
+            text='Возможность возврата налога на добавленную стоимость при покупке для бизнеса'
+            icon={<IconCreditCardRefund color='white' size='40' />}
           />
         </SimpleGrid>
       </Box>
