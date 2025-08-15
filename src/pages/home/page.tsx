@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { IconCar4wd, IconCreditCardRefund, IconEye, IconGavel, IconSearch, IconShield, IconUser } from '@tabler/icons-react';
 import { AdvantageCard } from '@/pages/home/';
 import { useApp } from '@/app/providers/app/useApp.ts';
+import useLots from '@/pages/lots/api/useLots.ts';
 
 export const HomePage = () => {
   const nav = useNavigate();
   const { isMobile } = useApp()
 
+  const { lots } = useLots({ page: 1, per_page: 3, params: { current: true } })
+  console.log(lots)
   return (
     <Container p={0} fluid>
       <Box pos="relative" h={550}>
