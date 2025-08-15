@@ -22,7 +22,7 @@ export const LotCard = ({ lot }: LotCardProps) => {
         ))}
       </Carousel>
       <Box p={10} ta='left' w='100%'>
-        <Text fw='bold' fz={20}>{lot.short_name}, {lot.year}г., {lot.km}км</Text>
+        <Text fw='bold' fz={20}>{lot.short_name}, {lot.year}г., {lot.km.toLocaleString('ru-RU')} км</Text>
         <Flex align='center' mt={5}>
           <ThemeIcon variant='transparent' c='blue.4'><IconClockHour8 size={20} /></ThemeIcon>
           <Text fz={14}>Аукцион завершается {(new Date(lot.end_at)).toLocaleDateString()}</Text>
