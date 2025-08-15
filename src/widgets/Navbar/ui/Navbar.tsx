@@ -43,7 +43,8 @@ export function Navbar() {
                 <NavStatus />
               ) : (
                 !loading &&
-                !me.id && (
+                !me.id &&
+                !isMobile && (
                   <Flex gap={'md'}>
                     <Button component={Link} variant={'outline'} to={`${connecturl}/login`}>
                       Войти
@@ -74,7 +75,18 @@ export function Navbar() {
           <Button variant={pathname === '/about' ? 'light' : 'subtle'} size="sm" color="black" onClick={() => nav('/about')}>
             About
           </Button>
-          {me.id && <NavStatus />}
+          {me.id ? (
+            <NavStatus />
+          ) : (
+            <>
+              <Button size={'xs'} component={Link} variant={'outline'} to={`${connecturl}/login`}>
+                Войти
+              </Button>
+              <Button size={'xs'} component={Link} to={`${connecturl}/signup#outlet`}>
+                Зарегистрироваться
+              </Button>
+            </>
+          )}
         </Group>
       </AppShell.Footer>
     </AppShell>
