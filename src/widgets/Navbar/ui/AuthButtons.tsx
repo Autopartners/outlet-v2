@@ -45,10 +45,10 @@ export const AuthButtons = ({ isMobile, me, loading }: AuthButtonsProps) => {
   // Desktop
   return (
     <Flex gap="md">
-      <Button component={Link} variant="outline" to={`${connecturl}/login`}>
+      <Button component={Link} variant="outline" to={`${connecturl}login`}>
         Войти
       </Button>
-      <Button component={Link} to={`${connecturl}/signup#outlet`}>
+      <Button component={Link} to={`${connecturl}signup#outlet`}>
         Зарегистрироваться
       </Button>
     </Flex>
