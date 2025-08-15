@@ -12,6 +12,7 @@ interface MeContextType {
   me: Me;
   setMe: React.Dispatch<React.SetStateAction<Me>>;
   tryMe: () => Promise<boolean | void>;
+  loading: boolean;
 }
 
 export const MeContext = createContext<MeContextType>({
@@ -23,5 +24,6 @@ export const MeContext = createContext<MeContextType>({
     menus: null
   },
   setMe: () => {},
-  tryMe: async () => {}
+  tryMe: async () => {},
+  loading: false
 });

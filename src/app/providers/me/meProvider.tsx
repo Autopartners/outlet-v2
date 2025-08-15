@@ -12,15 +12,22 @@ const MeProvider = ({ children }: MeProviderProps) => {
     username: '',
     fio: '',
     id: null,
-    name: ''
+    name: '',
+    menus: null
   });
 
+  const [loading, setLoading] = useState(false);
+
   const tryMe = useCallback(async () => {
+    setLoading(true);
     try {
       const { data } = await api.get('/common/users/me');
       setMe((prev) => ({ ...prev, ...data }));
-    } catch {
+    } catch (error) {
+      console.log(error);
       return false;
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -30,7 +37,7 @@ const MeProvider = ({ children }: MeProviderProps) => {
     }
   }, [tryMe, me.id]);
 
-  const contextValue = useMemo(() => ({ me, setMe, tryMe }), [me, tryMe]);
+  const contextValue = useMemo(() => ({ me, setMe, tryMe, loading }), [me, tryMe, loading]);
 
   return <MeContext.Provider value={contextValue}>{children}</MeContext.Provider>;
 };
