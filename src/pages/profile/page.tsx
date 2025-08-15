@@ -1,4 +1,4 @@
-import { Container, Button } from '@mantine/core';
+import { Container, Flex, Button } from '@mantine/core';
 import { useMe } from '@/app/providers/me/useMe';
 import { api } from '@/shared/lib/api';
 import { useNavigate } from 'react-router-dom';
@@ -24,9 +24,11 @@ export const ProfilePage = () => {
   return (
     <Container p={0} mt={100} fluid>
       {me && (
-        <Button color={'red'} onClick={logout}>
-          Выйти
-        </Button>
+        <Flex justify="center">
+          <Button size={'lg'} color={'red'} onClick={logout}>
+            Выйти
+          </Button>
+        </Flex>
       )}
     </Container>
   );
