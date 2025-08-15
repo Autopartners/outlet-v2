@@ -14,22 +14,33 @@ import { ModalsProvider } from '@mantine/modals';
 import MeProvider from './providers/me/meProvider.tsx';
 import { BrowserRouter } from 'react-router-dom';
 import { AppProvider } from '@/app/providers/app/appProvider.tsx';
+import { initialize } from '@/shared/lib/api';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <AppProvider>
-          <MeProvider>
-            <MantineProvider theme={mantineTheme}>
-              <ModalsProvider>
-                <Notifications />
-                <App />
-              </ModalsProvider>
-            </MantineProvider>
-          </MeProvider>
-        </AppProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
-  </StrictMode>
-);
+const rootElement = document.getElementById('root')!;
+const root = createRoot(rootElement);
+
+initialize((status: 'server_loaded' | 'server_unavailable') => {
+  if (status === 'server_loaded') {
+    root.render(
+      <StrictMode>
+        <BrowserRouter>
+          <QueryClientProvider client={queryClient}>
+            <AppProvider>
+              <MeProvider>
+                <MantineProvider theme={mantineTheme}>
+                  <ModalsProvider>
+                    <Notifications />
+                    <App />
+                  </ModalsProvider>
+                </MantineProvider>
+              </MeProvider>
+            </AppProvider>
+          </QueryClientProvider>
+        </BrowserRouter>
+      </StrictMode>
+    );
+  } else {
+    console.error('Сервер недоступен');
+    // сюда можно вывести fallback или страницу с ошибкой
+  }
+});
