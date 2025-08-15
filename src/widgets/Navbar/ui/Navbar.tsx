@@ -1,34 +1,53 @@
-import { AppShell, Image, Group, Button } from '@mantine/core';
+import { AppShell, Image, Group, Button, Flex } from '@mantine/core';
 import { NavLink, useLocation } from 'react-router';
 import { AppRouter } from '@/app/routers/appRouter.tsx';
 import { useNavigate } from 'react-router-dom';
 import { NavStatus } from '@/widgets/Navbar/ui/NavStatus';
-import { useMe } from '@/app/providers/me/useMe.ts';
+import { useMe } from '@/app/providers/me/useMe';
+import { connecturl } from '@/shared/lib/api';
+import { Link } from 'react-router-dom';
 
 export function Navbar() {
   const nav = useNavigate();
   const { pathname } = useLocation();
-  const { me } = useMe()
+  const { me } = useMe();
 
   return (
     <AppShell header={{ height: 70 }} padding="md">
       <AppShell.Header>
         <Group h="100%" px="md">
-          <Group pos='relative' justify="space-between" style={{ flex: 1 }}>
-            <NavLink to='/'>
-              <Image src='/outlet_circle.png' h={35} />
+          <Group pos="relative" justify="space-between" style={{ flex: 1 }}>
+            <NavLink to="/">
+              <Image src="/outlet_circle.png" h={35} />
             </NavLink>
-            <Group style={{ transform: 'translate(-50%, -50%)' }} pos='absolute' left='50%' top='50%' gap={50} visibleFrom="md" fw={500}>
-              <Button variant={pathname === '/' ? 'light' : 'subtle'}
-                size='md' color='black' onClick={() => nav('/')}>Home</Button>
-              {me.id && <Button variant={pathname === '/lots' ? 'light' : 'subtle'}
-                size='md' color='black' onClick={() => nav('/lots')}>Lots</Button>}
-              <Button variant={pathname === '/about' ? 'light' : 'subtle'}
-                size='md' color='black' onClick={() => nav('/about')}>About</Button>
-              <Button variant={pathname === '/rules' ? 'light' : 'subtle'}
-                size='md' color='black' onClick={() => nav('/rules')}>Rules</Button>
+            <Group style={{ transform: 'translate(-50%, -50%)' }} pos="absolute" left="50%" top="50%" gap={50} visibleFrom="md" fw={500}>
+              <Button variant={pathname === '/' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/')}>
+                Home
+              </Button>
+              {me.id && (
+                <Button variant={pathname === '/lots' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/lots')}>
+                  Lots
+                </Button>
+              )}
+              <Button variant={pathname === '/about' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/about')}>
+                About
+              </Button>
+              <Button variant={pathname === '/rules' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/rules')}>
+                Rules
+              </Button>
             </Group>
-            <NavStatus />
+            {me.id ? (
+              <NavStatus />
+            ) : (
+              <Flex gap={'md'}>
+                <Button component={Link} variant={'outline'} to={`${connecturl}/login`}>
+                  Войти
+                </Button>
+                <Button component={Link} to={`${connecturl}/signup#outlet`}>
+                  Зарегистрироваться
+                </Button>
+              </Flex>
+            )}
           </Group>
         </Group>
       </AppShell.Header>
@@ -36,15 +55,21 @@ export function Navbar() {
         <AppRouter />
       </AppShell.Main>
       <AppShell.Footer>
-        <Group justify='space-around' p="md" hiddenFrom="md" fw={500}>
-          <Button variant={pathname === '/' ? 'light' : 'subtle'}
-            size='sm' color='black' onClick={() => nav('/')}>Home</Button>
-          {me.id && <Button variant={pathname === '/lots' ? 'light' : 'subtle'}
-            size='md' color='black' onClick={() => nav('/lots')}>Lots</Button>}
-          <Button variant={pathname === '/about' ? 'light' : 'subtle'}
-            size='sm' color='black' onClick={() => nav('/about')}>About</Button>
-          <Button variant={pathname === '/rules' ? 'light' : 'subtle'}
-            size='sm' color='black' onClick={() => nav('/rules')}>Rules</Button>
+        <Group justify="space-around" p="md" hiddenFrom="md" fw={500}>
+          <Button variant={pathname === '/' ? 'light' : 'subtle'} size="sm" color="black" onClick={() => nav('/')}>
+            Home
+          </Button>
+          {me.id && (
+            <Button variant={pathname === '/lots' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/lots')}>
+              Lots
+            </Button>
+          )}
+          <Button variant={pathname === '/about' ? 'light' : 'subtle'} size="sm" color="black" onClick={() => nav('/about')}>
+            About
+          </Button>
+          <Button variant={pathname === '/rules' ? 'light' : 'subtle'} size="sm" color="black" onClick={() => nav('/rules')}>
+            Rules
+          </Button>
         </Group>
       </AppShell.Footer>
     </AppShell>

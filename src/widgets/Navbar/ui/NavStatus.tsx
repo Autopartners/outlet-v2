@@ -5,10 +5,10 @@ import { useMe } from '@/app/providers/me/useMe';
 export const NavStatus = () => {
   const { me } = useMe();
   return (
-    <UnstyledButton component={Link} to='/profile'>
-      <Flex px='sm' gap='sm' align='center'>
-        <Avatar radius='xl' color='blue' />
-        <Text size='md'>{me.name}</Text>
+    <UnstyledButton component={Link} to="/profile">
+      <Flex px="sm" gap="sm" align="center">
+        <Avatar radius="xl" color="blue" />
+        <Text size="md">{me.name || me.username}</Text>
       </Flex>
     </UnstyledButton>
   );

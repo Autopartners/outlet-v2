@@ -23,6 +23,7 @@ const isLocalhost = Boolean(
 );
 
 let authurl = 'http://localhost:3005';
+let connecturl = 'http://localhost:3006/';
 
 const getApi = async () => {
   let path = 'https://auth.ap-ru.com/api/v4/ping';
@@ -38,6 +39,7 @@ const getApi = async () => {
       console.log(err);
     }
   }
+  connecturl = 'https://connect.ap-ru.com/';
   path = path.replace('/api/v4/ping', '');
   if (isLocalhost) {
     return 'http://localhost:3005';
@@ -48,6 +50,9 @@ const getApi = async () => {
 const initialize = async (callback) => {
   try {
     authurl = await getApi();
+    if (isLocalhost) {
+      connecturl = 'http://localhost:3006';
+    }
     api.defaults.baseURL = `${authurl}/api/v4`;
     callback('server_loaded');
   } catch {
@@ -57,4 +62,4 @@ const initialize = async (callback) => {
 
 const ermurl = 'https://e.ap-ru.com';
 
-export { initialize, ermurl, getApi, isLocalhost, api };
+export { initialize, connecturl, ermurl, getApi, isLocalhost, api };

@@ -3,7 +3,7 @@ import { HomePage } from '@/pages/home/page.tsx';
 import { LotsPage } from '@/pages/lots/page.tsx';
 import { AboutPage } from '@/pages/about/page.tsx';
 import { RulesPage } from '@/pages/rules/ui/page.tsx';
-import { ProfilePage } from '@/pages/profile/ui/';
+import { ProfilePage } from '@/pages/profile/page.tsx';
 import { AdminPage } from '@/pages/admin/ui/page.tsx';
 
 export const AppRouter = () => {
