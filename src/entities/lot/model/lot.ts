@@ -4,4 +4,7 @@ export interface Lot {
     year: number;
     km: number;
     price: number;
+    sales_pictures: [{ url: string, id: number }];
+    last_bid: number;
+    end_at: string;
 }

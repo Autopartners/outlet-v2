@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './styles/global.css';
 import '@mantine/notifications/styles.css';
 import '@mantine/core/styles.css';
+import '@mantine/carousel/styles.css';
 import App from './App';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { MantineProvider } from '@mantine/core';

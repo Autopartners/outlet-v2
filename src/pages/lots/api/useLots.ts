@@ -8,12 +8,12 @@ interface UseLotsParams {
 }
 
 const useLots = ({ page, per_page = 20, params }:UseLotsParams) => {
-  const { data: lots } = useQuery({
+  const { data: lots, isLoading } = useQuery({
     queryKey: ['lots', page, per_page, params],
     queryFn: () => api.get('outlet/lots', { params: { page, per_page, ...params } }).then(e => e.data.result),
   })
 
-  return { lots }
+  return { lots, isLoading }
 }
 
 export default useLots

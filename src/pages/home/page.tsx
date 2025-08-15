@@ -1,16 +1,17 @@
-import { Image, Container, Text, Box, Divider, Button, SimpleGrid } from '@mantine/core';
+import { Image, Container, Text, Box, Divider, Button, SimpleGrid, Center, Loader } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { IconCar4wd, IconCreditCardRefund, IconEye, IconGavel, IconSearch, IconShield, IconUser } from '@tabler/icons-react';
 import { AdvantageCard } from '@/pages/home/';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import useLots from '@/pages/lots/api/useLots.ts';
+import { LotCard } from '@/pages/lots/ui/lotCard.tsx';
+import type { Lot } from '@/entities/lot/model/lot.ts';
 
 export const HomePage = () => {
   const nav = useNavigate();
   const { isMobile } = useApp()
+  const { lots, isLoading } = useLots({ page: 1, per_page: 3, params: { current: true } })
 
-  const { lots } = useLots({ page: 1, per_page: 3, params: { current: true } })
-  console.log(lots)
   return (
     <Container p={0} fluid>
       <Box pos="relative" h={550}>
@@ -24,9 +25,17 @@ export const HomePage = () => {
           </Text>
         </Box>
       </Box>
-      <Box ta={'center'} py={20} bg={'gray.1'}>
+      <Box ta={'center'} py={20} bg={'gray.1'} >
         <Text fz={isMobile ? 30 : 40}>Актуальные лоты</Text>
         <Divider mx={'auto'} w={100} color={'blue.3'} size={5} style={{ borderRadius: 20 }} />
+        {isLoading ? <Center mt={40} mb={20}><Loader size={'lg'}/></Center> :
+          <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '60%'} mx={'auto'}>
+            {lots.map((lot: Lot) => (
+              <Box key={lot.id}>
+                <LotCard lot={lot}/>
+              </Box>
+            ))}
+          </SimpleGrid>}
         <Button leftSection={<IconEye />} mt={20} size={'lg'} onClick={() => nav('/lots')}>
           Смотреть все
         </Button>
@@ -37,7 +46,7 @@ export const HomePage = () => {
         <Text fz={isMobile ? 18 : 20} mt={15}>
           Почему стоит выбрать наш аукцион для покупки подержанного автомобиля
         </Text>
-        <SimpleGrid ta={'left'} cols={isMobile ? 1 : 3} mt={40} spacing={80} verticalSpacing={40}>
+        <SimpleGrid ta={'left'} cols={{ lg: 3, sm: 1 }} mt={40} spacing={80} verticalSpacing={40}>
           <AdvantageCard
             title={'Покупка у юридического лица'}
             text={'Прозрачные сделки с официальным оформлением документов и гарантией безопасности'}
