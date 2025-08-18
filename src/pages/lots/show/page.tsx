@@ -86,7 +86,7 @@ export const LotPage = () => {
               </Card>
             </Box>
 
-            <Box h={'60%'}>
+            <Box h={'68%'}>
               <Card radius={'lg'} bg={'gray.1'}>
                 <Stack>
                   <Flex justify={'space-between'} align={'flex-end'}>
@@ -99,7 +99,7 @@ export const LotPage = () => {
                       {lot.my_last_bid?.toLocaleString('ru-RU') || 0}₽
                     </Text>
                   </Flex>
-                  {!isEnd ? (
+                  {isEnd ? (
                     <Card bg={'red.1'} radius={'lg'} p={10}>
                       <Text c={'red.9'} ta={'center'} fw={'bold'} fz={20}>Аукцион уже завершен</Text>
                     </Card>
