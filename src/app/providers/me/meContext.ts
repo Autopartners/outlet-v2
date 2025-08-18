@@ -8,6 +8,7 @@ interface Me {
   menus: null;
   phone0: '';
   email0: '';
+  show_success_notifications: null;
 }
 
 interface MeContextType {
@@ -25,7 +26,8 @@ export const MeContext = createContext<MeContextType>({
     name: '',
     menus: null,
     phone0: '',
-    email0: ''
+    email0: '',
+    show_success_notifications: null
   },
   setMe: () => {},
   tryMe: async () => {},

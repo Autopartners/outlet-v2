@@ -1,9 +1,11 @@
 import { createContext } from 'react';
 
 interface AppContextType {
-    isMobile: boolean;
+  isMobile: boolean;
+  notification: object;
 }
 
 export const AppContext = createContext<AppContextType>({
-  isMobile: true
+  isMobile: true,
+  notification: {}
 });
