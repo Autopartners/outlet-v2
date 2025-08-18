@@ -1,7 +1,7 @@
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { useNavigate } from 'react-router-dom';
-import { LotsFilters } from '@/pages/lots/ui/lotsFilters.tsx';
-import { LotsList } from '@/pages/lots/ui/lotsList.tsx';
+import { LotsFilters } from '@/pages/lots/index/ui/lotsFilters.tsx';
+import { LotsList } from '@/pages/lots/index/ui/lotsList.tsx';
 
 export const LotsPage = () => {
   const { me } = useMe();

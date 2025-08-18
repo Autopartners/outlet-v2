@@ -1,9 +1,9 @@
 import { Box, Center, Container, Loader, SimpleGrid } from '@mantine/core';
-import { useLots } from '@/pages/lots/api/useLots.ts';
+import { useLots } from '@/pages/lots/index/api/useLots.ts';
 import type { Lot } from '@/entities/lot/model/lot.ts';
 import { useSearchParams } from 'react-router-dom';
-import { LotCard } from '@/pages/lots/ui/lotCard.tsx';
-import { LotPages } from '@/pages/lots/ui/lotPages.tsx';
+import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
+import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();

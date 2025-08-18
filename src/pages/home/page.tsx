@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { IconCar4wd, IconCreditCardRefund, IconEye, IconGavel, IconSearch, IconShield, IconUser } from '@tabler/icons-react';
 import { AdvantageCard } from '@/pages/home/';
 import { useApp } from '@/app/providers/app/useApp.ts';
-import { useLots } from '@/pages/lots/api/useLots.ts';
-import { LotCard } from '@/pages/lots/ui/lotCard.tsx';
+import { useLots } from '@/pages/lots/index/api/useLots.ts';
+import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import type { Lot } from '@/entities/lot/model/lot.ts';
 import { useMe } from '@/app/providers/me/useMe.ts';
 

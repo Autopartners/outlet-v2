@@ -1,6 +1,6 @@
 import { ActionIcon, Box, Card, Flex } from '@mantine/core';
 import { useSearchParams } from 'react-router-dom';
-import { useBrands, useCities, useModels } from '@/pages/lots/api/useFilters.ts';
+import { useBrands, useCities, useModels } from '@/pages/lots/index/api/useFilters.ts';
 import { FilterSelect } from '@/shared/ui/filterSelect.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { useState } from 'react';

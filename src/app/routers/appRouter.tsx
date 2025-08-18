@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router';
 import { HomePage } from '@/pages/home/page.tsx';
-import { LotsPage } from '@/pages/lots/page.tsx';
+import { LotsPage } from '@/pages/lots/index/page.tsx';
 import { AboutPage } from '@/pages/about/page.tsx';
 import { RulesPage } from '@/pages/rules/ui/page.tsx';
 import { ProfilePage } from '@/pages/profile/page.tsx';

@@ -48,13 +48,14 @@ const getApi = async () => {
   return path;
 };
 
-const initialize = async (callback) => {
+const initialize = async (callback: (status: 'server_loaded' | 'server_unavailable' | 'server_loading') => void) => {
   try {
     authurl = await getApi();
     if (isLocalhost) {
-      connecturl = 'http://localhost:3006';
+      connecturl = 'http://localhost:3006/';
     }
     api.defaults.baseURL = `${authurl}/api/v4`;
+    await api.get('/ping');
     callback('server_loaded');
   } catch {
     callback('server_unavailable');
@@ -63,4 +64,4 @@ const initialize = async (callback) => {
 
 const ermurl = 'https://e.ap-ru.com';
 
-export { initialize, connecttesturl, connecturl, ermurl, getApi, isLocalhost, api };
+export { initialize, connecturl, ermurl, getApi, isLocalhost, api };
