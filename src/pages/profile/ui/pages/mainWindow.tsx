@@ -2,10 +2,12 @@ import { Box, Button, Flex, Text, TextInput } from '@mantine/core';
 import { api } from '@/shared/lib/api.ts';
 import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
+import { useApp } from '@/app/providers/app/useApp';
 export const MainWindow = ({ user, setUser }) => {
   const nav = useNavigate();
   const [state, setState] = useState(user);
   const [changed, setChanged] = useState({});
+  const { notification } = useApp();
 
   useEffect(() => {
     setState(user);
@@ -29,10 +31,10 @@ export const MainWindow = ({ user, setUser }) => {
           phone0
         }
       });
-      console.log('успех');
       setChanged({});
+      notification.green('Сохранено!');
     } catch {
-      console.log('error');
+      notification.red('Ошибка!');
     }
   };
 
