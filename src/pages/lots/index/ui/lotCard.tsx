@@ -1,9 +1,8 @@
-import { Box, Button, Card, Flex, Image, Stack, Text, ThemeIcon } from '@mantine/core';
-import type { Lot } from '@/entities/lot/model/lot.ts';
-import { ermurl } from '@/shared/lib/api.ts';
-import { Carousel } from '@mantine/carousel';
+import { Box, Button, Card, Flex, Stack, Text, ThemeIcon } from '@mantine/core';
+import type { Lot } from '@/entities/lot/lot.ts';
 import { useNavigate } from 'react-router-dom';
 import { IconBuildingSkyscraper, IconHourglassHigh, IconHourglassLow, IconRoad } from '@tabler/icons-react';
+import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 
 interface LotCardProps {
     lot: Lot
@@ -15,15 +14,12 @@ export const LotCard = ({ lot, maxPhotos }: LotCardProps) => {
 
   return (
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
-      <Carousel withIndicators height={300}>
-        {lot.sales_pictures.slice(0, maxPhotos || lot.sales_pictures.length - 1).map(pict => (
-          <Carousel.Slide key={pict.id}>
-            <Image style={{ objectPosition: 'center' }} h={300} src={ermurl + pict.url} />
-          </Carousel.Slide>
-        ))}
-      </Carousel>
+      <ApCarousel pictures={lot.sales_pictures.slice(0, maxPhotos || lot.sales_pictures.length - 1)} />
       <Box p={10} ta='left' w='100%'>
-        <Text fw='bold' fz={20}>{lot.short_name.trim() || lot.vehicle_name.split(' ').slice(0, 2).join(' ')}, {lot.year}г.</Text>
+        <Flex justify='space-between'>
+          <Text fw='bold' fz={20}>{lot.short_name.trim() || lot.vehicle_name.split(' ').slice(0, 2).join(' ')}, {lot.year}г.</Text>
+          <Card shadow={'xs'} withBorder p={5}><Text fz={14} fw={'bold'}>{lot.code}</Text></Card>
+        </Flex>
         <Flex align='center' mt={5}>
           <ThemeIcon variant='transparent' c='blue.4'><IconHourglassHigh size={20} /></ThemeIcon>
           <Text fz={14}>Аукцион начинается <strong>{(new Date(lot.start_at)).toLocaleDateString()}</strong></Text>

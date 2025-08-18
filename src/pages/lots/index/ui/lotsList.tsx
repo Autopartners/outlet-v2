@@ -1,14 +1,13 @@
-import { Box, Center, Container, Loader, SimpleGrid } from '@mantine/core';
+import { Box, Container, SimpleGrid } from '@mantine/core';
 import { useLots } from '@/pages/lots/index/api/useLots.ts';
-import type { Lot } from '@/entities/lot/model/lot.ts';
+import type { Lot } from '@/entities/lot/lot.ts';
 import { useSearchParams } from 'react-router-dom';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
-import { useApp } from '@/app/providers/app/useApp.ts';
+import { Loader } from '@/shared/ui/Loader/Loader.tsx';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
-  const { isMobile } = useApp()
   const { lots, isLoading, pages } = useLots({
     page: searchParams.get('page') || '1',
     per_page: '12',
@@ -20,10 +19,10 @@ export const LotsList = () => {
     }
   });
 
-  if (isLoading || !lots) { return <Center mt={250}><Loader size={'xl'} /></Center>; }
+  if (isLoading || !lots) { return <Loader/>; }
 
   return (
-    <Container mt={isMobile ? 75 : 130} size={'xl'} mb={40}>
+    <Container size={'xl'}>
       <LotPages pages={pages} pos={'top'} />
       <SimpleGrid spacing={30} cols={{ lg: 3, sm: 1 }}>
         {lots.map((lot: Lot) => (

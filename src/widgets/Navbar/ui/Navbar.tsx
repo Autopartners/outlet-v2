@@ -1,4 +1,4 @@
-import { AppShell, Image, Group, Button } from '@mantine/core';
+import { AppShell, Image, Group, Button, rem } from '@mantine/core';
 import { NavLink, useLocation } from 'react-router';
 import { AppRouter } from '@/app/routers/appRouter.tsx';
 import { useNavigate } from 'react-router-dom';
@@ -12,9 +12,10 @@ export function Navbar() {
   const { pathname } = useLocation();
   const { isMobile } = useApp();
   const { me, loading } = useMe();
+  const lotsMobilePage = pathname === '/lots' && isMobile
 
   return (
-    <AppShell header={{ height: 70 }} padding="md">
+    <AppShell header={{ height: lotsMobilePage ? 0 : 70 }} footer={{ height: isMobile ? 70 : 0 }} padding="md">
       {(!isMobile || !me.id || pathname === '/') && (
         <AppShell.Header>
           <Group h="100%" px="md">
@@ -43,12 +44,16 @@ export function Navbar() {
           </Group>
         </AppShell.Header>
       )}
-      <AppShell.Main p={0}>
+      <AppShell.Main
+        px={0}
+        pt={!lotsMobilePage ? `calc(${rem(70)}` : 0}
+        pb={isMobile ? `calc(${rem(70)}` : 0}
+      >
         <AppRouter />
       </AppShell.Main>
       <AppShell.Footer>
         <Group justify="space-around" p="md" hiddenFrom="md" fw={500}>
-          <Button variant={pathname === '/' ? 'light' : 'subtle'} size="sm" color="black" onClick={() => nav('/')}>
+          <Button variant={pathname === '/' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/')}>
             Home
           </Button>
           {me.id && (
@@ -56,7 +61,7 @@ export function Navbar() {
               Lots
             </Button>
           )}
-          <Button variant={pathname === '/about' ? 'light' : 'subtle'} size="sm" color="black" onClick={() => nav('/about')}>
+          <Button variant={pathname === '/about' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/about')}>
             About
           </Button>
           {me.id && <NavStatus />}

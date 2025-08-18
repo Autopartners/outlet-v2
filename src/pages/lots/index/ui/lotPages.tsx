@@ -23,7 +23,7 @@ export const LotPages = ({ pages, pos }: LotPagesProps) => {
   };
 
   return (
-    <Center mt={pos === 'top' ? 40 : 20} mb={pos === 'bottom' ? (isMobile ? 100 : 40) : 20}>
+    <Center mt={pos === 'top' ? 80 : 30} mb={pos === 'bottom' ? 40 : 30}>
       <Pagination
         hideWithOnePage
         total={pages}

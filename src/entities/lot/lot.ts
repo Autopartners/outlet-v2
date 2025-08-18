@@ -1,4 +1,5 @@
 export interface Lot {
+    code: string;
     end_at: string;
     id: number;
     km: number;
@@ -9,5 +10,5 @@ export interface Lot {
     start_at: string;
     vehicle: { city_of_remarketing_name: string };
     vehicle_name: string;
-    year: number
+    year: number;
 }

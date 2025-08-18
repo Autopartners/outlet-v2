@@ -5,12 +5,14 @@ import { AboutPage } from '@/pages/about/page.tsx';
 import { RulesPage } from '@/pages/rules/ui/page.tsx';
 import { ProfilePage } from '@/pages/profile/page.tsx';
 import { AdminPage } from '@/pages/admin/ui/page.tsx';
+import { LotPage } from '@/pages/lots/show/page.tsx';
 
 export const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/lots" element={<LotsPage />} />
+      <Route path="/lots/:id" element={<LotPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/rules" element={<RulesPage />} />
       <Route path="/profile/*" element={<ProfilePage />} />

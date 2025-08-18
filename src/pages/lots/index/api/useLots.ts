@@ -19,3 +19,20 @@ export const useLots = ({ page, per_page = '12', params }:UseLotsParams) => {
 
   return { lots: lots?.result, pages: lots?.pages, isLoading }
 }
+
+interface UseLotParams {
+    params?: object;
+    id: string|undefined;
+}
+
+export const useLot = ({ params, id }:UseLotParams) => {
+  const { me } = useMe()
+
+  const { data: lot, isLoading, isFetching, error } = useQuery({
+    queryKey: ['lot', params, id],
+    queryFn: () => api.get(`outlet/lots/${id}`, { params }).then(e => e.data),
+    enabled: !!me.id && !!id
+  })
+
+  return { lots: lot?.result, isLoading, isFetching, error }
+}

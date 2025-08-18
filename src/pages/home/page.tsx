@@ -5,7 +5,7 @@ import { AdvantageCard } from '@/pages/home/';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { useLots } from '@/pages/lots/index/api/useLots.ts';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
-import type { Lot } from '@/entities/lot/model/lot.ts';
+import type { Lot } from '@/entities/lot/lot.ts';
 import { useMe } from '@/app/providers/me/useMe.ts';
 
 export const HomePage = () => {
@@ -42,7 +42,7 @@ export const HomePage = () => {
                 Смотреть все
         </Button>
       </Box>}
-      <Box ta='center' mt={20} mb={isMobile ? 100 : 40} w={isMobile ? '90%' : '60%'} mx='auto'>
+      <Box ta='center' mt={20} mb={40} w={isMobile ? '90%' : '60%'} mx='auto'>
         <Text fz={isMobile ? 30 : 40}>Наши преимущества</Text>
         <Divider mx="auto" w={100} color="blue.3" size={5} style={{ borderRadius: 20 }} />
         <Text fz={isMobile ? 18 : 20} mt={15}>
