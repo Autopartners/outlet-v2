@@ -7,15 +7,16 @@ import { IconBuildingSkyscraper, IconHourglassHigh, IconHourglassLow, IconRoad }
 
 interface LotCardProps {
     lot: Lot
+    maxPhotos?: number;
 }
 
-export const LotCard = ({ lot }: LotCardProps) => {
+export const LotCard = ({ lot, maxPhotos }: LotCardProps) => {
   const nav = useNavigate();
 
   return (
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
       <Carousel withIndicators height={300}>
-        {lot.sales_pictures.map(pict => (
+        {lot.sales_pictures.slice(0, maxPhotos || lot.sales_pictures.length - 1).map(pict => (
           <Carousel.Slide key={pict.id}>
             <Image style={{ objectPosition: 'center' }} h={300} src={ermurl + pict.url} />
           </Carousel.Slide>

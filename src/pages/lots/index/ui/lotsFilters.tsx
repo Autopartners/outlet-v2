@@ -32,7 +32,7 @@ export const LotsFilters = () => {
 
   if (showFilters) {
     return (
-      <Card withBorder pos='fixed' top={isMobile ? 200 : 130} left={'50%'}
+      <Card withBorder pos='fixed' top={130} left={'50%'}
         style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}>
         <ActionIcon onClick={() => setShowFilters(false)} pos={'absolute'} right={10} top={5} color={'gray'} variant={'subtle'}>
           <IconX/>
@@ -54,7 +54,7 @@ export const LotsFilters = () => {
     ) }
 
   return (
-    <Box pos='fixed' top={isMobile ? 100 : 100} left={'50%'}
+    <Box pos='fixed' top={isMobile ? 40 : 100} left={'50%'}
       style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}>
       <ActionIcon radius={'md'} onClick={() => setShowFilters(true)} size={'xl'} color={'blue.4'} variant={'light'}>
         <IconFilter />

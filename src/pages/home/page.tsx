@@ -34,7 +34,7 @@ export const HomePage = () => {
           <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '60%'} mx='auto'>
             {lots.map((lot: Lot) => (
               <Box key={lot.id}>
-                <LotCard lot={lot} />
+                <LotCard lot={lot} maxPhotos={10} />
               </Box>
             ))}
           </SimpleGrid>}
