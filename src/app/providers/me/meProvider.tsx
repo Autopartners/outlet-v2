@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCallback, useMemo, useEffect, useState } from 'react';
 import { api } from '@/shared/lib/api.ts';
-import { MeContext } from '@/app/providers/me/meContext';
+import { MeContext, type Role } from '@/app/providers/me/meContext';
 
 interface MeProviderProps {
   children: React.ReactNode;
@@ -13,7 +13,11 @@ const MeProvider = ({ children }: MeProviderProps) => {
     fio: '',
     id: null,
     name: '',
-    menus: null
+    menus: null,
+    roles: [{ id: 0 }],
+    phone0: '',
+    email0: '',
+    show_success_notifications: true,
   });
 
   const [loading, setLoading] = useState(false);
@@ -41,7 +45,11 @@ const MeProvider = ({ children }: MeProviderProps) => {
     }
   }, [tryMe, me.id]);
 
-  const contextValue = useMemo(() => ({ me, setMe, tryMe, loading }), [me, tryMe, loading]);
+  const isAdmin = me.roles.some((e: Role) => e.id === 18);
+
+  const contextValue = useMemo(() => (
+    { me, setMe, tryMe, loading, isAdmin }
+  ), [me, tryMe, loading, isAdmin]);
 
   return <MeContext.Provider value={contextValue}>{children}</MeContext.Provider>;
 };

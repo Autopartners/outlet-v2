@@ -34,5 +34,5 @@ export const useLot = ({ params, id }:UseLotParams) => {
     enabled: !!me.id && !!id
   })
 
-  return { lots: lot?.result, isLoading, isFetching, error }
+  return { lot: lot, isLoading, isFetching, error }
 }

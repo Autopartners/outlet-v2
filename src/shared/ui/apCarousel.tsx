@@ -9,14 +9,15 @@ interface Picture {
 
 interface ApCarouselProps {
     pictures: Picture[];
+    h?: number
 }
 
-export const ApCarousel = ({ pictures }: ApCarouselProps) => {
+export const ApCarousel = ({ pictures, h = 300 }: ApCarouselProps) => {
   return (
-    <Carousel withIndicators height={300}>
+    <Carousel withIndicators height={h} controlSize={40}>
       {pictures.map((pict: Picture) => (
         <Carousel.Slide key={pict.id}>
-          <Image style={{ objectPosition: 'center' }} h={300} src={ermurl + pict.url} />
+          <Image style={{ objectPosition: 'center' }} h={h} src={ermurl + pict.url} />
         </Carousel.Slide>
       ))}
     </Carousel>

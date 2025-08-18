@@ -28,7 +28,7 @@ export function Navbar() {
                   Home
                 </Button>
                 {me.id && (
-                  <Button variant={pathname === '/lots' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/lots')}>
+                  <Button variant={pathname.includes('/lots') ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/lots')}>
                     Lots
                   </Button>
                 )}
@@ -57,7 +57,7 @@ export function Navbar() {
             Home
           </Button>
           {me.id && (
-            <Button variant={pathname === '/lots' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/lots')}>
+            <Button variant={pathname.includes('/lots') ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/lots')}>
               Lots
             </Button>
           )}
