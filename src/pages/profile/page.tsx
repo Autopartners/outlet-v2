@@ -8,7 +8,7 @@ export const ProfilePage = () => {
   const { pathname } = useLocation();
   const { me, setMe } = useMe();
   return (
-    <Container p={0} mt={100} fluid>
+    <Container p={0} mt={50} fluid>
       <Flex gap="md" justify="center">
         <Card w={200} shadow="sm" radius={'lg'} withBorder>
           <Flex direction="column" gap={10}>
