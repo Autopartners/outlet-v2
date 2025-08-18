@@ -6,6 +6,8 @@ interface Me {
   id: null;
   name: string;
   menus: null;
+  phone0: '';
+  email0: '';
 }
 
 interface MeContextType {
@@ -21,7 +23,9 @@ export const MeContext = createContext<MeContextType>({
     fio: '',
     id: null,
     name: '',
-    menus: null
+    menus: null,
+    phone0: '',
+    email0: ''
   },
   setMe: () => {},
   tryMe: async () => {},

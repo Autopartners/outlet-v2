@@ -1,35 +1,36 @@
-import { Container, Flex, Button } from '@mantine/core';
+import { Container, Card, Flex, Button } from '@mantine/core';
+import { Link } from 'react-router-dom';
+import { ProfileRouter } from '@/app/routers/profileRouter';
+import { useLocation } from 'react-router';
 import { useMe } from '@/app/providers/me/useMe';
-import { api } from '@/shared/lib/api';
-import { useNavigate } from 'react-router-dom';
 
 export const ProfilePage = () => {
+  const { pathname } = useLocation();
   const { me, setMe } = useMe();
-  const nav = useNavigate();
-  const logout = async () => {
-    try {
-      await api.post(`common/users/${me.id}/logout`);
-      setMe({
-        id: null,
-        name: '',
-        username: '',
-        fio: '',
-        menus: null
-      });
-      nav('/');
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <Container p={0} mt={100} fluid>
-      {me && (
-        <Flex justify="center">
-          <Button size={'lg'} color={'red'} onClick={logout}>
-            Выйти
-          </Button>
-        </Flex>
-      )}
+      <Flex gap="md" justify="center">
+        <Card w={200} shadow="sm" radius={'lg'} withBorder>
+          <Flex direction="column" gap={10}>
+            <Button size={'md'} variant={pathname === '/profile/main' ? 'light' : 'subtle'} component={Link} to="/profile/main">
+              Основные
+            </Button>
+            <Button size={'md'} variant={pathname === '/profile/company' ? 'light' : 'subtle'} component={Link} to="/profile/company">
+              Компания
+            </Button>
+            <Button size={'md'} variant={pathname === '/profile/won' ? 'light' : 'subtle'} component={Link} to="/profile/won">
+              Выйгранные
+            </Button>
+            <Button size={'md'} variant={pathname === '/profile/documents' ? 'light' : 'subtle'} component={Link} to="/profile/documents">
+              Файлы
+            </Button>
+          </Flex>
+        </Card>
+
+        <Card w="70vw" h="80vh" shadow="md" radius={'lg'} withBorder>
+          <ProfileRouter user={me} setUser={setMe} />
+        </Card>
+      </Flex>
     </Container>
   );
 };

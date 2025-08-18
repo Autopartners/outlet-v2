@@ -21,7 +21,11 @@ const MeProvider = ({ children }: MeProviderProps) => {
   const tryMe = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await api.get('/common/users/me');
+      const { data } = await api.get('/common/users/me', {
+        params: {
+          method: 'outlet_me'
+        }
+      });
       setMe((prev) => ({ ...prev, ...data }));
     } catch (error) {
       console.log(error);

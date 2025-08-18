@@ -7,7 +7,7 @@ export const NavStatus = () => {
   const { me } = useMe();
   const { isMobile } = useApp();
   return (
-    <UnstyledButton component={Link} to="/profile">
+    <UnstyledButton component={Link} to="/profile/main">
       <Flex px="sm" gap="sm" align="center">
         <Avatar radius="xl" color="blue" />
         {!isMobile && <Text size="md">{me.name || me.username}</Text>}
