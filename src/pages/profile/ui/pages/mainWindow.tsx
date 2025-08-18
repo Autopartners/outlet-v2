@@ -36,6 +36,11 @@ export const MainWindow = ({ user, setUser }) => {
     }
   };
 
+  const cancel = () => {
+    setState(user);
+    setChanged({});
+  };
+
   const logout = async () => {
     try {
       await api.post(`common/users/${user.id}/logout`);
@@ -80,7 +85,7 @@ export const MainWindow = ({ user, setUser }) => {
             <Button mt={'md'} size="sm" color="green" onClick={submit}>
               Сохранить
             </Button>
-            <Button mt="md" size="sm" onClick={() => setState(user)}>
+            <Button mt="md" size="sm" onClick={cancel}>
               Отменить
             </Button>
           </>
