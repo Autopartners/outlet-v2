@@ -4,7 +4,7 @@ import { Anchor, Flex, Text } from '@mantine/core';
 export const ServerUnavailable = () => (
   <Flex align="center" direction="column" mt="20%" gap={10}>
     <IconHammer size={80} />
-    <Text fz={20} c="black">
+    <Text ta={'center'} fz={20} c="black">
       Ведутся технические работы, попробуйте зайти позже
     </Text>
     <Text fz={18} c="gray">
