@@ -1,7 +1,5 @@
 import { Box } from '@mantine/core';
 
-const DocumentsWindow = () => {
-  return <Box/>
-}
-
-export default DocumentsWindow;
+export const DocumentsWindow = () => {
+  return <Box />;
+};

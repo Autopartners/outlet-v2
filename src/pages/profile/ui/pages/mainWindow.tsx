@@ -1,9 +1,11 @@
-import { Box, Button, Flex, Text, TextInput } from '@mantine/core';
+import { Button, Flex, Text, TextInput } from '@mantine/core';
 import { api } from '@/shared/lib/api.ts';
 import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useApp } from '@/app/providers/app/useApp';
-export const MainWindow = ({ user, setUser }) => {
+import { Loader } from '@/shared/ui/Loader/Loader';
+
+export const MainWindow = ({ user, setUser, isUserFetching }) => {
   const nav = useNavigate();
   const [state, setState] = useState(user);
   const [changed, setChanged] = useState({});
@@ -60,8 +62,13 @@ export const MainWindow = ({ user, setUser }) => {
       console.log(error);
     }
   };
+
+  if (isUserFetching) {
+    return <Loader />;
+  }
+
   return (
-    <Box w={'70%'} mx={'auto'}>
+    <>
       <Text ta={'center'} fz={28} fw={500}>
         Основные
       </Text>
@@ -96,6 +103,6 @@ export const MainWindow = ({ user, setUser }) => {
       <Button mt={'md'} size={'md'} color={'red'} onClick={logout}>
         Выйти
       </Button>
-    </Box>
+    </>
   );
 };

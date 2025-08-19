@@ -1,4 +1,4 @@
-import { Container, Card, Flex, Button } from '@mantine/core';
+import { Container, Card, Flex, Button, Box } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { ProfileRouter } from '@/app/routers/profileRouter';
 import { useLocation } from 'react-router';
@@ -6,7 +6,7 @@ import { useMe } from '@/app/providers/me/useMe';
 
 export const ProfilePage = () => {
   const { pathname } = useLocation();
-  const { me, setMe } = useMe();
+  const { me, setMe, loading } = useMe();
   return (
     <Container p={0} mt={50} fluid>
       <Flex gap="md" justify="center">
@@ -28,7 +28,9 @@ export const ProfilePage = () => {
         </Card>
 
         <Card w="70vw" h="80vh" shadow="md" radius={'lg'} withBorder>
-          <ProfileRouter user={me} setUser={setMe} />
+          <Box w={'70%'} mx={'auto'}>
+            <ProfileRouter user={me} setUser={setMe} isUserFetching={loading} />
+          </Box>
         </Card>
       </Flex>
     </Container>
