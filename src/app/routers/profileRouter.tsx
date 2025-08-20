@@ -8,7 +8,7 @@ export const ProfileRouter = ({ user, setUser, isUserFetching }) => {
   return (
     <Routes>
       <Route path="/company" element={<CompanyWindow {...{ user, setUser, isUserFetching }} />} />
-      <Route path="/documents" element={<DocumentsWindow user={user} />} />
+      <Route path="/documents" element={<DocumentsWindow {...{ user, isUserFetching }} />} />
       <Route path="/main" element={<MainWindow {...{ user, setUser, isUserFetching }} />} />
       <Route path="/won" element={<WonWindow user={user} />} />
     </Routes>
