@@ -4,7 +4,7 @@ import type { Lot } from '@/entities/lot/lot.ts';
 import { useSearchParams } from 'react-router-dom';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
-import { Loader } from '@/shared/ui/Loader/Loader.tsx';
+import { LotPageSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotPageSkeletonLoader.tsx';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
@@ -19,7 +19,7 @@ export const LotsList = () => {
     }
   });
 
-  if (isLoading || !lots) { return <Loader/>; }
+  if (isLoading || !lots) { return <LotPageSkeletonLoader/>; }
 
   return (
     <Container size={'xl'}>

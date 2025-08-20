@@ -21,27 +21,27 @@ export const LotCard = ({ lot, maxPhotos }: LotCardProps) => {
           <Card shadow={'xs'} withBorder p={5}><Text fz={14} fw={'bold'}>{lot.code}</Text></Card>
         </Flex>
         <Flex align='center' mt={5}>
-          <ThemeIcon variant='transparent' c='blue.4'><IconHourglassHigh size={20} /></ThemeIcon>
+          <ThemeIcon variant='transparent' c='blue.7'><IconHourglassHigh size={20} /></ThemeIcon>
           <Text fz={14}>Аукцион начинается <strong>{(new Date(lot.start_at)).toLocaleDateString()}</strong></Text>
         </Flex>
         <Flex align='center' mt={5}>
-          <ThemeIcon variant='transparent' c='blue.4'><IconHourglassLow size={20} /></ThemeIcon>
+          <ThemeIcon variant='transparent' c='blue.7'><IconHourglassLow size={20} /></ThemeIcon>
           <Text fz={14}>Аукцион завершается <strong>{(new Date(lot.end_at)).toLocaleDateString()}</strong></Text>
         </Flex>
         <Flex align='center' mt={5}>
-          <ThemeIcon variant='transparent' c='blue.4'><IconBuildingSkyscraper size={20} /></ThemeIcon>
+          <ThemeIcon variant='transparent' c='blue.7'><IconBuildingSkyscraper size={20} /></ThemeIcon>
           <Text fz={14}>Город <strong>{lot.vehicle.city_of_remarketing_name}</strong></Text>
         </Flex>
         <Flex align='center' mt={5}>
-          <ThemeIcon variant='transparent' c='blue.4'><IconRoad size={20} /></ThemeIcon>
+          <ThemeIcon variant='transparent' c='blue.7'><IconRoad size={20} /></ThemeIcon>
           <Text fz={14}>Пробег <strong>{lot.km.toLocaleString('ru-RU')} км</strong></Text>
         </Flex>
         <Flex mt={10} align='center' justify='space-between'>
           <Stack gap={0}>
             <Text fz={14}>Текущая ставка</Text>
-            <Text fz={20} fw='bold' c='blue.4'>{lot.last_bid.toLocaleString('ru-RU')}₽</Text>
+            <Text fz={20} fw='bold' c='blue.7'>{lot.last_bid.toLocaleString('ru-RU')}₽</Text>
           </Stack>
-          <Button variant='light' mr={20} w={150} onClick={() => nav(`/lots/${lot.id}`)}>Подробнее</Button>
+          <Button variant='light' color={'blue.7'} mr={20} w={150} onClick={() => nav(`/lots/${lot.id}`)}>Подробнее</Button>
         </Flex>
       </Box>
     </Card>

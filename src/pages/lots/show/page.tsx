@@ -1,5 +1,5 @@
 import {
-  ActionIcon,
+  ActionIcon, Anchor, Badge,
   Box,
   Button,
   Card,
@@ -10,14 +10,25 @@ import {
   Select,
   SimpleGrid,
   Stack,
-  Text
+  Text, ThemeIcon
 } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { Loader } from '@/shared/ui/Loader/Loader.tsx';
 import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
-import { IconCarCrash, IconCarGarage, IconClipboard, IconClock, IconSettings, IconX } from '@tabler/icons-react';
+import {
+  IconAdjustmentsHorizontal, IconBuildingSkyscraper, IconCalendar,
+  IconCarCrash,
+  IconCarGarage,
+  IconClipboard,
+  IconClock, IconLoader, IconMail, IconMessage, IconPhone, IconRoad,
+  IconSettings, IconShield,
+  IconX
+} from '@tabler/icons-react';
 import { useState } from 'react';
+import { KitInfoPage } from '@/pages/lots/show/ui/kitInfoPage.tsx';
+import { DamagesInfoPage } from '@/pages/lots/show/ui/damagesInfoPage.tsx';
+import { ToInfoPage } from '@/pages/lots/show/ui/toInfoPage.tsx';
 
 const stepsData = [
   { value: '1000', label: '1 000' },
@@ -36,7 +47,7 @@ export const LotPage = () => {
   const { lot, error, isLoading } = useLot({ id: id });
   const nav = useNavigate();
   const [step, setStep] = useState<string | null>('1000');
-  const [activeInfoPage, setActiveInfoPage] = useState<'kit'|'damages'|'tos'>('kit');
+  const [activeInfoPage, setActiveInfoPage] = useState<'kit'|'damages'|'to'>('kit');
 
   if (error) { nav('/lots') }
   if (isLoading || !lot) { return <Loader /> }
@@ -51,43 +62,45 @@ export const LotPage = () => {
   )
 
   return (
-    <Container size={'xl'}>
-      <Card bg={'blue.5'} radius={0} style={{ borderTopRightRadius: 20, borderTopLeftRadius: 20 }} mt={40}>
-        <Flex align={'center'} justify={'space-between'} px={10}>
-          <Text fw='bold' c={'white'} fz={25}>{lot.vehicle_name}, {lot.year}г.</Text>
+    <Container size={1500}>
+      <Card bg={'blue.9'} radius={0} style={{ borderTopRightRadius: 20, borderTopLeftRadius: 20 }} mt={40} pos={'relative'}>
+        <Box pos={'absolute'} top={20} right={20}>
           <Flex gap={10}>
-            <ActionIcon size={'lg'}>
+            <ActionIcon size={'lg'} color={'white'} variant={'light'}>
               <IconSettings onClick={() => nav(`/backoffice/lots/${id}`)} />
             </ActionIcon>
-            <ActionIcon size={'lg'}>
+            <ActionIcon size={'lg'} color={'white'} variant={'light'}>
               <IconX onClick={() => nav('/lots')} />
             </ActionIcon>
           </Flex>
+        </Box>
+        <Badge mx={10} size={'lg'} variant={'light'} color={'white'}>{lot.code}</Badge>
+        <Flex mt={10} align={'center'} justify={'space-between'} px={10}>
+          <Text c={'white'} fz={25}>{lot.vehicle_name}</Text>
+        </Flex>
+        <Flex mx={10} mt={10} gap={20}>
+          <Flex gap={5} align={'center'}><IconCalendar stroke={1.3} color={'white'} /><Text c={'white'} fz={15}>{lot.year}</Text></Flex>
+          <Flex gap={5} align={'center'}>
+            <IconRoad stroke={1.3} color={'white'} />
+            <Text c={'white'} fz={15}>{lot.km.toLocaleString('ru-RU')} км</Text>
+          </Flex>
+          <Flex gap={5} align={'center'}>
+            <IconBuildingSkyscraper stroke={1.3} color={'white'}/>
+            <Text c={'white'} fz={15}>{lot.vehicle.city_of_remarketing_name}</Text>
+          </Flex>
         </Flex>
       </Card>
-      <Card withBorder w={'100%'} radius={0} display={'grid'}>
+      <Card bg={'gray.1'} withBorder w={'100%'} radius={0} display={'grid'}>
         <Grid p={10}>
-          <Grid.Col
-            span={7}
-            style={{
-              display: 'grid',
-              gridRow: 'span 5',
-            }}
-          >
+          <Grid.Col span={7} style={{ display: 'grid', gridRow: 'span 5' }}>
             <Card withBorder radius={'md'} p={0}>
               <ApCarousel h={500} pictures={lot.sales_pictures} />
             </Card>
           </Grid.Col>
 
           <Grid.Col span={5}>
-            <Box h={'20%'}>
-              <Card radius={'lg'} bg={'blue.5'}>
-                <Text ta={'center'} fz={25} c={'white'} fw={'bold'}>{lot.code}</Text>
-              </Card>
-            </Box>
-
-            <Box h={'68%'}>
-              <Card radius={'lg'} bg={'gray.1'}>
+            <Box>
+              <Card radius={'lg'}>
                 <Stack>
                   <Flex justify={'space-between'} align={'flex-end'}>
                     <Text fz={20}>Текущая ставка</Text>
@@ -95,7 +108,7 @@ export const LotPage = () => {
                   </Flex>
                   <Flex justify={'space-between'} align={'flex-end'}>
                     <Text fz={20}>Ваша ставка</Text>
-                    <Text fz={25} fw={'bold'} c={!lot.my_last_bid ? 'red.5' : 'blue.5'}>
+                    <Text fz={25} fw={'bold'} c={!lot.my_last_bid ? 'red.5' : 'blue.9'}>
                       {lot.my_last_bid?.toLocaleString('ru-RU') || 0}₽
                     </Text>
                   </Flex>
@@ -116,7 +129,7 @@ export const LotPage = () => {
                           step={Number(step)}
                           thousandSeparator={' '}
                         />
-                        <Button color={'green'} size={'lg'} w={'35%'} >Отправить</Button>
+                        <Button color={'green.7'} size={'lg'} w={'35%'}>Отправить</Button>
                       </Flex>
                       <Select
                         data={stepsData}
@@ -134,14 +147,14 @@ export const LotPage = () => {
               </Card>
             </Box>
 
-            <Box h={'20%'}>
-              <Card radius={'lg'} bg={'blue.5'}>
+            <Box mt={20}>
+              <Card radius={'lg'} bg={'blue.9'}>
                 <Flex justify={'space-between'} px={20}>
                   <Text fz={16} c={'white'}>
                     {(new Date(lot.start_at)).toLocaleDateString('ru-RU')} - {(new Date(lot.end_at)).toLocaleDateString('ru-RU')}
                   </Text>
                   <Flex gap={10}>
-                    <IconClock color={'white'} />
+                    {isEnd ? <IconClock color={'white'}/> : <IconLoader color={'white'}/>}
                     <Text fz={16} c={'white'}>{isEnd ? 'Завершен' : 'Идет'}</Text>
                   </Flex>
                 </Flex>
@@ -150,58 +163,91 @@ export const LotPage = () => {
           </Grid.Col>
         </Grid>
 
-        <Card bg={'gray.1'} mx={10} mt={10}>
-          <SimpleGrid cols={4} px={10}>
-            <Stack>
-              {renderVehicleInfo({ head: 'Марка', info: lot.vehicle.brand_name })}
-              {renderVehicleInfo({ head: 'КПП', info: lot.vehicle.vehicle_submodel.gearbox.name })}
-              {renderVehicleInfo({ head: 'Кузов', info: lot.vehicle.vehicle_submodel.body_type.name })}
-            </Stack>
-            <Stack>
-              {renderVehicleInfo({ head: 'Модель', info: lot.vehicle.vehicle_model_name })}
-              {renderVehicleInfo({ head: 'Пробег', info: lot.km.toLocaleString('ru-RU') + ' км' })}
-              {renderVehicleInfo({ head: 'Город', info: lot.vehicle.city_of_remarketing_name })}
-            </Stack>
-            <Stack>
-              {renderVehicleInfo({ head: 'Тип топлива', info: lot.vehicle.vehicle_submodel.fuel_type.name })}
-              {renderVehicleInfo({ head: 'Гос. номер', info: lot.vehicle.vehicle_plate_no })}
-              {renderVehicleInfo({ head: 'VIN', info: lot.vehicle.vin })}
-            </Stack>
-            <Stack>
-              {renderVehicleInfo({ head: 'Г. В.', info: lot.year + 'г.' })}
-            </Stack>
-          </SimpleGrid>
-        </Card>
+        <Flex mt={10}>
+          <Card mx={10} w={'59%'}>
+            <Flex gap={5} align={'center'}>
+              <ThemeIcon color={'red.9'} variant={'transparent'}><IconAdjustmentsHorizontal /></ThemeIcon>
+              <Text fw={'bold'} fz={18}>Характеристики автомобиля</Text>
+            </Flex>
+            <SimpleGrid cols={4} px={10} mt={20} spacing={32}>
+              <Stack>
+                {renderVehicleInfo({ head: 'Марка', info: lot.vehicle.brand_name })}
+                {renderVehicleInfo({ head: 'КПП', info: lot.vehicle.vehicle_submodel.gearbox.name })}
+              </Stack>
+              <Stack>
+                {renderVehicleInfo({ head: 'Модель', info: lot.vehicle.vehicle_model_name })}
+                {renderVehicleInfo({ head: 'Тип топлива', info: lot.vehicle.vehicle_submodel.fuel_type.name })}
+              </Stack>
+              <Stack>
+                {renderVehicleInfo({ head: 'Г. В.', info: lot.year + 'г.' })}
+                {renderVehicleInfo({ head: 'Кузов', info: lot.vehicle.vehicle_submodel.body_type.name })}
+              </Stack>
+              <Stack>
+                {renderVehicleInfo({ head: 'Пробег', info: lot.km.toLocaleString('ru-RU') + ' км' })}
+                {renderVehicleInfo({ head: 'Город', info: lot.vehicle.city_of_remarketing_name })}
+              </Stack>
+            </SimpleGrid>
+          </Card>
 
-        <Flex justify={'space-between'} px={10} mt={20}>
-          {renderVehicleInfo({ head: 'Адрес', info: lot.address })}
-          {renderVehicleInfo({ head: 'Телефон', info: '8 (800) 333-63-00' })}
+          <Card mx={10} w={'20%'}>
+            <Flex gap={5} align={'center'}>
+              <ThemeIcon color={'blue.9'} variant={'transparent'}><IconShield /></ThemeIcon>
+              <Text fw={'bold'} fz={18}>Документы</Text>
+            </Flex>
+            <Stack mt={20} pl={10}>
+              {renderVehicleInfo({ head: 'VIN-номер', info: lot.vehicle.vin })}
+              {renderVehicleInfo({ head: 'Гос. номер', info: lot.vehicle.vehicle_plate_no })}
+            </Stack>
+          </Card>
+
+          <Card mx={10} w={'20%'}>
+            <Flex gap={5} align={'center'}>
+              <ThemeIcon color={'blue.9'} variant={'transparent'}><IconMessage /></ThemeIcon>
+              <Text fw={'bold'} fz={18}>Связаться с нами</Text>
+            </Flex>
+            <Stack mt={20} gap={'lg'}>
+              <Flex gap={10} px={10} align={'center'}>
+                <ThemeIcon variant={'light'} size={'lg'} color={'blue.9'}><IconPhone /></ThemeIcon>
+                <Anchor fz={16} href={'tel:88003336300'} c={'black'}>8 (800) 333-63-00</Anchor>
+              </Flex>
+              <Flex gap={10} px={10} align={'center'}>
+                <ThemeIcon variant={'light'} size={'lg'} color={'red.9'}><IconMail/></ThemeIcon>
+                <Anchor fz={16} href={'mailto:remarketing@ap-ru.com'} c={'black'}>remarketing@ap-ru.com</Anchor>
+              </Flex>
+            </Stack>
+          </Card>
         </Flex>
       </Card>
 
-      <Flex bg={'blue.5'} w={'100%'} h={70} align={'center'} justify={'space-between'} px={100}>
+      <Flex bg={'blue.9'} w={'100%'} h={70} align={'center'} justify={'space-between'} px={100}>
         <Stack gap={2}>
-          <Flex gap={10} align={'center'} style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('kit')}>
+          <Flex gap={10}align={'center'} style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('kit')}>
             <IconClipboard color={'white'} />
             <Text c={'white'} fz={20}>Комплектация</Text>
           </Flex>
-          {activeInfoPage === 'kit' && <Divider size={2} color={'white'}/>}
+          {activeInfoPage === 'kit' && <Divider color={'white'} size={3} style={{ borderRadius: 20 }}/>}
         </Stack>
         <Stack gap={2}>
           <Flex gap={10} align={'center'} style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('damages')}>
             <IconCarCrash color={'white'} />
             <Text c={'white'} fz={20}>Повреждения</Text>
           </Flex>
-          {activeInfoPage === 'damages' && <Divider size={2} color={'white'}/>}
+          {activeInfoPage === 'damages' && <Divider color={'white'} size={3} style={{ borderRadius: 20 }}/>}
         </Stack>
         <Stack gap={2}>
-          <Flex gap={10} align={'center'} style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('tos')}>
+          <Flex gap={10} align={'center'} style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('to')}>
             <IconCarGarage color={'white'} />
             <Text c={'white'} fz={20}>ТО</Text>
           </Flex>
-          {activeInfoPage === 'tos' && <Divider size={2} color={'white'}/>}
+          {activeInfoPage === 'to' && <Divider color={'white'} size={3} style={{ borderRadius: 20 }}/>}
         </Stack>
       </Flex>
+
+      <Card bg={'gray.1'} radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }} mb={40}>
+        {activeInfoPage === 'to' && <ToInfoPage />}
+        {activeInfoPage === 'damages' && <DamagesInfoPage />}
+        {activeInfoPage === 'kit' && <KitInfoPage />}
+      </Card>
     </Container>
   )
 };

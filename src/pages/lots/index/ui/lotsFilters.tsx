@@ -56,7 +56,7 @@ export const LotsFilters = () => {
   return (
     <Box pos='fixed' top={isMobile ? 40 : 100} left={'50%'}
       style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}>
-      <ActionIcon radius={'md'} onClick={() => setShowFilters(true)} size={'xl'} color={'blue.4'} variant={'light'}>
+      <ActionIcon radius={'md'} onClick={() => setShowFilters(true)} size={'xl'} color={'blue.9'} variant={'light'}>
         <IconFilter />
       </ActionIcon>
     </Box>

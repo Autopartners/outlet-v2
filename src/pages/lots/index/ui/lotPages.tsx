@@ -33,7 +33,7 @@ export const LotPages = ({ pages, pos }: LotPagesProps) => {
         radius="lg"
         gap={4}
         siblings={isMobile ? 0 : 1}
-        color={'blue.4'}
+        color={'blue.7'}
       />
     </Center>
   );

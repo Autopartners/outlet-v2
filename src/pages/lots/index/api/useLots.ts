@@ -17,7 +17,7 @@ export const useLots = ({ page, per_page = '12', params }:UseLotsParams) => {
     enabled: !!me.id
   })
 
-  return { lots: lots?.result, pages: lots?.pages, isLoading }
+  return { lots: lots?.result, pages: lots?.pages || 1, isLoading }
 }
 
 interface UseLotParams {
