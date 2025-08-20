@@ -17,6 +17,9 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid()
 
+  const isEnd = new Date(lot.end_at) < new Date()
+  const isStarted = new Date() > new Date(lot.start_at)
+
   return (
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
       <ApCarousel pictures={lot.sales_pictures.slice(0, maxPhotos || lot.sales_pictures.length - 1)} />
@@ -49,7 +52,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
               <Text fz={14}>Ваша ставка</Text>
               <Text fz={20} fw='bold' c={'blue.7'}>{lot.my_last_bid.toLocaleString('ru-RU')}₽</Text>
             </Stack>
-          ) : (
+          ) : ((isStarted && !isEnd) && (
             <Stack gap={0}>
               <Popover width={200} position="bottom" withArrow shadow="md">
                 <Popover.Target>
@@ -83,7 +86,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
                 </Popover.Dropdown>
               </Popover>
             </Stack>
-          )}
+          ))}
           <Flex gap={10}>
             <Button variant='light' color={'blue.7'} w={150} onClick={() => nav(`/lots/${lot.id}`)}>Подробнее</Button>
             <ActionIcon size={'lg'} color={'yellow.3'} variant={'transparent'} >
