@@ -12,7 +12,7 @@ export const HomePage = () => {
   const nav = useNavigate();
   const { isMobile } = useApp()
   const { me } = useMe()
-  const { lots, isLoading } = useLots({ page: '1', per_page: '3', params: { current: true } })
+  const { lots, isLoading, refetch } = useLots({ page: '1', per_page: '3', params: { current: true } })
 
   return (
     <Container p={0} fluid>
@@ -29,12 +29,12 @@ export const HomePage = () => {
       </Box>
       {me.id && <Box ta='center' py={20} bg='gray.1'>
         <Text fz={isMobile ? 30 : 40}>Актуальные лоты</Text>
-        <Divider mx='auto' w={100} color='blue.8' size={5} style={{ borderRadius: 20 }}/>
+        <Divider mx='auto' mt={10} w={100} color='blue.8' size={5} style={{ borderRadius: 20 }}/>
         {isLoading ? <Center mt={40} mb={20}><Loader size='lg'/></Center> :
           <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '60%'} mx='auto'>
             {lots.map((lot: Lot) => (
               <Box key={lot.id}>
-                <LotCard lot={lot} maxPhotos={10} />
+                <LotCard lot={lot} maxPhotos={10} refetchLots={refetch} />
               </Box>
             ))}
           </SimpleGrid>}
@@ -44,7 +44,7 @@ export const HomePage = () => {
       </Box>}
       <Box ta='center' mt={20} mb={40} w={isMobile ? '90%' : '60%'} mx='auto'>
         <Text fz={isMobile ? 30 : 40}>Наши преимущества</Text>
-        <Divider mx="auto" w={100} color="blue.8" size={5} style={{ borderRadius: 20 }} />
+        <Divider mx="auto" mt={10} w={100} color="blue.8" size={5} style={{ borderRadius: 20 }} />
         <Text fz={isMobile ? 18 : 20} mt={15}>
           Почему стоит выбрать наш аукцион для покупки подержанного автомобиля
         </Text>

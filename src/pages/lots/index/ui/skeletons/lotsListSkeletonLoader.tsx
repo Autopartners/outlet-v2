@@ -1,6 +1,6 @@
 import { Box, Container, SimpleGrid, Skeleton } from '@mantine/core';
 
-export const LotPageSkeletonLoader = () => {
+export const LotsListSkeletonLoader = () => {
   return (
     <Container size={'xl'}>
       <SimpleGrid mt={150} mx={'auto'} spacing={30} cols={{ lg: 3, sm: 1 }}>

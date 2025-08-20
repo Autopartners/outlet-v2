@@ -23,4 +23,5 @@ export interface Lot {
     };
     vehicle_name: string;
     year: number;
+    stage: string;
 }

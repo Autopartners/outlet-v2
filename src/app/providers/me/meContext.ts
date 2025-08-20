@@ -21,6 +21,7 @@ interface MeContextType {
   setMe: React.Dispatch<React.SetStateAction<Me>>;
   tryMe: () => Promise<boolean | void>;
   loading: boolean;
+  isAdmin: boolean;
 }
 
 export const MeContext = createContext<MeContextType>({
@@ -37,5 +38,6 @@ export const MeContext = createContext<MeContextType>({
   },
   setMe: () => {},
   tryMe: async () => {},
-  loading: false
+  loading: false,
+  isAdmin: false
 });

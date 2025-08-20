@@ -11,26 +11,25 @@ interface UseLotsParams {
 export const useLots = ({ page, per_page = '12', params }:UseLotsParams) => {
   const { me } = useMe()
 
-  const { data: lots, isLoading } = useQuery({
+  const { data: lots, isLoading, refetch } = useQuery({
     queryKey: ['lots', page, per_page, params],
     queryFn: () => api.get('outlet/lots', { params: { page, per_page, ...params } }).then(e => e.data),
     enabled: !!me.id
   })
 
-  return { lots: lots?.result, pages: lots?.pages || 1, isLoading }
+  return { lots: lots?.result, pages: lots?.pages || 1, isLoading, refetch }
 }
 
 interface UseLotParams {
-    params?: object;
     id: string|undefined;
 }
 
-export const useLot = ({ params, id }:UseLotParams) => {
+export const useLot = ({ id }:UseLotParams) => {
   const { me } = useMe()
 
   const { data: lot, isLoading, isFetching, error } = useQuery({
-    queryKey: ['lot', params, id],
-    queryFn: () => api.get(`outlet/lots/${id}`, { params }).then(e => e.data),
+    queryKey: ['lot', id],
+    queryFn: () => api.get(`outlet/lots/${id}`).then(e => e.data),
     enabled: !!me.id && !!id
   })
 

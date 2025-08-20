@@ -1,5 +1,5 @@
 import { Box } from '@mantine/core';
 
 export const DamagesInfoPage = () => {
-  return <Box>удары</Box>
+  return <Box>Здесь скоро будут повреждения</Box>
 }

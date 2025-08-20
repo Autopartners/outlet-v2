@@ -14,7 +14,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
   const showNotification = useCallback(
     ({ color = 'green', at = '', title = '', body = '', delay = 3000 }) => {
-      if (color === 'green' && me.show_success_notifications === false) {
+      if (color === 'green' && !me.show_success_notifications) {
         return;
       }
 
@@ -31,14 +31,19 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   );
 
   // Notification
+  type Color = 'red' | 'yellow' | 'green'
+  type NotificationFunction = (body: string, options?: object) => void;
+
   const notification = useMemo(() => {
-    const t = {};
-    const colors = ['blue', 'yellow', 'cyan', 'green', 'gray', 'red', 'white'];
-    colors.forEach((color) => {
-      t[color] = (body, options) => {
+    const t: Record<Color, NotificationFunction> = {} as Record<Color, NotificationFunction>;
+    const colors: Color[] = ['red', 'yellow', 'green'];
+
+    colors.forEach((color: Color) => {
+      t[color] = (body: string, options?: object) => {
         showNotification({ color, body, ...options });
       };
     });
+
     return t;
   }, [showNotification]);
 

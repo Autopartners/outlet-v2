@@ -4,7 +4,6 @@ import { LotsPage } from '@/pages/lots/index/page.tsx';
 import { AboutPage } from '@/pages/about/page.tsx';
 import { RulesPage } from '@/pages/rules/ui/page.tsx';
 import { ProfilePage } from '@/pages/profile/page.tsx';
-import { AdminPage } from '@/pages/admin/ui/page.tsx';
 import { LotPage } from '@/pages/lots/show/page.tsx';
 
 export const AppRouter = () => {
@@ -16,7 +15,6 @@ export const AppRouter = () => {
       <Route path="/about" element={<AboutPage />} />
       <Route path="/rules" element={<RulesPage />} />
       <Route path="/profile/*" element={<ProfilePage />} />
-      <Route path="/admin" element={<AdminPage />} />
     </Routes>
   );
 };

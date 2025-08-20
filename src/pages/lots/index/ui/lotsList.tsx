@@ -4,11 +4,11 @@ import type { Lot } from '@/entities/lot/lot.ts';
 import { useSearchParams } from 'react-router-dom';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
-import { LotPageSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotPageSkeletonLoader.tsx';
+import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
-  const { lots, isLoading, pages } = useLots({
+  const { lots, isLoading, pages, refetch } = useLots({
     page: searchParams.get('page') || '1',
     per_page: '12',
     params: {
@@ -19,7 +19,7 @@ export const LotsList = () => {
     }
   });
 
-  if (isLoading || !lots) { return <LotPageSkeletonLoader/>; }
+  if (isLoading || !lots) { return <LotsListSkeletonLoader/>; }
 
   return (
     <Container size={'xl'}>
@@ -27,7 +27,7 @@ export const LotsList = () => {
       <SimpleGrid spacing={30} cols={{ lg: 3, sm: 1 }}>
         {lots.map((lot: Lot) => (
           <Box key={lot.id}>
-            <LotCard lot={lot} maxPhotos={5}/>
+            <LotCard lot={lot} maxPhotos={5} refetchLots={refetch}/>
           </Box>
         ))}
       </SimpleGrid>
