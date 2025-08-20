@@ -116,8 +116,11 @@ export const DocumentsWindow = ({ user, isUserFetching }) => {
           <IconX />
         </Button>
       </Flex>
-      <Button mt={'xs'} mb={'md'} w={'20%'} color={'green'} disabled={attached.length === 0} onClick={sendAttached}>
-        {loading ? <Loader /> : 'Отправить'}
+      <Button mt={'xs'} mb={'md'} w={'20%'} color={'green'} disabled={attached.length === 0 || loading} onClick={sendAttached}>
+        <Flex gap={5} align={'center'}>
+          {loading && <Loader color={'blue'} size={'sm'} />}
+          {'Отправить'}
+        </Flex>
       </Button>
       {commentsHistory}
       {(state || me).documents_comment && (
