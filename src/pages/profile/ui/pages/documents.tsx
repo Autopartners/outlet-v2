@@ -116,7 +116,7 @@ export const DocumentsWindow = ({ user, isUserFetching }) => {
           <IconX />
         </Button>
       </Flex>
-      <Button mt={'xs'} mb={'md'} w={'20%'} color={'green'} disabled={attached.length === 0 || loading} onClick={sendAttached}>
+      <Button mt={'xs'} mb={'md'} w={170} color={'green'} disabled={attached.length === 0 || loading} onClick={sendAttached}>
         <Flex gap={5} align={'center'}>
           {loading && <Loader color={'blue'} size={'sm'} />}
           {'Отправить'}
