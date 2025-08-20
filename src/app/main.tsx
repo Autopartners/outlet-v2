@@ -15,7 +15,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppProvider } from '@/app/providers/app/appProvider';
 import { initialize } from '@/shared/lib/api';
 import { isLocalhost } from '@/shared/lib/api';
-import { Loader } from '@/shared/ui/Loader/Loader';
+import { CustomLoader } from '@/shared/ui/Loader/Loader';
 import { ServerUnavailable } from '@/shared/ui/ServerUnavailable/ServerUnavailable';
 
 function Main() {
@@ -35,7 +35,7 @@ function Main() {
 
   return serverStatus !== 'server_loaded' ? (
     <MantineProvider theme={mantineTheme}>
-      {serverStatus === 'server_loading' ? <Loader label={'Подключаемся к серверу...'} /> : <ServerUnavailable />}
+      {serverStatus === 'server_loading' ? <CustomLoader label={'Подключаемся к серверу...'} /> : <ServerUnavailable />}
     </MantineProvider>
   ) : (
     <StrictMode>

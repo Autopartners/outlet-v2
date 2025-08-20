@@ -3,7 +3,7 @@ import { api } from '@/shared/lib/api';
 import { Button, Flex, Text, TextInput } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { Loader } from '@/shared/ui/Loader/Loader';
+import { CustomLoader } from '@/shared/ui/Loader/Loader';
 
 export const CompanyWindow = ({ user, setUser }) => {
   const { notification } = useApp();
@@ -53,7 +53,7 @@ export const CompanyWindow = ({ user, setUser }) => {
   };
 
   if (isFetching) {
-    return <Loader />;
+    return <CustomLoader />;
   }
 
   return (

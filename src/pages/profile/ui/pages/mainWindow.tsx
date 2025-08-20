@@ -3,7 +3,7 @@ import { api } from '@/shared/lib/api.ts';
 import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useApp } from '@/app/providers/app/useApp';
-import { Loader } from '@/shared/ui/Loader/Loader';
+import { CustomLoader } from '@/shared/ui/Loader/Loader';
 
 export const MainWindow = ({ user, setUser, isUserFetching }) => {
   const nav = useNavigate();
@@ -64,7 +64,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
   };
 
   if (isUserFetching) {
-    return <Loader />;
+    return <CustomLoader />;
   }
 
   return (

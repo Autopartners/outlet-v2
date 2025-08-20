@@ -64,4 +64,4 @@ const initialize = async (callback: (status: 'server_loaded' | 'server_unavailab
 
 const ermurl = 'https://e.ap-ru.com';
 
-export { initialize, connecturl, ermurl, getApi, isLocalhost, api };
+export { initialize, connecturl, ermurl, getApi, isLocalhost, api, authurl };
