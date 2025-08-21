@@ -8,6 +8,7 @@ import { ConfirmWithTimer } from '@/widgets/ConfirmWithTimer/ui/ConfirmWithTimer
 
 export const MainWindow = ({ user, setUser, isUserFetching }) => {
   const nav = useNavigate();
+  const { isMobile } = useApp();
   const [state, setState] = useState(user);
   const [changed, setChanged] = useState({});
   const { notification } = useApp();
@@ -77,40 +78,43 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
       <Flex direction="column" gap={5}>
         <TextInput name="username" value={state.username} label="Имя пользователя" disabled />
         <TextInput name="name" value={state.name} label="Имя" onChange={handleChange} />
-        <Flex gap="md" align="flex-end" justify="space-between">
+        <Flex
+          gap="md"
+          align={!isMobile && 'flex-end'}
+          direction={isMobile ? 'column' : 'row'}
+          justify="space-between"
+        >
           <TextInput
             name="phone0"
             value={state.phone0}
             label={state.phone_confirmed ? 'Телефон' : 'Телефон (не подтвержден)'}
             onChange={handleChange}
-            w="40%"
+            w={isMobile ? '100%' : '40%'}
           />
           <ConfirmWithTimer type="phone" label="Телефон" user={state} setUser={setState} />
         </Flex>
-        <Flex gap="md" align="flex-end" justify="space-between">
+        <Flex gap="md" align={!isMobile && 'flex-end'} direction={isMobile ? 'column' : 'row'} justify="space-between">
           <TextInput
             name="email0"
             value={state.email0}
             label={state.email_confirmed ? 'Email' : 'Email (не подтвержден)'}
             onChange={handleChange}
-            w="40%"
+            w={isMobile ? '100%' : '40%'}
           />
           <ConfirmWithTimer type="email" label="Email" user={state} setUser={setState} />
         </Flex>
       </Flex>
-      <Flex gap="sm">
-        {Object.values(changed).some((e) => e) && (
-          <>
-            <Button mt="md" size="sm" color="green" onClick={submit}>
-              Сохранить
-            </Button>
-            <Button mt="md" size="sm" onClick={cancel}>
-              Отменить
-            </Button>
-          </>
-        )}
-      </Flex>
-      <Button mt="md" size="md" color="red" onClick={logout}>
+      {Object.values(changed).some((e) => e) && (
+        <Flex gap={isMobile ? 0 : 'sm'} direction={isMobile ? 'column' : 'row'}>
+          <Button mt="md" size="sm" color="green" onClick={submit}>
+            Сохранить
+          </Button>
+          <Button mt="md" size="sm" onClick={cancel}>
+            Отменить
+          </Button>
+        </Flex>
+      )}
+      <Button fullWidth={isMobile} mt={isMobile ? 'xl' : 'md'} size="sm" color="red" onClick={logout}>
         Выйти
       </Button>
     </>

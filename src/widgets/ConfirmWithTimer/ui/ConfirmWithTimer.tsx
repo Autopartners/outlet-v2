@@ -10,6 +10,7 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }) => {
   const { notification } = useApp();
   const [passed, setPassed] = useState(-1);
   const [loading, setLoading] = useState(false);
+  const { isMobile } = useApp();
   const [code, setCode] = useState();
   const timer = useRef();
   const last = user[`${type}_confirmation_sent_at`];
@@ -85,7 +86,11 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }) => {
     </Box>;
 
   const form =
-    <Flex gap="xl" align="center">
+    <Flex
+      gap={isMobile ? 'xs' : 'xl'}
+      align={isMobile ? 'flex-start' : 'center'}
+      direction={isMobile ? 'column' : 'row'}
+    >
       {loading ?
         <Flex w={180} justify="center" align="center">
           <Loader type="dots" size="md" />
@@ -97,12 +102,12 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }) => {
         )
       }
       {(!user[`${type}_confirmation_sent_at`] &&
-        <Button color="cyan" w={230} fz="xs" size="xs" onClick={codeRequest}>Запросить код
+        <Button color="cyan" w={230} fz="xs" size="sm" onClick={codeRequest}>Запросить код
           подтверждения</Button>)
       }
       {passed > 0 && passed < 60 &&
         <Box w={230}>
-          <Text ta="center" style={{ fontSize: 12 }}>
+          <Text ta={isMobile ? 'left' : 'flex-start'} style={{ fontSize: 12 }}>
             запросить повторно через: {60 - passed}
           </Text>
         </Box>
