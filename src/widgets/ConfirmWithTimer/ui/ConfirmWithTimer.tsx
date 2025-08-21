@@ -1,20 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import { useCallback } from 'react';
 import { api } from '@/shared/lib/api.ts';
-import { useMe } from '@/app/providers/me/useMe.ts';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { Box, Button, Flex, Loader, PinInput, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import { IconCircleCheck } from '@tabler/icons-react';
 
-export const ConfirmWithTimer = ({ type, label }) => {
-  const { me, setMe } = useMe();
+export const ConfirmWithTimer = ({ type, label, user, setUser }) => {
   const { notification } = useApp();
   const [passed, setPassed] = useState(-1);
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState();
   const timer = useRef();
-  const last = me[`${type}_confirmation_sent_at`];
+  const last = user[`${type}_confirmation_sent_at`];
 
   const countdown = useCallback(() => {
     if (!last) {
@@ -37,7 +35,7 @@ export const ConfirmWithTimer = ({ type, label }) => {
         clearInterval(timer.current);
       }
     };
-  }, [countdown, me]);
+  }, [countdown, user]);
 
   const codeInput = (e) => {
     setCode(e);
@@ -50,13 +48,13 @@ export const ConfirmWithTimer = ({ type, label }) => {
     setCode(null);
     try {
       setLoading(true);
-      const { data } = await api.patch(`/external/users/${me.id}/confirm`,
+      const { data } = await api.patch(`/external/users/${user.id}/confirm`,
         { user: { type: type, key: e, source: 'outlet' } });
       notification.green('Успех');
-      setMe({ ...me, ...data });
+      setUser({ ...user, ...data });
     } catch {
       notification.red('Неверный код!');
-      setMe({ ...me, [`${type}_confirmation_sent_at`]: null });
+      setUser({ ...user, [`${type}_confirmation_sent_at`]: null });
     } finally {
       setLoading(false);
     }
@@ -64,9 +62,9 @@ export const ConfirmWithTimer = ({ type, label }) => {
 
   const codeRequest = async () => {
     try {
-      const { data } = await api.patch(`/external/users/${me.id}/confirmation_request`,
+      const { data } = await api.patch(`/external/users/${user.id}/confirmation_request`,
         { user: { type, source: 'outlet' } });
-      setMe({ ...me, ...data });
+      setUser({ ...user, ...data });
     } catch {
       notification.red('Ошибка!');
     }
@@ -92,13 +90,13 @@ export const ConfirmWithTimer = ({ type, label }) => {
         <Flex w={180} justify="center" align="center">
           <Loader type="dots" size="md" />
         </Flex> : (
-          me[`${type}_confirmation_sent_at`] &&
+          user[`${type}_confirmation_sent_at`] &&
           <Box w={180}>
             <PinInput inputMode="numeric" onChange={codeInput} value={code} />
           </Box>
         )
       }
-      {(!me[`${type}_confirmation_sent_at`] &&
+      {(!user[`${type}_confirmation_sent_at`] &&
         <Button color="cyan" w={230} fz="xs" size="xs" onClick={codeRequest}>Запросить код
           подтверждения</Button>)
       }
@@ -113,7 +111,7 @@ export const ConfirmWithTimer = ({ type, label }) => {
 
   return (
     <>
-      {me[`${type}_confirmed`] ? confirmed : form}
+      {user[`${type}_confirmed`] ? confirmed : form}
     </>
   );
 };

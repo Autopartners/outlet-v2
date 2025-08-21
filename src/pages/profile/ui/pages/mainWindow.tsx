@@ -27,13 +27,14 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
   const submit = async () => {
     const { name, email0, phone0 } = state;
     try {
-      await api.patch(`outlet/users/${user.id}`, {
+      const { data } = await api.patch(`outlet/users/${user.id}`, {
         user: {
           name,
           email0,
           phone0
         }
       });
+      setState({ ...state, ...data });
       setChanged({});
       notification.green('Сохранено!');
     } catch {
@@ -84,7 +85,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
             onChange={handleChange}
             w="40%"
           />
-          <ConfirmWithTimer type="phone" label="Телефон" />
+          <ConfirmWithTimer type="phone" label="Телефон" user={state} setUser={setState} />
         </Flex>
         <Flex gap="md" align="flex-end" justify="space-between">
           <TextInput
@@ -94,7 +95,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
             onChange={handleChange}
             w="40%"
           />
-          <ConfirmWithTimer type="email" label="Email" />
+          <ConfirmWithTimer type="email" label="Email" user={state} setUser={setState} />
         </Flex>
       </Flex>
       <Flex gap="sm">
