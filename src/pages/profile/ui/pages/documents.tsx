@@ -83,7 +83,8 @@ export const DocumentsWindow = ({ user, isUserFetching }) => {
                 </List.Item>
                 <List.Item>Устав (в последней редакции, со всеми изменениями);</List.Item>
                 <List.Item>Решение/протокол об избрании или продлении полномочий единоличного исполнительного
-                  органа;</List.Item>
+                  органа;
+                </List.Item>
                 <List.Item>Приказ о вступлении в должность генерального директора;</List.Item>
               </List>
             </Box>
@@ -97,8 +98,12 @@ export const DocumentsWindow = ({ user, isUserFetching }) => {
                   персональных данных (по
                   форме п. 5);
                 </List.Item>
-                <Button component="a" color="green" href="https://auth.ap-ru.com/api/v4/external/static_files/51"
-                  target="_blank">
+                <Button
+                  component="a"
+                  color="green"
+                  href="https://auth.ap-ru.com/api/v4/external/static_files/51"
+                  target="_blank"
+                >
                   Скачать бланк
                 </Button>
                 <List.Item>Уведомление о постановке на налоговый учет;</List.Item>
@@ -117,13 +122,25 @@ export const DocumentsWindow = ({ user, isUserFetching }) => {
         {fileList}
       </Flex>
       <Flex w="100%" align="flex-end">
-        <FileInput onChange={setAttached} value={attached} label="Выберите файлы:" multiple flex={1}></FileInput>
+        <FileInput
+          onChange={setAttached}
+          value={attached}
+          label="Выберите файлы:"
+          multiple
+          flex={1}
+        />
         <Button ml="xs" color="red" onClick={clearFiles}>
           <IconX />
         </Button>
       </Flex>
-      <Button mt="xs" mb="md" w={170} color="green" disabled={attached.length === 0 || loading}
-        onClick={sendAttached}>
+      <Button
+        mt="xs"
+        mb="md"
+        w={170}
+        color="green"
+        disabled={attached.length === 0 || loading}
+        onClick={sendAttached}
+      >
         <Flex gap={5} align="center">
           {loading && <Loader color="blue" size="sm" />}
           Отправить

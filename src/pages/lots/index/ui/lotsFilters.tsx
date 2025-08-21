@@ -32,16 +32,29 @@ export const LotsFilters = () => {
 
   if (showFilters) {
     return (
-      <Card withBorder pos='fixed' top={130} left="50%"
-        style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}>
+      <Card
+        withBorder
+        pos='fixed'
+        top={130}
+        left="50%"
+        style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}
+      >
         <ActionIcon onClick={() => setShowFilters(false)} pos="absolute" right={10} top={5} color="gray" variant="subtle">
           <IconX/>
         </ActionIcon>
         <Flex direction={isMobile ? 'column' : 'row'} justify="space-between" w={isMobile ? '100%' : 700}>
-          <FilterSelect label="Город" data={cities} value={cityId}
-            onChange={(v: string | null) => updateParams(v, 'city_id')}/>
-          <FilterSelect label="Бренд" data={brands} value={brandId}
-            onChange={(v: string | null) => updateParams(v, 'vehicle_brand_id')}/>
+          <FilterSelect
+            label="Город"
+            data={cities}
+            value={cityId}
+            onChange={(v: string | null) => updateParams(v, 'city_id')}
+          />
+          <FilterSelect
+            label="Бренд"
+            data={brands}
+            value={brandId}
+            onChange={(v: string | null) => updateParams(v, 'vehicle_brand_id')}
+          />
           <FilterSelect
             label="Модель"
             data={models}
@@ -54,8 +67,12 @@ export const LotsFilters = () => {
     ) }
 
   return (
-    <Box pos='fixed' top={isMobile ? 40 : 100} left="50%"
-      style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}>
+    <Box
+      pos='fixed'
+      top={isMobile ? 40 : 100}
+      left="50%"
+      style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}
+    >
       <ActionIcon radius="md" onClick={() => setShowFilters(true)} size="xl" color="blue.9" variant="light">
         <IconFilter />
       </ActionIcon>
