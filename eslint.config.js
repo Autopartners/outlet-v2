@@ -1,10 +1,11 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
+import reactPlugin from 'eslint-plugin-react';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import { globalIgnores } from 'eslint/config';
-import stylistic from '@stylistic/eslint-plugin'
+import stylistic from '@stylistic/eslint-plugin';
 
 export default tseslint.config([
   globalIgnores(['build']),
@@ -20,8 +21,10 @@ export default tseslint.config([
       ecmaVersion: 2020,
       globals: globals.browser
     },
+
     plugins: {
-      '@stylistic': stylistic
+      '@stylistic': stylistic,
+      'react': reactPlugin
     },
     rules: {
       // Общие "чистые" правила кода
@@ -75,7 +78,12 @@ export default tseslint.config([
       }], // Пробелы в свойствах объектов
       'rest-spread-spacing': ['error', 'never'], // Пробелы в spread операторе
       'no-mixed-spaces-and-tabs': 'error', // Запрещает смешивание пробелов и табов
-      '@stylistic/jsx-curly-brace-presence': ['error', { props: 'never' }]
+      '@stylistic/jsx-curly-brace-presence': ['error', { props: 'never' }],
+      'react/jsx-max-props-per-line':
+        ['error', { when: 'multiline' }], // каждый пропс на новой строке, если компонент занимает больше одной строки.
+      'react/jsx-first-prop-new-line': ['error', 'multiline'], // если тег многострочный, первый пропс уходит на новую строку
+      'react/jsx-indent-props': ['error', 2], // отступ для пропсов
+      'react/jsx-closing-bracket-location': ['error', 'line-aligned'] // Закрывающая скобка /> будет выровнена под первой строкой тега
     }
   }
 ]);
