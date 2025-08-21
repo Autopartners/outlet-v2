@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useApp } from '@/app/providers/app/useApp';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
+import { ConfirmWithTimer } from '@/widgets/ConfirmWithTimer/ui/ConfirmWithTimer';
 
 export const MainWindow = ({ user, setUser, isUserFetching }) => {
   const nav = useNavigate();
@@ -75,18 +76,26 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
       <Flex direction="column" gap={5}>
         <TextInput name="username" value={state.username} label="Имя пользователя" disabled />
         <TextInput name="name" value={state.name} label="Имя" onChange={handleChange} />
-        <TextInput
-          name="phone0"
-          value={state.phone0}
-          label={state.phone_confirmed ? 'Телефон' : 'Телефон (не подтвержден)'}
-          onChange={handleChange}
-        />
-        <TextInput
-          name="email0"
-          value={state.email0}
-          label={state.email_confirmed ? 'Email' : 'Email (не подтвержден)'}
-          onChange={handleChange}
-        />
+        <Flex gap="md" align="flex-end" justify="space-between">
+          <TextInput
+            name="phone0"
+            value={state.phone0}
+            label={state.phone_confirmed ? 'Телефон' : 'Телефон (не подтвержден)'}
+            onChange={handleChange}
+            w="40%"
+          />
+          <ConfirmWithTimer type="phone" />
+        </Flex>
+        <Flex gap="md" align="flex-end" justify="space-between">
+          <TextInput
+            name="email0"
+            value={state.email0}
+            label={state.email_confirmed ? 'Email' : 'Email (не подтвержден)'}
+            onChange={handleChange}
+            w="40%"
+          />
+          <ConfirmWithTimer type="email" />
+        </Flex>
       </Flex>
       <Flex gap="sm">
         {Object.values(changed).some((e) => e) && (
