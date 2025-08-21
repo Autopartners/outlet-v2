@@ -28,7 +28,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
           <Text fw='bold' fz={20}>
             {lot.short_name.trim() || lot.vehicle_name.split(' ').slice(0, 2).join(' ')}, {lot.year} г.
           </Text>
-          <Card shadow={'xs'} withBorder p={5}><Text fz={14} fw={'bold'}>{lot.code}</Text></Card>
+          <Card shadow="xs" withBorder p={5}><Text fz={14} fw="bold">{lot.code}</Text></Card>
         </Flex>
         <Flex align='center' mt={5}>
           <ThemeIcon variant='transparent' c='blue.7'><IconHourglassHigh size={20} /></ThemeIcon>
@@ -50,19 +50,19 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
           {lot.my_last_bid ? (
             <Stack gap={0}>
               <Text fz={14}>Ваша ставка</Text>
-              <Text fz={20} fw='bold' c={'blue.7'}>{lot.my_last_bid.toLocaleString('ru-RU')}₽</Text>
+              <Text fz={20} fw='bold' c="blue.7">{lot.my_last_bid.toLocaleString('ru-RU')}₽</Text>
             </Stack>
           ) : ((isStarted && !isEnd) && (
             <Stack gap={0}>
               <Popover width={200} position="bottom" withArrow shadow="md">
                 <Popover.Target>
-                  <Button variant={'default'}>Сделать ставку</Button>
+                  <Button variant="default">Сделать ставку</Button>
                 </Popover.Target>
                 <Popover.Dropdown w={250}>
                   <NumberInput
                     max={100000000}
-                    size={'md'}
-                    placeholder={'Ставка'}
+                    size="md"
+                    placeholder="Ставка"
                     allowDecimal={false}
                     allowNegative={false}
                     thousandSeparator={' '}
@@ -72,7 +72,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
                   />
                   <Button
                     mt={10}
-                    w={'100%'}
+                    w="100%"
                     onClick={() => {
                       bidMutation.mutate({ value: bid, lot_id: String(lot.id) });
                       refetchLots();
@@ -88,8 +88,8 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
             </Stack>
           ))}
           <Flex gap={10}>
-            <Button variant='light' color={'blue.7'} w={150} onClick={() => nav(`/lots/${lot.id}`)}>Подробнее</Button>
-            <ActionIcon size={'lg'} color={'yellow.3'} variant={'transparent'} >
+            <Button variant='light' color="blue.7" w={150} onClick={() => nav(`/lots/${lot.id}`)}>Подробнее</Button>
+            <ActionIcon size="lg" color="yellow.3" variant="transparent" >
               <IconStar />
             </ActionIcon>
           </Flex>
