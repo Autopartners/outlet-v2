@@ -78,7 +78,7 @@ export default tseslint.config([
       }], // Пробелы в свойствах объектов
       'rest-spread-spacing': ['error', 'never'], // Пробелы в spread операторе
       'no-mixed-spaces-and-tabs': 'error', // Запрещает смешивание пробелов и табов
-      '@stylistic/jsx-curly-brace-presence': ['error', { props: 'never' }],
+      '@stylistic/jsx-curly-brace-presence': ['error', { props: 'never' }], // пример: size={'xs'} => size="xs"
       'react/jsx-max-props-per-line':
         ['error', { when: 'multiline' }], // каждый пропс на новой строке, если компонент занимает больше одной строки.
       'react/jsx-first-prop-new-line': ['error', 'multiline'], // если тег многострочный, первый пропс уходит на новую строку
