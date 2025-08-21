@@ -35,7 +35,7 @@ function Main() {
 
   return serverStatus !== 'server_loaded' ? (
     <MantineProvider theme={mantineTheme}>
-      {serverStatus === 'server_loading' ? <CustomLoader label={'Подключаемся к серверу...'} /> : <ServerUnavailable />}
+      {serverStatus === 'server_loading' ? <CustomLoader label="Подключаемся к серверу..." /> : <ServerUnavailable />}
     </MantineProvider>
   ) : (
     <StrictMode>

@@ -38,7 +38,7 @@ export const HomePage = () => {
               </Box>
             ))}
           </SimpleGrid>}
-        <Button leftSection={<IconEye/>} color={'blue.6'} mt={20} size='lg' onClick={() => nav('/lots')}>
+        <Button leftSection={<IconEye/>} color="blue.6" mt={20} size='lg' onClick={() => nav('/lots')}>
             Смотреть все
         </Button>
       </Box>}

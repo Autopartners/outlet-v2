@@ -22,8 +22,8 @@ export const LotsList = () => {
   if (isLoading || !lots) { return <LotsListSkeletonLoader/>; }
 
   return (
-    <Container size={'xl'}>
-      <LotPages pages={pages} pos={'top'} />
+    <Container size="xl">
+      <LotPages pages={pages} pos="top" />
       <SimpleGrid spacing={30} cols={{ lg: 3, sm: 1 }}>
         {lots.map((lot: Lot) => (
           <Box key={lot.id}>
@@ -31,6 +31,6 @@ export const LotsList = () => {
           </Box>
         ))}
       </SimpleGrid>
-      <LotPages pages={pages} pos={'bottom'}/>
+      <LotPages pages={pages} pos="bottom"/>
     </Container>)
 }

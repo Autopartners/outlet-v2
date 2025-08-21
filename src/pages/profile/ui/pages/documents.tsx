@@ -22,7 +22,7 @@ export const DocumentsWindow = ({ user, isUserFetching }) => {
 
   const fileList = state.attachments?.map((doc, i) => {
     return (
-      <Button component={'a'} color={'cyan'} key={i} size="sm" href={authurl + doc.path} target="_blank">
+      <Button component="a" color="cyan" key={i} size="sm" href={authurl + doc.path} target="_blank">
         <IconFileTypePdf />
         {doc.filename}
       </Button>
@@ -52,8 +52,8 @@ export const DocumentsWindow = ({ user, isUserFetching }) => {
 
   const commentsHistory = ((state || me).lawyer_comments || []).map(([at, body], i) => {
     return (
-      <Alert key={i} color="green" mt={'sm'}>
-        <Text fw={700} size={'sm'}>
+      <Alert key={i} color="green" mt="sm">
+        <Text fw={700} size="sm">
           {dayjs(at).format('DD.MM.YYYY HH:mm')}
         </Text>
         {body}
@@ -67,39 +67,45 @@ export const DocumentsWindow = ({ user, isUserFetching }) => {
 
   return (
     <>
-      <Text ta={'center'} fz={28} fw={500} mb={'md'}>
+      <Text ta="center" fz={28} fw={500} mb="md">
         Файлы
       </Text>
-      <Flex direction={'column'} gap={5}>
+      <Flex direction="column" gap={5}>
         <Alert>
-          <Flex direction={'column'} gap="sm">
+          <Flex direction="column" gap="sm">
             <Box>
-              <Text size={'lg'}>Перечень необходимых документов для юридических лиц:</Text>
-              <List size={'sm'} withPadding>
+              <Text size="lg">Перечень необходимых документов для юридических лиц:</Text>
+              <List size="sm" withPadding>
                 <List.Item>Свидетельство о постановке на налоговый учет;</List.Item>
                 <List.Item>
-                  Свидетельство о государственной регистрации или Лист записи ЕГРЮЛ о государственной регистрации юридического лица;
+                  Свидетельство о государственной регистрации или Лист записи ЕГРЮЛ о государственной регистрации
+                  юридического лица;
                 </List.Item>
                 <List.Item>Устав (в последней редакции, со всеми изменениями);</List.Item>
-                <List.Item>Решение/протокол об избрании или продлении полномочий единоличного исполнительного органа;</List.Item>
+                <List.Item>Решение/протокол об избрании или продлении полномочий единоличного исполнительного
+                  органа;</List.Item>
                 <List.Item>Приказ о вступлении в должность генерального директора;</List.Item>
               </List>
             </Box>
             <Box>
-              <Text size={'lg'}>Перечень необходимых документов для ИП (индивидуальных предпринимателей):</Text>
-              <List size={'sm'} withPadding>
+              <Text size="lg">Перечень необходимых документов для ИП (индивидуальных предпринимателей):</Text>
+              <List size="sm" withPadding>
                 <List.Item>
-                  Реквизиты паспортных данных - серия, номер, дата выдачи и выдавший орган, дата рождения, код подразделения, адрес
-                  регистрации (не скан-копия паспорта!) Просьба прописывать данные реквизиты в Согласии на обработку персональных данных (по
+                  Реквизиты паспортных данных - серия, номер, дата выдачи и выдавший орган, дата рождения, код
+                  подразделения, адрес
+                  регистрации (не скан-копия паспорта!) Просьба прописывать данные реквизиты в Согласии на обработку
+                  персональных данных (по
                   форме п. 5);
                 </List.Item>
-                <Button component={'a'} color={'green'} href={'https://auth.ap-ru.com/api/v4/external/static_files/51'} target={'_blank'}>
+                <Button component="a" color="green" href="https://auth.ap-ru.com/api/v4/external/static_files/51"
+                  target="_blank">
                   Скачать бланк
                 </Button>
                 <List.Item>Уведомление о постановке на налоговый учет;</List.Item>
                 <List.Item>Свидетельство ИНН;</List.Item>
                 <List.Item>
-                  Свидетельство о государственной регистрации в качестве ИП или Лист записи ЕГРИП о регистрации в качестве ИП;
+                  Свидетельство о государственной регистрации в качестве ИП или Лист записи ЕГРИП о регистрации в
+                  качестве ИП;
                 </List.Item>
                 <List.Item>Согласие на обработку персональных данных;</List.Item>
               </List>
@@ -107,28 +113,29 @@ export const DocumentsWindow = ({ user, isUserFetching }) => {
           </Flex>
         </Alert>
       </Flex>
-      <Flex mt={'md'} mb={'md'} gap={10} wrap={'wrap'}>
+      <Flex mt="md" mb="md" gap={10} wrap="wrap">
         {fileList}
       </Flex>
-      <Flex w={'100%'} align={'flex-end'}>
-        <FileInput onChange={setAttached} value={attached} label={'Выберите файлы:'} multiple flex={1}></FileInput>
-        <Button ml={'xs'} color={'red'} onClick={clearFiles}>
+      <Flex w="100%" align="flex-end">
+        <FileInput onChange={setAttached} value={attached} label="Выберите файлы:" multiple flex={1}></FileInput>
+        <Button ml="xs" color="red" onClick={clearFiles}>
           <IconX />
         </Button>
       </Flex>
-      <Button mt={'xs'} mb={'md'} w={170} color={'green'} disabled={attached.length === 0 || loading} onClick={sendAttached}>
-        <Flex gap={5} align={'center'}>
-          {loading && <Loader color={'blue'} size={'sm'} />}
-          {'Отправить'}
+      <Button mt="xs" mb="md" w={170} color="green" disabled={attached.length === 0 || loading}
+        onClick={sendAttached}>
+        <Flex gap={5} align="center">
+          {loading && <Loader color="blue" size="sm" />}
+          Отправить
         </Flex>
       </Button>
       {commentsHistory}
       {(state || me).documents_comment && (
-        <Alert color={'yellow'} mt={'md'}>
-          <Text mb={'xs'} fw={600} size={'lg'}>
+        <Alert color="yellow" mt="md">
+          <Text mb="xs" fw={600} size="lg">
             Комментарий
           </Text>
-          <Text size={'sm'}>{(state || me).documents_comment}</Text>
+          <Text size="sm">{(state || me).documents_comment}</Text>
         </Alert>
       )}
     </>

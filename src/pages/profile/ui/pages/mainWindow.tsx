@@ -69,29 +69,29 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
 
   return (
     <>
-      <Text ta={'center'} fz={28} fw={500}>
+      <Text ta="center" fz={28} fw={500}>
         Основные
       </Text>
-      <Flex direction={'column'} gap={5}>
-        <TextInput name={'username'} value={state.username} label={'Имя пользователя'} disabled />
-        <TextInput name={'name'} value={state.name} label={'Имя'} onChange={handleChange} />
+      <Flex direction="column" gap={5}>
+        <TextInput name="username" value={state.username} label="Имя пользователя" disabled />
+        <TextInput name="name" value={state.name} label="Имя" onChange={handleChange} />
         <TextInput
-          name={'phone0'}
+          name="phone0"
           value={state.phone0}
           label={state.phone_confirmed ? 'Телефон' : 'Телефон (не подтвержден)'}
           onChange={handleChange}
         />
         <TextInput
-          name={'email0'}
+          name="email0"
           value={state.email0}
           label={state.email_confirmed ? 'Email' : 'Email (не подтвержден)'}
           onChange={handleChange}
         />
       </Flex>
-      <Flex gap={'sm'}>
+      <Flex gap="sm">
         {Object.values(changed).some((e) => e) && (
           <>
-            <Button mt={'md'} size="sm" color="green" onClick={submit}>
+            <Button mt="md" size="sm" color="green" onClick={submit}>
               Сохранить
             </Button>
             <Button mt="md" size="sm" onClick={cancel}>
@@ -100,7 +100,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
           </>
         )}
       </Flex>
-      <Button mt={'md'} size={'md'} color={'red'} onClick={logout}>
+      <Button mt="md" size="md" color="red" onClick={logout}>
         Выйти
       </Button>
     </>

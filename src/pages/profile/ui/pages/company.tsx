@@ -58,21 +58,21 @@ export const CompanyWindow = ({ user, setUser }) => {
 
   return (
     <>
-      <Text ta={'center'} fz={28} fw={500}>
+      <Text ta="center" fz={28} fw={500}>
         Компания
       </Text>
-      <Flex direction={'column'} gap={5}>
-        <TextInput name={'company_name'} value={state?.company_name} label={'Компания'} onChange={handleChange} />
-        <TextInput name={'address'} value={state?.address} label={'Адрес'} onChange={handleChange} />
-        <TextInput name={'inn'} value={state?.inn} label={'ИНН'} onChange={handleChange} />
-        <TextInput name={'signature'} value={state?.signature} label={'Подписант'} onChange={handleChange} />
-        <TextInput name={'buyer'} value={state?.buyer} label={'Покупатель (родительный падеж)'} onChange={handleChange} />
-        <TextInput name={'buyer_base'} value={state?.buyer_base} label={'На основании'} onChange={handleChange} />
+      <Flex direction="column" gap={5}>
+        <TextInput name="company_name" value={state?.company_name} label="Компания" onChange={handleChange} />
+        <TextInput name="address" value={state?.address} label="Адрес" onChange={handleChange} />
+        <TextInput name="inn" value={state?.inn} label="ИНН" onChange={handleChange} />
+        <TextInput name="signature" value={state?.signature} label="Подписант" onChange={handleChange} />
+        <TextInput name="buyer" value={state?.buyer} label="Покупатель (родительный падеж)" onChange={handleChange} />
+        <TextInput name="buyer_base" value={state?.buyer_base} label="На основании" onChange={handleChange} />
       </Flex>
-      <Flex gap={'sm'}>
+      <Flex gap="sm">
         {Object.values(changed).some((e) => e) && (
           <>
-            <Button mt={'md'} size="sm" color="green" onClick={submit}>
+            <Button mt="md" size="sm" color="green" onClick={submit}>
               Сохранить
             </Button>
             <Button mt="md" size="sm" onClick={cancel}>
