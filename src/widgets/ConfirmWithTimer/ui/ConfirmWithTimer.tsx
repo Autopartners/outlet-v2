@@ -7,7 +7,7 @@ import { Box, Button, Flex, Loader, PinInput, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import { IconCircleCheck } from '@tabler/icons-react';
 
-export const ConfirmWithTimer = ({ type }) => {
+export const ConfirmWithTimer = ({ type, label }) => {
   const { me, setMe } = useMe();
   const { notification } = useApp();
   const [passed, setPassed] = useState(-1);
@@ -73,16 +73,18 @@ export const ConfirmWithTimer = ({ type }) => {
   };
 
   const confirmed =
-    <Flex gap="xs" align="center">
-      <IconCircleCheck color="green" />
-      <Text
-        c="green"
-        fw={500}
-        size="sm"
-      >
-        Подтверждено
-      </Text>
-    </Flex>;
+    <Box w={200}>
+      <Flex gap="xs">
+        <IconCircleCheck color="green" />
+        <Text
+          c="green"
+          fw={500}
+          size="sm"
+        >
+          {`${label} подтвержден`}
+        </Text>
+      </Flex>
+    </Box>;
 
   const form =
     <Flex gap="xl" align="center">

@@ -84,7 +84,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
             onChange={handleChange}
             w="40%"
           />
-          <ConfirmWithTimer type="phone" />
+          <ConfirmWithTimer type="phone" label="Телефон" />
         </Flex>
         <Flex gap="md" align="flex-end" justify="space-between">
           <TextInput
@@ -94,7 +94,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
             onChange={handleChange}
             w="40%"
           />
-          <ConfirmWithTimer type="email" />
+          <ConfirmWithTimer type="email" label="Email" />
         </Flex>
       </Flex>
       <Flex gap="sm">
