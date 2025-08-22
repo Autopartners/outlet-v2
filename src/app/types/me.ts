@@ -33,6 +33,9 @@ export interface Me {
   attachments?: Attachment[];
   lawyer_comments?: [string, string][];
   documents_comment?: string;
+  phone_confirmation_sent_at: string;
+  email_confirmation_sent_at: string;
+
 
   [key: string]: unknown;
 }
@@ -59,5 +62,7 @@ export const initialMe: Me = {
   outlet: false,
   attachments: [],
   lawyer_comments: [],
-  documents_comment: ''
+  documents_comment: '',
+  phone_confirmation_sent_at: '',
+  email_confirmation_sent_at: ''
 };

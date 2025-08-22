@@ -5,14 +5,22 @@ import { useApp } from '@/app/providers/app/useApp.ts';
 import { Box, Button, Flex, Loader, PinInput, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import { IconCircleCheck } from '@tabler/icons-react';
+import type { Me } from '@/app/types/me';
 
-export const ConfirmWithTimer = ({ type, label, user, setUser }) => {
+interface ConfirmWithTimerProps {
+  user: Me,
+  setUser: (user: Me) => void,
+  type: 'phone' | 'email',
+  label: string,
+}
+
+export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTimerProps) => {
   const { notification } = useApp();
   const [passed, setPassed] = useState(-1);
   const [loading, setLoading] = useState(false);
   const { isMobile } = useApp();
-  const [code, setCode] = useState();
-  const timer = useRef();
+  const [code, setCode] = useState<string>('');
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const last = user[`${type}_confirmation_sent_at`];
 
   const countdown = useCallback(() => {
@@ -38,15 +46,15 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }) => {
     };
   }, [countdown, user]);
 
-  const codeInput = (e) => {
+  const codeInput = (e: string) => {
     setCode(e);
     if (e.length === 4) {
       submit(e);
     }
   };
 
-  const submit = async (e) => {
-    setCode(null);
+  const submit = async (e: string) => {
+    setCode('');
     try {
       setLoading(true);
       const { data } = await api.patch(`/external/users/${user.id}/confirm`,
@@ -101,13 +109,13 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }) => {
           </Box>
         )
       }
-      {(!user[`${type}_confirmation_sent_at`] &&
+      {((!user[`${type}_confirmation_sent_at`] || (passed > 60)) &&
         <Button color="cyan" w={230} fz="xs" size="sm" onClick={codeRequest}>Запросить код
           подтверждения</Button>)
       }
       {passed > 0 && passed < 60 &&
         <Box w={230}>
-          <Text ta={isMobile ? 'left' : 'flex-start'} style={{ fontSize: 12 }}>
+          <Text ta={isMobile ? 'left' : 'start'} style={{ fontSize: 12 }}>
             запросить повторно через: {60 - passed}
           </Text>
         </Box>
