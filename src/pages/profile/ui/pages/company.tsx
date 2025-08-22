@@ -4,7 +4,7 @@ import { Button, Flex, Text, TextInput } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
-import type { Me } from '@/app/types/me';
+import type { Me } from '@/entities/me';
 
 
 interface CompanyWindowProps {

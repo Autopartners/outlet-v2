@@ -5,7 +5,7 @@ import { useApp } from '@/app/providers/app/useApp.ts';
 import { Box, Button, Flex, Loader, PinInput, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import { IconCircleCheck } from '@tabler/icons-react';
-import type { Me } from '@/app/types/me';
+import type { Me } from '@/entities/me';
 
 interface ConfirmWithTimerProps {
   user: Me,

@@ -3,7 +3,7 @@ import { CompanyWindow } from '../../pages/profile/ui/pages/company.tsx';
 import { DocumentsWindow } from '../../pages/profile/ui/pages/documents.tsx';
 import { MainWindow } from '../../pages/profile/ui/pages/mainWindow.tsx';
 import { WonWindow } from '../../pages/profile/ui/pages/won.tsx';
-import type { Me } from '@/app/types/me';
+import type { Me } from '@/entities/me';
 
 
 interface ProfileRouterProps {

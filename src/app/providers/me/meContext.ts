@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import type { Me } from '@/app/types/me';
-import { initialMe } from '@/app/types/me';
+import type { Me } from '@/entities/me';
+import { initialMe } from '@/entities/me';
 
 interface MeContextType {
   me: Me;

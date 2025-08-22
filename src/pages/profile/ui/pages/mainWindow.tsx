@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { useApp } from '@/app/providers/app/useApp';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
 import { ConfirmWithTimer } from '@/widgets/ConfirmWithTimer/ui/ConfirmWithTimer';
-import type { Me } from '@/app/types/me';
-import { initialMe } from '@/app/types/me';
+import type { Me } from '@/entities/me';
+import { initialMe } from '@/entities/me';
 
 interface MainWindowProps {
   user: Me;
