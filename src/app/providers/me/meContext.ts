@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import type { Me } from '@/app/types/me';
+import { initialMe } from '@/app/types/me';
 
 interface MeContextType {
   me: Me;
@@ -10,29 +11,7 @@ interface MeContextType {
 }
 
 export const MeContext = createContext<MeContextType>({
-  me: {
-    username: '',
-    fio: '',
-    id: null,
-    company: {
-      company_name: '',
-      address: '',
-      inn: '',
-      signature: '',
-      buyer: '',
-      buyer_base: ''
-    },
-    name: '',
-    menus: null,
-    phone0: '',
-    email0: '',
-    show_success_notifications: true,
-    roles: [],
-    ap_user: false,
-    outlet: false,
-    phone_confirmed: false,
-    email_confirmed: false
-  },
+  me: initialMe,
   setMe: () => {
   },
   tryMe: async () => {
