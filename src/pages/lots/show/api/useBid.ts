@@ -13,7 +13,7 @@ export const useBid = () => {
 
   const mutation = useMutation({
     mutationFn: async (params:mutationBidParams) => {
-      const { data } = await api.patch(`outlet/lots/${params.lot_id}/update_last_bid`, { bid: params.value })
+      const { data } = await api.patch(`outlet/lots/${params.lot_id}/make_bid`, { amount: params.value })
       return data;
     },
     onSuccess: (data) => {

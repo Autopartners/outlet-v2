@@ -15,10 +15,10 @@ interface LotCardProps {
 export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
   const nav = useNavigate();
   const [bid, setBid] = useState<string | number | undefined>('');
-  const { bidMutation } = useBid()
+  const { bidMutation } = useBid();
 
-  const isEnd = new Date(lot.end_at) < new Date()
-  const isStarted = new Date() > new Date(lot.start_at)
+  const isEnd = new Date(lot.third_stage_at) < new Date();
+  const isStarted = new Date() > new Date(lot.start_at);
 
   return (
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
@@ -26,7 +26,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
       <Box p={10} ta='left' w='100%'>
         <Flex justify='space-between'>
           <Text fw='bold' fz={20}>
-            {lot.short_name.trim() || lot.vehicle_name.split(' ').slice(0, 2).join(' ')}, {lot.year} г.
+            {lot.definition_short_name.trim() || lot.definition_name.split(' ').slice(0, 2).join(' ')}, {lot.vehicle_year_of_production} г.
           </Text>
           <Card shadow="xs" withBorder p={5}><Text fz={14} fw="bold">{lot.code}</Text></Card>
         </Flex>
@@ -36,21 +36,21 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
         </Flex>
         <Flex align='center' mt={5}>
           <ThemeIcon variant='transparent' c='blue.7'><IconHourglassLow size={20} /></ThemeIcon>
-          <Text fz={14}>Аукцион завершается <strong>{(new Date(lot.end_at)).toLocaleDateString()}</strong></Text>
+          <Text fz={14}>Аукцион завершается <strong>{(new Date(lot.second_stage_at)).toLocaleDateString()}</strong></Text>
         </Flex>
         <Flex align='center' mt={5}>
           <ThemeIcon variant='transparent' c='blue.7'><IconBuildingSkyscraper size={20} /></ThemeIcon>
-          <Text fz={14}>Город <strong>{lot.vehicle.city_of_remarketing_name}</strong></Text>
+          <Text fz={14}>Город <strong>{lot.city_of_remarketing_name}</strong></Text>
         </Flex>
         <Flex align='center' mt={5}>
           <ThemeIcon variant='transparent' c='blue.7'><IconRoad size={20} /></ThemeIcon>
-          <Text fz={14}>Пробег <strong>{lot.km.toLocaleString('ru-RU')} км</strong></Text>
+          <Text fz={14}>Пробег <strong>{Number(lot.return_km).toLocaleString('ru-RU')} км</strong></Text>
         </Flex>
         <Flex mt={10} align='center' justify='space-between'>
-          {lot.my_last_bid ? (
+          {lot.my_bid ? (
             <Stack gap={0}>
               <Text fz={14}>Ваша ставка</Text>
-              <Text fz={20} fw='bold' c="blue.7">{lot.my_last_bid.toLocaleString('ru-RU')}₽</Text>
+              <Text fz={20} fw='bold' c="blue.7">{lot.my_bid.toLocaleString('ru-RU')}₽</Text>
             </Stack>
           ) : ((isStarted && !isEnd) && (
             <Stack gap={0}>
@@ -61,6 +61,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
                 <Popover.Dropdown w={250}>
                   <NumberInput
                     max={100000000}
+                    min={lot.stage === 'second_stage' ? lot.second_stage_minimal_price : 0}
                     size="md"
                     placeholder="Ставка"
                     allowDecimal={false}

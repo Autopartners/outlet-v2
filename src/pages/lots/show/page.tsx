@@ -1,46 +1,15 @@
 import {
-  ActionIcon,
-  Anchor,
-  Badge,
-  Box,
-  Button,
-  Card,
-  Container,
-  Divider,
-  Flex,
-  Grid,
-  NumberInput,
-  Select,
-  SimpleGrid,
-  Stack,
-  Text,
-  ThemeIcon,
-  Tooltip,
-  Loader as MantineLoader
+  ActionIcon, Anchor, Badge, Box, Button, Card, Container, Divider, Flex, Grid, NumberInput, Select, SimpleGrid,
+  Stack, Text, ThemeIcon, Tooltip, Loader as MantineLoader
 } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
 import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 import {
-  IconAdjustmentsHorizontal,
-  IconBellRinging,
-  IconBolt,
-  IconBuildingSkyscraper,
-  IconCalendar,
-  IconCarCrash,
-  IconCarGarage,
-  IconClipboard,
-  IconClock,
-  IconLoader,
-  IconMail,
-  IconMessage,
-  IconMoodSad,
-  IconPhone,
-  IconRoad,
-  IconSettings,
-  IconShield,
-  IconX
+  IconAdjustmentsHorizontal, IconBellRinging, IconBolt, IconBuildingSkyscraper, IconCalendar, IconCarCrash,
+  IconCarGarage, IconClipboard, IconClock, IconLoader, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
+  IconSettings, IconShield, IconX
 } from '@tabler/icons-react';
 import { useState } from 'react';
 import { KitInfoPage } from '@/pages/lots/show/ui/kitInfoPage.tsx';
@@ -55,6 +24,14 @@ const stepsData = [
   { value: '50000', label: '50 000' },
   { value: '100000', label: '100 000' }
 ];
+
+const stageStrings = {
+  'preparing': 'Подготовка',
+  'first_stage': 'Этап 1',
+  'second_stage': 'Этап 2',
+  'third_stage': 'Этап 3',
+  'finished': 'Закончен'
+}
 
 interface renderVehicleInfoParams {
   head: string;
@@ -78,7 +55,7 @@ export const LotPage = () => {
     return <CustomLoader />;
   }
 
-  const isEnd = new Date(lot.end_at) < new Date();
+  const isEnd = new Date(lot.third_stage_at) < new Date();
   const isStarted = new Date() > new Date(lot.start_at);
 
   const renderVehicleInfo = ({ head, info }: renderVehicleInfoParams) => (
@@ -110,26 +87,26 @@ export const LotPage = () => {
         </Badge>
         <Flex mt={10} align="center" justify="space-between" px={10}>
           <Text c="white" fz={25}>
-            {lot.vehicle_name}
+            {lot.definition_name}
           </Text>
         </Flex>
         <Flex mx={10} mt={10} gap={20}>
           <Flex gap={5} align="center">
             <IconCalendar stroke={1.3} color="white" />
             <Text c="white" fz={15}>
-              {lot.year} г.
+              {lot.vehicle_year_of_production} г.
             </Text>
           </Flex>
           <Flex gap={5} align="center">
             <IconRoad stroke={1.3} color="white" />
             <Text c="white" fz={15}>
-              {lot.km.toLocaleString('ru-RU')} км
+              {Number(lot.return_km).toLocaleString('ru-RU')} км
             </Text>
           </Flex>
           <Flex gap={5} align="center">
             <IconBuildingSkyscraper stroke={1.3} color="white" />
             <Text c="white" fz={15}>
-              {lot.vehicle.city_of_remarketing_name}
+              {lot.city_of_remarketing_name}
             </Text>
           </Flex>
         </Flex>
@@ -146,7 +123,7 @@ export const LotPage = () => {
             <Card radius="lg" bg="blue.9">
               <Tooltip label="Тут скоро будет инструкция">
                 <Text ta="center" fz={25} c="white">
-                  Этап {lot.stage}
+                  {stageStrings[lot.stage as keyof typeof stageStrings]}
                 </Text>
               </Tooltip>
             </Card>
@@ -154,16 +131,26 @@ export const LotPage = () => {
             <Box mt={20}>
               <Card radius="lg">
                 <Stack>
-                  {lot.my_last_bid ? (
+                  {lot.stage === 'second_stage' && (
+                    <Tooltip label="Максимально предложенная сумма из первого этапа">
+                      <Flex justify="space-between" align="flex-end">
+                        <Text fz={20}>Минимальная ставка</Text>
+                        <Text fz={25} fw="bold" c="red.9">
+                          {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0}₽
+                        </Text>
+                      </Flex>
+                    </Tooltip>
+                  )}
+                  {lot.my_bid ? (
                     <Flex justify="space-between" align="flex-end">
                       <Text fz={20}>Ваша ставка</Text>
                       <Text fz={25} fw="bold" c="blue.9">
-                        {lot.my_last_bid.toLocaleString('ru-RU')}₽
+                        {lot.my_bid.toLocaleString('ru-RU')}₽
                       </Text>
                     </Flex>
                   ) : (
                     (isStarted || isEnd) && (
-                      <Flex justify="center" gap={10} align="flex-end">
+                      <Flex gap={10} align="flex-end">
                         <Text fz={20}>Вы не сделали ставку</Text>
                         <IconMoodSad stroke={1.5} size={30} />
                       </Flex>
@@ -180,6 +167,7 @@ export const LotPage = () => {
                       <Flex justify="space-between" align="flex-end">
                         <NumberInput
                           max={100000000}
+                          min={lot.stage === 'second_stage' ? lot.second_stage_minimal_price : 0}
                           size="lg"
                           w="60%"
                           placeholder="Ставка"
@@ -256,20 +244,20 @@ export const LotPage = () => {
             </Flex>
             <SimpleGrid cols={4} px={10} mt={20} spacing={32}>
               <Stack>
-                {renderVehicleInfo({ head: 'Марка', info: lot.vehicle.brand_name })}
-                {renderVehicleInfo({ head: 'КПП', info: lot.vehicle.vehicle_submodel.gearbox.name })}
+                {renderVehicleInfo({ head: 'Марка', info: lot.brand_name })}
+                {renderVehicleInfo({ head: 'КПП', info: lot.gearbox.name })}
               </Stack>
               <Stack>
-                {renderVehicleInfo({ head: 'Модель', info: lot.vehicle.vehicle_model_name })}
-                {renderVehicleInfo({ head: 'Тип топлива', info: lot.vehicle.vehicle_submodel.fuel_type.name })}
+                {renderVehicleInfo({ head: 'Модель', info: lot.vehicle_model_name })}
+                {renderVehicleInfo({ head: 'Тип топлива', info: lot.fuel_type.name })}
               </Stack>
               <Stack>
-                {renderVehicleInfo({ head: 'Г. В.', info: lot.year + ' г.' })}
-                {renderVehicleInfo({ head: 'Кузов', info: lot.vehicle.vehicle_submodel.body_type.name })}
+                {renderVehicleInfo({ head: 'Г. В.', info: lot.vehicle_year_of_production + ' г.' })}
+                {renderVehicleInfo({ head: 'Кузов', info: lot.body_type.name })}
               </Stack>
               <Stack>
-                {renderVehicleInfo({ head: 'Пробег', info: lot.km.toLocaleString('ru-RU') + ' км' })}
-                {renderVehicleInfo({ head: 'Город', info: lot.vehicle.city_of_remarketing_name })}
+                {renderVehicleInfo({ head: 'Пробег', info: Number(lot.return_km).toLocaleString('ru-RU') + ' км' })}
+                {renderVehicleInfo({ head: 'Город', info: lot.city_of_remarketing_name })}
               </Stack>
             </SimpleGrid>
           </Card>
@@ -284,8 +272,8 @@ export const LotPage = () => {
               </Text>
             </Flex>
             <Stack mt={20} pl={10}>
-              {renderVehicleInfo({ head: 'VIN-номер', info: lot.vehicle.vin })}
-              {renderVehicleInfo({ head: 'Гос. номер', info: lot.vehicle.vehicle_plate_no })}
+              {renderVehicleInfo({ head: 'VIN-номер', info: lot.vin })}
+              {renderVehicleInfo({ head: 'Гос. номер', info: lot.vehicle_plate_no })}
             </Stack>
           </Card>
 

@@ -1,27 +1,32 @@
 export interface Lot {
-    code: string;
-    end_at: string;
-    id: number;
-    km: number;
-    last_bid: number;
-    my_last_bid: number|null;
-    price: number;
-    sales_pictures: [{ url: string; id: number }];
-    short_name: string;
-    start_at: string;
-    vehicle: {
-        city_of_remarketing_name: string,
-        brand_name: string,
-        vehicle_model_name: string,
-        vehicle_submodel: {
-            body_type: { name: string },
-            gearbox: { name: string },
-            fuel_type: { name: string },
-        }
-        vehicle_plate_no: string,
-        vin: string
-    };
-    vehicle_name: string;
-    year: number;
-    stage: string;
+  id: number;
+  status: 'preparing' | 'agreement'| 'agreed' |'sold'| 'cancelled';
+  vehicle_id: number;
+  auction_id: number;
+  winner_user_id: number | null;
+  sales_price: number | null;
+  sales_comment: number | null;
+  second_stage_minimal_price: number | undefined;
+  definition_name: string;
+  return_km: string;
+  vehicle_year_of_production: number;
+  definition_short_name: string;
+  vehicle_plate_no: string;
+  vin: string;
+  address: string;
+  stage: 'preparing' | 'first_stage' | 'second_stage' | 'third_stage' | 'finished';
+  my_bid: number | null;
+  like_status: 'indifferent' | 'liked' | 'unliked';
+  code: string;
+  city_of_remarketing_name: string;
+  brand_name: string
+  vehicle_model_name: string,
+  body_type: { name: string },
+  gearbox: { name: string },
+  fuel_type: { name: string },
+  end_at: string;
+  start_at: string;
+  second_stage_at: string;
+  third_stage_at: string;
+  sales_pictures: [{ url: string; id: number }];
 }

@@ -12,10 +12,12 @@ export const LotsList = () => {
     page: searchParams.get('page') || '1',
     per_page: '12',
     params: {
-      vehicle_model_id: searchParams.get('vehicle_model_id'),
-      vehicle_brand_id: searchParams.get('vehicle_brand_id'),
-      city_id: searchParams.get('city_id'),
-      current: true
+      q: {
+        started: 'true',
+        vehicle_vehicle_model_id_eq: searchParams.get('vehicle_model_id'),
+        vehicle_vehicle_brand_id_eq: searchParams.get('vehicle_brand_id'),
+        vehicle_city_of_remarketing_id_eq: searchParams.get('city_id'),
+      },
     }
   });
 

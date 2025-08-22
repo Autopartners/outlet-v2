@@ -12,7 +12,7 @@ export const HomePage = () => {
   const nav = useNavigate();
   const { isMobile } = useApp()
   const { me } = useMe()
-  const { lots, isLoading, refetch } = useLots({ page: '1', per_page: '3', params: { current: true } })
+  const { lots, isLoading, refetch } = useLots({ page: '1', per_page: '3', params: { q: { started: true } } })
 
   return (
     <Container p={0} fluid>
