@@ -3,23 +3,12 @@ import { CompanyWindow } from '../../pages/profile/ui/pages/company.tsx';
 import { DocumentsWindow } from '../../pages/profile/ui/pages/documents.tsx';
 import { MainWindow } from '../../pages/profile/ui/pages/mainWindow.tsx';
 import { WonWindow } from '../../pages/profile/ui/pages/won.tsx';
+import type { Me } from '@/app/types/me';
 
-interface User {
-  id: null;
-  company: object;
-  name: string;
-  email0: string;
-  phone0: string;
-  phone_confirmed: boolean;
-  email_confirmed: boolean;
-  username: string;
-
-  [key: string]: string | number | boolean | object | null;
-}
 
 interface ProfileRouterProps {
-  user: User;
-  setUser: (user: User) => void;
+  user: Me;
+  setUser: (user: Me) => void;
   isUserFetching: boolean;
 }
 

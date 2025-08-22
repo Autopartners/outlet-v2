@@ -1,22 +1,5 @@
 import { createContext } from 'react';
-
-export interface Role {
-  id: number;
-}
-
-interface Me {
-  username: string;
-  fio: string;
-  id: null;
-  name: string;
-  menus: null;
-  phone0: string;
-  email0: string;
-  show_success_notifications: boolean;
-  roles: Role[];
-  ap_user: boolean;
-  outlet: boolean;
-}
+import type { Me } from '@/app/types/me';
 
 interface MeContextType {
   me: Me;
@@ -31,6 +14,14 @@ export const MeContext = createContext<MeContextType>({
     username: '',
     fio: '',
     id: null,
+    company: {
+      company_name: '',
+      address: '',
+      inn: '',
+      signature: '',
+      buyer: '',
+      buyer_base: ''
+    },
     name: '',
     menus: null,
     phone0: '',
@@ -38,7 +29,9 @@ export const MeContext = createContext<MeContextType>({
     show_success_notifications: true,
     roles: [],
     ap_user: false,
-    outlet: false
+    outlet: false,
+    phone_confirmed: false,
+    email_confirmed: false
   },
   setMe: () => {
   },

@@ -5,23 +5,12 @@ import { useEffect, useState } from 'react';
 import { useApp } from '@/app/providers/app/useApp';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
 import { ConfirmWithTimer } from '@/widgets/ConfirmWithTimer/ui/ConfirmWithTimer';
-
-interface User {
-  id: null;
-  company: object;
-  name: string;
-  email0: string;
-  phone0: string;
-  phone_confirmed: boolean;
-  email_confirmed: boolean;
-  username: string;
-
-  [key: string]: string | number | boolean | object | null;
-}
+import type { Me } from '@/app/types/me';
+import { initialMe } from '@/app/types/me';
 
 interface MainWindowProps {
-  user: User;
-  setUser: (user: User) => void;
+  user: Me;
+  setUser: (user: Me) => void;
   isUserFetching: boolean;
 }
 
@@ -70,16 +59,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
   const logout = async () => {
     try {
       await api.post(`common/users/${user.id}/logout`);
-      setUser({
-        id: null,
-        company: {},
-        name: '',
-        email0: '',
-        phone0: '',
-        phone_confirmed: false,
-        email_confirmed: false,
-        username: ''
-      });
+      setUser(initialMe);
       nav('/');
     } catch {
       notification.red('Ошибка!');

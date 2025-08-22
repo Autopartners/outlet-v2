@@ -4,23 +4,12 @@ import { Button, Flex, Text, TextInput } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
+import type { Me } from '@/app/types/me';
 
-interface User {
-  id: null;
-  company: object;
-  name: string;
-  email0: string;
-  phone0: string;
-  phone_confirmed: boolean;
-  email_confirmed: boolean;
-  username: string;
-
-  [key: string]: string | number | boolean | object | null;
-}
 
 interface CompanyWindowProps {
-  user: User;
-  setUser: (user: User) => void;
+  user: Me;
+  setUser: (user: Me) => void;
 }
 
 export const CompanyWindow = ({ user, setUser }: CompanyWindowProps) => {

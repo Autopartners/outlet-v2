@@ -7,32 +7,11 @@ import { useApp } from '@/app/providers/app/useApp';
 import dayjs from 'dayjs';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
 import { Loader } from '@mantine/core';
-
-interface User {
-  id: null;
-  company: object;
-  name: string;
-  email0: string;
-  phone0: string;
-  phone_confirmed: boolean;
-  email_confirmed: boolean;
-  username: string;
-  attachments?: Attachment[];
-  lawyer_comments?: [string, string][];
-  documents_comment?: string;
-
-  [key: string]: string | number | boolean | object | null | undefined;
-}
+import type { Me } from '@/app/types/me';
 
 interface DocumentsWindowProps {
-  user: User;
+  user: Me;
   isUserFetching: boolean;
-}
-
-interface Attachment {
-  id: number,
-  path: string;
-  filename: string;
 }
 
 export const DocumentsWindow = ({ user, isUserFetching }: DocumentsWindowProps) => {
