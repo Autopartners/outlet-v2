@@ -5,7 +5,25 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
 
-export const CompanyWindow = ({ user, setUser }) => {
+interface User {
+  id: null;
+  company: object;
+  name: string;
+  email0: string;
+  phone0: string;
+  phone_confirmed: boolean;
+  email_confirmed: boolean;
+  username: string;
+
+  [key: string]: string | number | boolean | object | null;
+}
+
+interface CompanyWindowProps {
+  user: User;
+  setUser: (user: User) => void;
+}
+
+export const CompanyWindow = ({ user, setUser }: CompanyWindowProps) => {
   const { notification } = useApp();
   const { data: company, isFetching } = useQuery({
     queryKey: ['company', user.id],
@@ -32,7 +50,7 @@ export const CompanyWindow = ({ user, setUser }) => {
     notification.green('Компания обновлена!');
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value });
     setChanged({ ...changed, [e.target.name]: company?.[e.target.name] !== e.target.value });
   };

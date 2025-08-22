@@ -6,7 +6,26 @@ import { useApp } from '@/app/providers/app/useApp';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
 import { ConfirmWithTimer } from '@/widgets/ConfirmWithTimer/ui/ConfirmWithTimer';
 
-export const MainWindow = ({ user, setUser, isUserFetching }) => {
+interface User {
+  id: null;
+  company: object;
+  name: string;
+  email0: string;
+  phone0: string;
+  phone_confirmed: boolean;
+  email_confirmed: boolean;
+  username: string;
+
+  [key: string]: string | number | boolean | object | null;
+}
+
+interface MainWindowProps {
+  user: User;
+  setUser: (user: User) => void;
+  isUserFetching: boolean;
+}
+
+export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) => {
   const nav = useNavigate();
   const { isMobile } = useApp();
   const [state, setState] = useState(user);
@@ -17,7 +36,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
     setState(user);
   }, [user]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value });
     setChanged({
       ...changed,
@@ -52,17 +71,18 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
     try {
       await api.post(`common/users/${user.id}/logout`);
       setUser({
-        username: '',
-        fio: '',
         id: null,
+        company: {},
         name: '',
-        menus: null,
+        email0: '',
         phone0: '',
-        email0: ''
+        phone_confirmed: false,
+        email_confirmed: false,
+        username: ''
       });
       nav('/');
-    } catch (error) {
-      console.log(error);
+    } catch {
+      notification.red('Ошибка!');
     }
   };
 
@@ -80,7 +100,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
         <TextInput name="name" value={state.name} label="Имя" onChange={handleChange} />
         <Flex
           gap="md"
-          align={!isMobile && 'flex-end'}
+          align={isMobile ? 'flex-start' : 'flex-end'}
           direction={isMobile ? 'column' : 'row'}
           justify="space-between"
         >
@@ -93,7 +113,12 @@ export const MainWindow = ({ user, setUser, isUserFetching }) => {
           />
           <ConfirmWithTimer type="phone" label="Телефон" user={state} setUser={setState} />
         </Flex>
-        <Flex gap="md" align={!isMobile && 'flex-end'} direction={isMobile ? 'column' : 'row'} justify="space-between">
+        <Flex
+          gap="md"
+          align={isMobile ? 'flex-start' : 'flex-end'}
+          direction={isMobile ? 'column' : 'row'}
+          justify="space-between"
+        >
           <TextInput
             name="email0"
             value={state.email0}

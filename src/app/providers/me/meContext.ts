@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 export interface Role {
-    id: number
+  id: number;
 }
 
 interface Me {
@@ -14,6 +14,8 @@ interface Me {
   email0: string;
   show_success_notifications: boolean;
   roles: Role[];
+  ap_user: boolean;
+  outlet: boolean;
 }
 
 interface MeContextType {
@@ -34,10 +36,14 @@ export const MeContext = createContext<MeContextType>({
     phone0: '',
     email0: '',
     show_success_notifications: true,
-    roles: []
+    roles: [],
+    ap_user: false,
+    outlet: false
   },
-  setMe: () => {},
-  tryMe: async () => {},
+  setMe: () => {
+  },
+  tryMe: async () => {
+  },
   loading: false,
   isAdmin: false
 });

@@ -18,6 +18,8 @@ const MeProvider = ({ children }: MeProviderProps) => {
     phone0: '',
     email0: '',
     show_success_notifications: true,
+    ap_user: false,
+    outlet: false
   });
 
   const [loading, setLoading] = useState(false);
@@ -31,8 +33,7 @@ const MeProvider = ({ children }: MeProviderProps) => {
         }
       });
       setMe((prev) => ({ ...prev, ...data }));
-    } catch (error) {
-      console.log(error);
+    } catch {
       return false;
     } finally {
       setLoading(false);

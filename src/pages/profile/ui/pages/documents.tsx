@@ -8,13 +8,40 @@ import dayjs from 'dayjs';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
 import { Loader } from '@mantine/core';
 
-export const DocumentsWindow = ({ user, isUserFetching }) => {
+interface User {
+  id: null;
+  company: object;
+  name: string;
+  email0: string;
+  phone0: string;
+  phone_confirmed: boolean;
+  email_confirmed: boolean;
+  username: string;
+  attachments?: Attachment[];
+  lawyer_comments?: [string, string][];
+  documents_comment?: string;
+
+  [key: string]: string | number | boolean | object | null | undefined;
+}
+
+interface DocumentsWindowProps {
+  user: User;
+  isUserFetching: boolean;
+}
+
+interface Attachment {
+  id: number,
+  path: string;
+  filename: string;
+}
+
+export const DocumentsWindow = ({ user, isUserFetching }: DocumentsWindowProps) => {
   const { me } = useMe();
   const [state, setState] = useState(user);
   const { notification } = useApp();
   const [loading, setLoading] = useState(false);
-  const [attached, setAttached] = useState([]);
-  const namespace = me['ap_user?'] ? '/erm' : me['outlet?'] ? '/outlet' : '/external';
+  const [attached, setAttached] = useState<File[]>([]);
+  const namespace = me.ap_user ? '/erm' : me.outlet ? '/outlet' : '/external';
 
   useEffect(() => {
     setState(user);
