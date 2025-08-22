@@ -1,24 +1,38 @@
 import { Image, Container, Text, Box, Divider, Button, SimpleGrid, Center, Loader } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-import { IconCar4wd, IconCreditCardRefund, IconEye, IconGavel, IconSearch, IconShield, IconUser } from '@tabler/icons-react';
+import {
+  IconCar4wd,
+  IconCreditCardRefund,
+  IconEye,
+  IconGavel,
+  IconSearch,
+  IconShield,
+  IconUser
+} from '@tabler/icons-react';
 import { AdvantageCard } from '@/pages/home/';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { useLots } from '@/pages/lots/index/api/useLots.ts';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
-import type { Lot } from '@/entities/lot/lot.ts';
+import type { Lot } from '@/entities/lot';
 import { useMe } from '@/app/providers/me/useMe.ts';
 
 export const HomePage = () => {
   const nav = useNavigate();
-  const { isMobile } = useApp()
-  const { me } = useMe()
-  const { lots, isLoading, refetch } = useLots({ page: '1', per_page: '3', params: { q: { started: true } } })
+  const { isMobile } = useApp();
+  const { me } = useMe();
+  const { lots, isLoading, refetch } = useLots({ page: '1', per_page: '3', params: { q: { started: true } } });
 
   return (
     <Container p={0} fluid>
       <Box pos="relative" h={550}>
         <Image src="/road.png" w="100%" h="100%" style={{ zIndex: 1, objectFit: 'cover' }} />
-        <Box w="100%" pos="absolute" top="50%" left="50%" style={{ transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 2 }}>
+        <Box
+          w="100%"
+          pos="absolute"
+          top="50%"
+          left="50%"
+          style={{ transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 2 }}
+        >
           <Text c="white" fz={isMobile ? 30 : 40} mb="md">
             Добро пожаловать на аукцион CarsOutlet
           </Text>
@@ -27,22 +41,22 @@ export const HomePage = () => {
           </Text>
         </Box>
       </Box>
-      {me.id && <Box ta='center' py={20} bg='gray.1'>
+      {me.id && <Box ta="center" py={20} bg="gray.1">
         <Text fz={isMobile ? 30 : 40}>Актуальные лоты</Text>
-        <Divider mx='auto' mt={10} w={100} color='blue.8' size={5} style={{ borderRadius: 20 }}/>
-        {isLoading ? <Center mt={40} mb={20}><Loader size='lg'/></Center> :
-          <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '60%'} mx='auto'>
+        <Divider mx="auto" mt={10} w={100} color="blue.8" size={5} style={{ borderRadius: 20 }} />
+        {isLoading ? <Center mt={40} mb={20}><Loader size="lg" /></Center> :
+          <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '60%'} mx="auto">
             {lots.map((lot: Lot) => (
               <Box key={lot.id}>
                 <LotCard lot={lot} maxPhotos={10} refetchLots={refetch} />
               </Box>
             ))}
           </SimpleGrid>}
-        <Button leftSection={<IconEye/>} color="blue.6" mt={20} size='lg' onClick={() => nav('/lots')}>
-            Смотреть все
+        <Button leftSection={<IconEye />} color="blue.6" mt={20} size="lg" onClick={() => nav('/lots')}>
+          Смотреть все
         </Button>
       </Box>}
-      <Box ta='center' mt={20} mb={40} w={isMobile ? '90%' : '60%'} mx='auto'>
+      <Box ta="center" mt={20} mb={40} w={isMobile ? '90%' : '60%'} mx="auto">
         <Text fz={isMobile ? 30 : 40}>Наши преимущества</Text>
         <Divider mx="auto" mt={10} w={100} color="blue.8" size={5} style={{ borderRadius: 20 }} />
         <Text fz={isMobile ? 18 : 20} mt={15}>

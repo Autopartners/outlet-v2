@@ -1,6 +1,6 @@
 import { Box, Container, SimpleGrid } from '@mantine/core';
 import { useLots } from '@/pages/lots/index/api/useLots.ts';
-import type { Lot } from '@/entities/lot/lot.ts';
+import type { Lot } from '@/entities/lot';
 import { useSearchParams } from 'react-router-dom';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
@@ -16,12 +16,14 @@ export const LotsList = () => {
         started: 'true',
         vehicle_vehicle_model_id_eq: searchParams.get('vehicle_model_id'),
         vehicle_vehicle_brand_id_eq: searchParams.get('vehicle_brand_id'),
-        vehicle_city_of_remarketing_id_eq: searchParams.get('city_id'),
-      },
+        vehicle_city_of_remarketing_id_eq: searchParams.get('city_id')
+      }
     }
   });
 
-  if (isLoading || !lots) { return <LotsListSkeletonLoader/>; }
+  if (isLoading || !lots) {
+    return <LotsListSkeletonLoader />;
+  }
 
   return (
     <Container size="xl">
@@ -29,10 +31,10 @@ export const LotsList = () => {
       <SimpleGrid spacing={30} cols={{ lg: 3, sm: 1 }}>
         {lots.map((lot: Lot) => (
           <Box key={lot.id}>
-            <LotCard lot={lot} maxPhotos={5} refetchLots={refetch}/>
+            <LotCard lot={lot} maxPhotos={5} refetchLots={refetch} />
           </Box>
         ))}
       </SimpleGrid>
-      <LotPages pages={pages} pos="bottom"/>
-    </Container>)
-}
+      <LotPages pages={pages} pos="bottom" />
+    </Container>);
+};

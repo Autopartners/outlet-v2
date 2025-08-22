@@ -1,5 +1,17 @@
-import { ActionIcon, Box, Button, Card, Flex, NumberInput, Popover, Stack, Text, ThemeIcon, Loader as MantineLoader } from '@mantine/core';
-import type { Lot } from '@/entities/lot/lot.ts';
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Card,
+  Flex,
+  NumberInput,
+  Popover,
+  Stack,
+  Text,
+  ThemeIcon,
+  Loader as MantineLoader
+} from '@mantine/core';
+import type { Lot } from '@/entities/lot';
 import { useNavigate } from 'react-router-dom';
 import { IconBuildingSkyscraper, IconHourglassHigh, IconHourglassLow, IconRoad, IconStar } from '@tabler/icons-react';
 import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
@@ -7,9 +19,9 @@ import { useState } from 'react';
 import { useBid } from '@/pages/lots/show/api/useBid.ts';
 
 interface LotCardProps {
-    lot: Lot
-    maxPhotos?: number;
-    refetchLots: () => void;
+  lot: Lot;
+  maxPhotos?: number;
+  refetchLots: () => void;
 }
 
 export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
@@ -23,34 +35,35 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
   return (
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
       <ApCarousel pictures={lot.sales_pictures.slice(0, maxPhotos || lot.sales_pictures.length - 1)} />
-      <Box p={10} ta='left' w='100%'>
-        <Flex justify='space-between'>
-          <Text fw='bold' fz={20}>
+      <Box p={10} ta="left" w="100%">
+        <Flex justify="space-between">
+          <Text fw="bold" fz={20}>
             {lot.definition_short_name.trim() || lot.definition_name.split(' ').slice(0, 2).join(' ')}, {lot.vehicle_year_of_production} г.
           </Text>
           <Card shadow="xs" withBorder p={5}><Text fz={14} fw="bold">{lot.code}</Text></Card>
         </Flex>
-        <Flex align='center' mt={5}>
-          <ThemeIcon variant='transparent' c='blue.7'><IconHourglassHigh size={20} /></ThemeIcon>
+        <Flex align="center" mt={5}>
+          <ThemeIcon variant="transparent" c="blue.7"><IconHourglassHigh size={20} /></ThemeIcon>
           <Text fz={14}>Аукцион начинается <strong>{(new Date(lot.start_at)).toLocaleDateString()}</strong></Text>
         </Flex>
-        <Flex align='center' mt={5}>
-          <ThemeIcon variant='transparent' c='blue.7'><IconHourglassLow size={20} /></ThemeIcon>
-          <Text fz={14}>Аукцион завершается <strong>{(new Date(lot.second_stage_at)).toLocaleDateString()}</strong></Text>
+        <Flex align="center" mt={5}>
+          <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
+          <Text fz={14}>Аукцион
+            завершается <strong>{(new Date(lot.second_stage_at)).toLocaleDateString()}</strong></Text>
         </Flex>
-        <Flex align='center' mt={5}>
-          <ThemeIcon variant='transparent' c='blue.7'><IconBuildingSkyscraper size={20} /></ThemeIcon>
+        <Flex align="center" mt={5}>
+          <ThemeIcon variant="transparent" c="blue.7"><IconBuildingSkyscraper size={20} /></ThemeIcon>
           <Text fz={14}>Город <strong>{lot.city_of_remarketing_name}</strong></Text>
         </Flex>
-        <Flex align='center' mt={5}>
-          <ThemeIcon variant='transparent' c='blue.7'><IconRoad size={20} /></ThemeIcon>
+        <Flex align="center" mt={5}>
+          <ThemeIcon variant="transparent" c="blue.7"><IconRoad size={20} /></ThemeIcon>
           <Text fz={14}>Пробег <strong>{Number(lot.return_km).toLocaleString('ru-RU')} км</strong></Text>
         </Flex>
-        <Flex mt={10} align='center' justify='space-between'>
+        <Flex mt={10} align="center" justify="space-between">
           {lot.my_bid ? (
             <Stack gap={0}>
               <Text fz={14}>Ваша ставка</Text>
-              <Text fz={20} fw='bold' c="blue.7">{lot.my_bid.toLocaleString('ru-RU')}₽</Text>
+              <Text fz={20} fw="bold" c="blue.7">{lot.my_bid.toLocaleString('ru-RU')}₽</Text>
             </Stack>
           ) : ((isStarted && !isEnd) && (
             <Stack gap={0}>
@@ -78,24 +91,24 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
                       bidMutation.mutate({ value: bid, lot_id: String(lot.id) });
                       refetchLots();
                     }}
-                    color='green.7'
+                    color="green.7"
                     disabled={!bid}
-                    leftSection={bidMutation.status === 'pending' && <MantineLoader type='dots' color='white' />}
+                    leftSection={bidMutation.status === 'pending' && <MantineLoader type="dots" color="white" />}
                   >
-                      Сохранить
+                    Сохранить
                   </Button>
                 </Popover.Dropdown>
               </Popover>
             </Stack>
           ))}
           <Flex gap={10}>
-            <Button variant='light' color="blue.7" w={150} onClick={() => nav(`/lots/${lot.id}`)}>Подробнее</Button>
-            <ActionIcon size="lg" color="yellow.3" variant="transparent" >
+            <Button variant="light" color="blue.7" w={150} onClick={() => nav(`/lots/${lot.id}`)}>Подробнее</Button>
+            <ActionIcon size="lg" color="yellow.3" variant="transparent">
               <IconStar />
             </ActionIcon>
           </Flex>
         </Flex>
       </Box>
     </Card>
-  )
-}
+  );
+};
