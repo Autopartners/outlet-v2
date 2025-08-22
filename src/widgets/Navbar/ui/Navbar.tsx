@@ -19,7 +19,7 @@ export function Navbar() {
     <AppShell header={{ height: lotsMobilePage ? 0 : 70 }} footer={{ height: isMobile ? 70 : 0 }} padding="md">
       {(!isMobile || !me.id || pathname === '/') && (
         <AppShell.Header>
-          <Group h="100%" px="md">
+          <Group h="100%" px="md" w="100rem" maw="100vw" mx="auto">
             <Group pos="relative" justify="space-between" style={{ flex: 1 }}>
               <NavLink to="/">
                 <Image src="/outlet_circle.png" h={35} />
