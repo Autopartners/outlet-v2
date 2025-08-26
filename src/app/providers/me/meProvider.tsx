@@ -1,26 +1,16 @@
 import React from 'react';
 import { useCallback, useMemo, useEffect, useState } from 'react';
 import { api } from '@/shared/lib/api.ts';
-import { MeContext, type Role } from '@/app/providers/me/meContext';
+import { MeContext } from '@/app/providers/me/meContext';
+import { type Role } from '@/entities/me';
+import { initialMe } from '@/entities/me';
 
 interface MeProviderProps {
   children: React.ReactNode;
 }
 
 const MeProvider = ({ children }: MeProviderProps) => {
-  const [me, setMe] = useState({
-    username: '',
-    fio: '',
-    id: null,
-    name: '',
-    menus: null,
-    roles: [{ id: 0 }],
-    phone0: '',
-    email0: '',
-    show_success_notifications: true,
-    ap_user: false,
-    outlet: false
-  });
+  const [me, setMe] = useState(initialMe);
 
   const [loading, setLoading] = useState(false);
 
