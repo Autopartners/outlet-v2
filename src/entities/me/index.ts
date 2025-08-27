@@ -1,2 +1,2 @@
-export type { Me, Role } from './model/types';
+export type { Me, Role, Company } from './model/types';
 export { initialMe } from './model/init';

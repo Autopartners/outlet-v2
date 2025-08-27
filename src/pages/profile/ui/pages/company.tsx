@@ -1,24 +1,19 @@
 import { useApp } from '@/app/providers/app/useApp';
 import { api } from '@/shared/lib/api';
-import { Button, Flex, Text, TextInput } from '@mantine/core';
-import { useQuery } from '@tanstack/react-query';
+import { Button, Flex, Loader, Text, TextInput } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { CustomLoader } from '@/shared/ui/Loader/Loader';
-import type { Me } from '@/entities/me';
+import type { Me, Company } from '@/entities/me';
 
 
 interface CompanyWindowProps {
   user: Me;
   setUser: (user: Me) => void;
+  isUserFetching: boolean;
 }
 
-export const CompanyWindow = ({ user, setUser }: CompanyWindowProps) => {
+export const CompanyWindow = ({ user, setUser, isUserFetching }: CompanyWindowProps) => {
   const { notification } = useApp();
-  const { data: company, isFetching } = useQuery({
-    queryKey: ['company', user.id],
-    queryFn: () => api.get(`/outlet/users/${user.id}/company`).then((e) => e.data),
-    enabled: !!user?.id
-  });
   const defaultCompany = {
     company_name: '',
     address: '',
@@ -28,38 +23,40 @@ export const CompanyWindow = ({ user, setUser }: CompanyWindowProps) => {
     buyer_base: ''
   };
   const [state, setState] = useState(defaultCompany);
+  const [loading, setLoading] = useState(false);
   const [changed, setChanged] = useState({});
 
   const submit = async () => {
-    if (!user.id) {
+    try {
+      setLoading(true);
+      await api.put(`/erm/users/${user.id}/company`, { company: state });
       setUser({ ...user, company: state });
-      return;
+      notification.green('Компания обновлена!');
+      setChanged({});
+    } catch {
+      notification.red('Ошибка');
+    } finally {
+      setLoading(false);
     }
-    await api.put(`${user ? '/erm' : '/external'}/users/${user.id}/company`, { company: state });
-    notification.green('Компания обновлена!');
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-    setChanged({ ...changed, [e.target.name]: company?.[e.target.name] !== e.target.value });
   };
 
   useEffect(() => {
-    if (company) {
-      setState(company);
-    }
-  }, [company]);
+    setState(user.company ?? defaultCompany);
+  }, [user]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as { name: keyof Company; value: string };
+
+    setState({ ...state, [name]: value });
+    setChanged({ ...changed, [name]: user?.company?.[name] !== value });
+  };
 
   const cancel = () => {
     setChanged({});
-    if (company) {
-      setState(company);
-    } else {
-      setState(defaultCompany);
-    }
+    setState(user?.company || defaultCompany);
   };
 
-  if (isFetching) {
+  if (isUserFetching) {
     return <CustomLoader />;
   }
 
@@ -73,14 +70,22 @@ export const CompanyWindow = ({ user, setUser }: CompanyWindowProps) => {
         <TextInput name="address" value={state?.address} label="Адрес" onChange={handleChange} />
         <TextInput name="inn" value={state?.inn} label="ИНН" onChange={handleChange} />
         <TextInput name="signature" value={state?.signature} label="Подписант" onChange={handleChange} />
-        <TextInput name="buyer" value={state?.buyer} label="Покупатель (родительный падеж)" onChange={handleChange} />
+        <TextInput
+          name="buyer"
+          value={state?.buyer}
+          label="Покупатель (родительный падеж)"
+          onChange={handleChange}
+        />
         <TextInput name="buyer_base" value={state?.buyer_base} label="На основании" onChange={handleChange} />
       </Flex>
       <Flex gap="sm">
         {Object.values(changed).some((e) => e) && (
           <>
-            <Button mt="md" size="sm" color="green" onClick={submit}>
-              Сохранить
+            <Button w={150} mt="md" size="sm" color="green" onClick={submit} disabled={loading}>
+              <Flex gap={5} align="center">
+                {loading && <Loader color="blue" size="sm" />}
+                Сохранить
+              </Flex>
             </Button>
             <Button mt="md" size="sm" onClick={cancel}>
               Отменить
