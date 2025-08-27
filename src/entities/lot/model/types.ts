@@ -1,6 +1,6 @@
 export interface Lot {
   id: number;
-  status: 'preparing' | 'agreement'| 'agreed' |'sold'| 'cancelled';
+  status: 'preparing' | 'agreement' | 'agreed' | 'sold' | 'cancelled';
   vehicle_id: number;
   auction_id: number;
   winner_user_id: number | null;
@@ -28,5 +28,5 @@ export interface Lot {
   start_at: string;
   second_stage_at: string;
   third_stage_at: string;
-  sales_pictures: [{ url: string; id: number }];
+  sales_pictures_limited: [{ url: string; id: number }];
 }

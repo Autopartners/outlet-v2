@@ -31,7 +31,7 @@ const stageStrings = {
   'second_stage': 'Этап 2',
   'third_stage': 'Этап 3',
   'finished': 'Закончен'
-}
+};
 
 interface renderVehicleInfoParams {
   head: string;
@@ -73,7 +73,14 @@ export const LotPage = () => {
         <Box pos="absolute" top={20} right={20}>
           <Flex gap={10}>
             {isAdmin && (
-              <ActionIcon component="a" target="_blank" href={`${connecturl}outlet/lots/${id}`} size="lg" color="white" variant="light">
+              <ActionIcon
+                component="a"
+                target="_blank"
+                href={`${connecturl}outlet/lots/${id}`}
+                size="lg"
+                color="white"
+                variant="light"
+              >
                 <IconSettings />
               </ActionIcon>
             )}
@@ -221,7 +228,8 @@ export const LotPage = () => {
                     {new Date(lot.start_at).toLocaleDateString('ru-RU')} - {new Date(lot.end_at).toLocaleDateString('ru-RU')}
                   </Text>
                   <Flex gap={10}>
-                    {isEnd ? <IconClock color="white" /> : isStarted ? <IconBolt color="white" /> : <IconLoader color="white" />}
+                    {isEnd ? <IconClock color="white" /> : isStarted ? <IconBolt color="white" /> :
+                      <IconLoader color="white" />}
                     <Text fz={16} c="white">
                       {isEnd ? 'Завершен' : isStarted ? 'В процессе' : 'Ждем начала'}
                     </Text>
