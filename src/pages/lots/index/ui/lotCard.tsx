@@ -44,12 +44,12 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
         </Flex>
         <Flex align="center" mt={5}>
           <ThemeIcon variant="transparent" c="blue.7"><IconHourglassHigh size={20} /></ThemeIcon>
-          <Text fz={14}>Аукцион начинается <strong>{(new Date(lot.start_at)).toLocaleDateString()}</strong></Text>
+          <Text fz={14}>Аукцион начинается <strong>{(new Date(lot.start_at)).toLocaleString()}</strong></Text>
         </Flex>
         <Flex align="center" mt={5}>
           <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
           <Text fz={14}>Аукцион
-            завершается <strong>{(new Date(lot.second_stage_at)).toLocaleDateString()}</strong></Text>
+            завершается <strong>{(new Date(lot.third_stage_at)).toLocaleString()}</strong></Text>
         </Flex>
         <Flex align="center" mt={5}>
           <ThemeIcon variant="transparent" c="blue.7"><IconBuildingSkyscraper size={20} /></ThemeIcon>
