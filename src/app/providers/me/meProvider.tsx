@@ -37,7 +37,7 @@ const MeProvider = ({ children }: MeProviderProps) => {
   }, [tryMe, me.id]);
 
   const isAdmin = me.roles.some((e: Role) => e.id === 18);
-  const isAuctionConfirmed = !!me?.auction_confirmed;
+  const isAuctionConfirmed = !!me?.['auction_confirmed?'];
 
   const contextValue = useMemo(() => (
     { me, setMe, tryMe, loading, isAdmin, isAuctionConfirmed }

@@ -36,7 +36,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
   const submit = async () => {
     const { name, email0, phone0 } = state;
     try {
-      const { data } = await api.patch(`outlet/users/${user.id}`, {
+      const { data } = await api.patch(`common/users/${user.id}`, {
         user: {
           name,
           email0,
