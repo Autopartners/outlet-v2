@@ -19,7 +19,7 @@ import { useMe } from '@/app/providers/me/useMe.ts';
 export const HomePage = () => {
   const nav = useNavigate();
   const { isMobile } = useApp();
-  const { me } = useMe();
+  const { me, isAuctionConfirmed } = useMe();
   const { lots, isLoading, refetch } = useLots({ page: '1', per_page: '3', params: { q: { started: true } } });
 
   return (
@@ -41,7 +41,7 @@ export const HomePage = () => {
           </Text>
         </Box>
       </Box>
-      {me.id && <Box ta="center" py={20} bg="gray.1">
+      {me.id && isAuctionConfirmed && <Box ta="center" py={20} bg="gray.1">
         <Text fz={isMobile ? 30 : 40}>Актуальные лоты</Text>
         <Divider mx="auto" mt={10} w={100} color="blue.8" size={5} style={{ borderRadius: 20 }} />
         {isLoading ? <Center mt={40} mb={20}><Loader size="lg" /></Center> :

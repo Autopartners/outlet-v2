@@ -37,10 +37,11 @@ const MeProvider = ({ children }: MeProviderProps) => {
   }, [tryMe, me.id]);
 
   const isAdmin = me.roles.some((e: Role) => e.id === 18);
+  const isAuctionConfirmed = !!me?.auction_confirmed;
 
   const contextValue = useMemo(() => (
-    { me, setMe, tryMe, loading, isAdmin }
-  ), [me, tryMe, loading, isAdmin]);
+    { me, setMe, tryMe, loading, isAdmin, isAuctionConfirmed }
+  ), [me, tryMe, loading, isAdmin, isAuctionConfirmed]);
 
   return <MeContext.Provider value={contextValue}>{children}</MeContext.Provider>;
 };

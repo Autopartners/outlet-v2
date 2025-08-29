@@ -30,6 +30,7 @@ export interface Me {
   roles: Role[];
   ap_user: boolean;
   outlet: boolean;
+  auction_confirmed?: boolean;
   attachments?: Attachment[];
   lawyer_comments?: [string, string][];
   documents_comment?: string;

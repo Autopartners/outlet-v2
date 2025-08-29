@@ -8,6 +8,7 @@ interface MeContextType {
   tryMe: () => Promise<boolean | void>;
   loading: boolean;
   isAdmin: boolean;
+  isAuctionConfirmed: boolean;
 }
 
 export const MeContext = createContext<MeContextType>({
@@ -17,5 +18,6 @@ export const MeContext = createContext<MeContextType>({
   tryMe: async () => {
   },
   loading: false,
-  isAdmin: false
+  isAdmin: false,
+  isAuctionConfirmed: false
 });
