@@ -7,7 +7,7 @@ import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
 import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 import {
-  IconAdjustmentsHorizontal, IconBellRinging, IconBolt, IconBuildingSkyscraper, IconCalendar, IconCarCrash,
+  IconAdjustmentsHorizontal, IconBolt, IconBuildingSkyscraper, IconCalendar, IconCarCrash,
   IconCarGarage, IconClipboard, IconClock, IconLoader, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
   IconSettings, IconShield, IconX
 } from '@tabler/icons-react';
@@ -212,9 +212,6 @@ export const LotPage = () => {
                       <Text c="blue.9" ta="center" fw="bold" fz={20}>
                         Аукцион еще не начался
                       </Text>
-                      <Button mt={10} w="fit-content" mx="auto" leftSection={<IconBellRinging />} variant="light">
-                        Уведомить меня
-                      </Button>
                     </Card>
                   )}
                 </Stack>
