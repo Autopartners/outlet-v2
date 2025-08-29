@@ -9,12 +9,12 @@ interface UseLotsParams {
 }
 
 export const useLots = ({ page, per_page = '12', params }: UseLotsParams) => {
-  const { me } = useMe();
+  const { me, isAuctionConfirmed } = useMe();
 
   const { data: lots, isLoading, refetch } = useQuery({
     queryKey: ['lots', page, per_page, params],
     queryFn: () => api.get('outlet/lots', { params: { page, per_page, ...params } }).then(e => e.data),
-    enabled: !!me.id
+    enabled: !!me.id && isAuctionConfirmed
   });
 
   return { lots: lots?.result, pages: lots?.pages || 1, isLoading, refetch };
