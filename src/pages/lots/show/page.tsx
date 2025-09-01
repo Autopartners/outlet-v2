@@ -174,7 +174,6 @@ export const LotPage = () => {
                       <Flex justify="space-between" align="flex-end">
                         <NumberInput
                           max={100000000}
-                          min={lot.stage === 'second_stage' ? lot.second_stage_minimal_price : 0}
                           size="lg"
                           w="60%"
                           placeholder="Ставка"
@@ -189,7 +188,7 @@ export const LotPage = () => {
                           onClick={() => bidMutation.mutate({ value: bid, lot_id: id })}
                           color="green.7"
                           size="lg"
-                          disabled={!bid}
+                          disabled={!bid || Number(bid) < (lot.second_stage_minimal_price ?? 0)}
                           w="35%"
                           leftSection={bidMutation.status === 'pending' && <MantineLoader type="dots" color="white" />}
                         >

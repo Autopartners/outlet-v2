@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
   ThemeIcon,
-  Loader as MantineLoader
+  Loader as MantineLoader, Tooltip
 } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +31,6 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
 
   const isEnd = new Date(lot.third_stage_at) < new Date();
   const isStarted = new Date() > new Date(lot.start_at);
-  console.log('lot', lot);
 
   return (
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
@@ -67,15 +66,25 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
               <Text fz={20} fw="bold" c="blue.7">{lot.my_bid.toLocaleString('ru-RU')}₽</Text>
             </Stack>
           ) : ((isStarted && !isEnd) && (
-            <Stack gap={0}>
+            <Stack>
               <Popover width={200} position="bottom" withArrow shadow="md">
                 <Popover.Target>
                   <Button variant="default">Сделать ставку</Button>
                 </Popover.Target>
                 <Popover.Dropdown w={250}>
+                  {lot.stage === 'second_stage' && (
+                    <Tooltip label="Максимально предложенная сумма из первого этапа">
+                      <Flex direction="column" align="flex-start">
+                        <Text fz={16}>Минимальная ставка</Text>
+                        <Text fz={18} fw="bold" c="red.9">
+                          {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0}₽
+                        </Text>
+                      </Flex>
+                    </Tooltip>
+                  )}
                   <NumberInput
                     max={100000000}
-                    min={lot.stage === 'second_stage' ? lot.second_stage_minimal_price : 0}
+                    mt="xs"
                     size="md"
                     placeholder="Ставка"
                     allowDecimal={false}
@@ -93,7 +102,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
                       refetchLots();
                     }}
                     color="green.7"
-                    disabled={!bid}
+                    disabled={!bid || Number(bid) < (lot.second_stage_minimal_price ?? 0)}
                     leftSection={bidMutation.status === 'pending' && <MantineLoader type="dots" color="white" />}
                   >
                     Сохранить
