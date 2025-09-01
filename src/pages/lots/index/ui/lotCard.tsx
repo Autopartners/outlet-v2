@@ -31,6 +31,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
 
   const isEnd = new Date(lot.third_stage_at) < new Date();
   const isStarted = new Date() > new Date(lot.start_at);
+  console.log('lot', lot);
 
   return (
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
@@ -49,7 +50,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
         <Flex align="center" mt={5}>
           <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
           <Text fz={14}>Аукцион
-            завершается <strong>{(new Date(lot.third_stage_at)).toLocaleString()}</strong></Text>
+            завершается <strong>{(new Date(lot.end_at)).toLocaleString()}</strong></Text>
         </Flex>
         <Flex align="center" mt={5}>
           <ThemeIcon variant="transparent" c="blue.7"><IconBuildingSkyscraper size={20} /></ThemeIcon>
