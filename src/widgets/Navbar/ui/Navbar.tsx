@@ -1,4 +1,4 @@
-import { AppShell, Image, Group, Button, rem } from '@mantine/core';
+import { AppShell, Image, Group, Button, rem, Menu, Flex } from '@mantine/core';
 import { NavLink, useLocation } from 'react-router';
 import { AppRouter } from '@/app/routers/appRouter.tsx';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { NavStatus } from '@/widgets/Navbar/ui/NavStatus';
 import { useMe } from '@/app/providers/me/useMe';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { AuthButtons } from '@/widgets/Navbar/ui/AuthButtons';
-import { IconCar, IconHome, IconInfoCircle } from '@tabler/icons-react';
+import { IconCar, IconHome, IconBaselineDensityMedium, IconSquareRotated, IconInfoCircle } from '@tabler/icons-react';
 
 export function Navbar() {
   const nav = useNavigate();
@@ -82,28 +82,62 @@ export function Navbar() {
       </AppShell.Main>
       <AppShell.Footer>
         <Group justify="space-around" p="md" hiddenFrom="md" fw={500}>
-          <Button variant={pathname === '/' ? 'light' : 'subtle'} size="md" color="black" onClick={() => nav('/')}>
+          <Button variant={pathname === '/' ? 'light' : 'subtle'} size="xs" color="black" onClick={() => nav('/')}>
             <IconHome size={30} />
           </Button>
           {me.id && (
             <Button
               variant={pathname.includes('/lots') ? 'light' : 'subtle'}
-              size="md"
+              size="xs"
               color="black"
               onClick={() => nav('/lots')}
             >
               <IconCar size={30} />
             </Button>
           )}
-          <Button
-            variant={pathname === '/about' ? 'light' : 'subtle'}
-            size="md"
-            color="black"
-            onClick={() => nav('/about')}
-          >
-            <IconInfoCircle size={30} />
-          </Button>
           {me.id && <NavStatus />}
+          <Menu
+            position="top"
+            offset={20}
+            shadow="md"
+            width={200}
+            openDelay={100}
+            closeDelay={100}
+          >
+            <Menu.Target>
+              <Button
+                size="xs"
+                variant="subtle"
+                color="black"
+              >
+                <IconBaselineDensityMedium size={30} />
+              </Button>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Dropdown>
+                <Flex direction="column" gap="sm" p="xs">
+                  <Button
+                    fullWidth
+                    variant={pathname === '/about' ? 'filled' : 'light'}
+                    color="dark"
+                    onClick={() => nav('/about')}
+                    leftSection={<IconSquareRotated size={20} />}
+                  >
+                    О компании
+                  </Button>
+                  <Button
+                    fullWidth
+                    variant={pathname === '/rules' ? 'filled' : 'light'}
+                    color="dark"
+                    onClick={() => nav('/rules')}
+                    leftSection={<IconInfoCircle size={20} />}
+                  >
+                    Правила
+                  </Button>
+                </Flex>
+              </Menu.Dropdown>
+            </Menu.Dropdown>
+          </Menu>
         </Group>
       </AppShell.Footer>
     </AppShell>
