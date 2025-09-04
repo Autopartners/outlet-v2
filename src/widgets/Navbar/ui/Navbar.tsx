@@ -98,7 +98,7 @@ export function Navbar() {
           {me.id && <NavStatus />}
           <Menu
             position="top"
-            offset={20}
+            offset={15}
             shadow="md"
             width={200}
             openDelay={100}
@@ -110,7 +110,7 @@ export function Navbar() {
                 variant="subtle"
                 color="black"
               >
-                <IconBaselineDensityMedium size={30} />
+                <IconBaselineDensityMedium size={24} />
               </Button>
             </Menu.Target>
             <Menu.Dropdown>
