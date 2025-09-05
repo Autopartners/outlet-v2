@@ -7,6 +7,7 @@ import { useMe } from '@/app/providers/me/useMe';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { AuthButtons } from '@/widgets/Navbar/ui/AuthButtons';
 import { IconCar, IconHome, IconBaselineDensityMedium, IconSquareRotated, IconInfoCircle } from '@tabler/icons-react';
+import { CustomLoader } from '@/shared/ui/Loader/Loader';
 
 export function Navbar() {
   const nav = useNavigate();
@@ -14,6 +15,10 @@ export function Navbar() {
   const { isMobile } = useApp();
   const { me, loading } = useMe();
   const lotsMobilePage = pathname === '/lots' && isMobile;
+
+  if (loading) {
+    return <CustomLoader label="Загружаем информацию о пользователе..." />;
+  }
 
   return (
     <AppShell header={{ height: lotsMobilePage ? 0 : 70 }} footer={{ height: isMobile ? 70 : 0 }} padding="md">
