@@ -122,7 +122,7 @@ export const LotPage = () => {
         <Grid p={10}>
           <Grid.Col span={7} style={{ display: 'grid', gridRow: 'span 5' }}>
             <Card withBorder radius="md" p={0}>
-              <ApCarousel h={500} pictures={lot.sales_pictures} />
+              <ApCarousel h={500} pictures={lot.sales_pictures} bottom={30} />
             </Card>
           </Grid.Col>
 
@@ -344,7 +344,7 @@ export const LotPage = () => {
 
       <Card bg="gray.1" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }} mb={40}>
         {activeInfoPage === 'to' && <ToInfoPage />}
-        {activeInfoPage === 'damages' && <DamagesInfoPage />}
+        {activeInfoPage === 'damages' && <DamagesInfoPage damages={lot.damages || []} />}
         {activeInfoPage === 'kit' && <KitInfoPage />}
       </Card>
     </Container>

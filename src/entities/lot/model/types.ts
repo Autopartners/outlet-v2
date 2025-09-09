@@ -29,4 +29,5 @@ export interface Lot {
   second_stage_at: string;
   third_stage_at: string;
   sales_pictures_limited: [{ url: string; id: number }];
+  damages: Array<object>;
 }
