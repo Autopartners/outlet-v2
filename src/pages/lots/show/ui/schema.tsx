@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo, useState } from 'react';
 
 interface DamagePart {
   canvas_position_x: number;
@@ -7,145 +7,171 @@ interface DamagePart {
 }
 
 interface Damage {
-  left_right: number;
+  left_right: number; // 0 = left, 1 = left?, 2 = right, 3 = both
   damage_part: DamagePart;
 }
 
 interface Point {
-  coordinates: { x: number; y: number };
-  hoverArea: [number, number, number, number];
+  x: number;
+  y: number;
   index: number;
 }
 
 interface SchemaProps {
   selected: number;
   setSelected: (i: number) => void;
-  hovered?: number;
-  setHovered: (i: number | undefined) => void;
+  hovered?: number | null;
+  setHovered: (i: number | null) => void;
   damages: Damage[];
 }
 
 const Schema = ({ selected, setSelected, hovered, setHovered, damages }: SchemaProps) => {
-  const schema = useRef<HTMLCanvasElement | null>(null);
-  const bmw = useRef<HTMLImageElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
   const size = { w: 300, h: 260 };
+  const pointRadius = 10;
+  const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
 
-  const points: Point[][] = preparePoints(damages, size.w, size.h);
+  const points: Point[] = useMemo(() => {
+    return damages.flatMap((damage, i) => {
+      const d = damage.damage_part;
+      let x = (d.canvas_position_x || 0) * (size.w / 325);
+      const y = (d.canvas_position_y || 0) * (size.h / 281);
 
-  const click = () => {
-    if (hovered) { setSelected(hovered); }
-  };
+      const pts: Point[] = [];
 
-  const addPicture = () => {
-    const c = schema.current;
-    if (!c) { return; }
+      // Проверка сторон
+      if (damage.left_right > 1) {
+        if (damage.left_right > 2) {
+          pts.push({ x, y, index: i });
+        } // обе
+        x = size.w - x; // зеркалирование вправо
+      }
 
-    c.width = size.w;
-    c.height = size.h;
+      pts.push({ x, y, index: i });
+      return pts;
+    });
+  }, [damages, size.w, size.h]);
+
+  const [imgReady, setImgReady] = useState(false);
+
+  // Ожидаем загрузки картинки
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img) {
+      return;
+    }
+
+    if (img.complete && img.naturalWidth !== 0) {
+      setImgReady(true);
+      return;
+    }
+
+    const onLoad = () => setImgReady(true);
+    img.addEventListener('load', onLoad);
+    return () => img.removeEventListener('load', onLoad);
+  }, []);
+
+  // Настройка canvas под DPR
+  useEffect(() => {
+    const c = canvasRef.current;
+    if (!c) {
+      return;
+    }
+
+    c.style.width = `${size.w}px`;
+    c.style.height = `${size.h}px`;
+    c.width = size.w * dpr;
+    c.height = size.h * dpr;
 
     const ctx = c.getContext('2d');
-    if (!ctx) { return; }
-
-    ctx.clearRect(0, 0, c.width, c.height);
-
-    const background = bmw.current;
-    if (background && background.complete) {
-      ctx.drawImage(background, 5, 5, size.w - 10, size.h - 10);
+    if (ctx) {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
-  };
+  }, [dpr]);
 
-  const hover = (e: MouseEvent) => {
-    if (!schema.current) { return; }
-    const r = schema.current.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
+  // Отрисовка фона и точек
+  const draw = () => {
+    const c = canvasRef.current;
+    if (!c) {
+      return;
+    }
+    const ctx = c.getContext('2d');
+    if (!ctx) {
+      return;
+    }
 
-    const damage = points.flat().find((point) => {
-      const [x1, x2, y1, y2] = point.hoverArea;
-      return x > x1 && x < x2 && y > y1 && y < y2;
-    });
+    ctx.clearRect(0, 0, size.w, size.h);
 
-    setHovered(damage?.index);
-  };
+    if (imgReady && imgRef.current) {
+      ctx.drawImage(imgRef.current, 5, 5, size.w - 10, size.h - 10);
+    }
 
-  const drawPoints = () => {
-    if (!points || !schema.current) { return; }
-    const ctx = schema.current.getContext('2d');
-    if (!ctx) { return; }
-
-    points.flat().forEach((point) => {
-      const { x, y } = point.coordinates;
-      const i = point.index;
-      if (x === 0 || y === 0) { return; }
-
-      ctx.fillStyle = '#aaa';
-      if (i === hovered) { ctx.fillStyle = '#33b5e5'; }
-      if (i === selected) { ctx.fillStyle = '#007bff'; }
-
+    points.forEach(p => {
       ctx.beginPath();
-      ctx.arc(x, y, 10, 0, 2 * Math.PI);
+      ctx.fillStyle = p.index === selected ? '#007bff' : (p.index === hovered ? '#33b5e5' : '#aaa');
+      ctx.arc(p.x, p.y, pointRadius, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.fillStyle = '#fff';
       ctx.font = 'bold 12px Roboto';
-      const pos = i > 9 ? 7 : 4;
-      ctx.fillText(i.toString(), x - pos, y + 4);
+      const pos = p.index > 9 ? 7 : 4;
+      ctx.fillText((p.index + 1).toString(), p.x - pos, p.y + 4);
       ctx.stroke();
     });
   };
 
   useEffect(() => {
-    addPicture();
-    drawPoints();
-  }, [damages, hovered, selected]);
+    draw();
+  }, [points, hovered, selected, imgReady]);
 
+  // Обработчики мыши
   useEffect(() => {
-    const canvas = schema.current;
-    if (canvas) { canvas.onmousemove = hover; }
-    if (bmw.current) {
-      bmw.current.onload = () => {
-        addPicture();
-        drawPoints();
-      };
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return;
     }
-  }, []);
+
+    const handleMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+      const point = points.find(p => {
+        const dx = x - p.x * dpr;
+        const dy = y - p.y * dpr;
+        return Math.sqrt(dx * dx + dy * dy) <= pointRadius * dpr;
+      });
+
+      setHovered(point ? point.index : null);
+    };
+
+    const handleLeave = () => setHovered(null);
+    const handleClick = () => {
+      if (hovered !== null && hovered !== undefined) {
+        setSelected(hovered);
+      }
+    };
+
+    canvas.addEventListener('mousemove', handleMove);
+    canvas.addEventListener('mouseleave', handleLeave);
+    canvas.addEventListener('click', handleClick);
+
+    return () => {
+      canvas.removeEventListener('mousemove', handleMove);
+      canvas.removeEventListener('mouseleave', handleLeave);
+      canvas.removeEventListener('click', handleClick);
+    };
+  }, [points, hovered, setHovered, setSelected, dpr]);
 
   return (
     <>
-      <canvas ref={schema} onClick={click} />
+      <canvas ref={canvasRef} />
       <div style={{ display: 'none' }}>
-        <img
-          ref={bmw}
-          alt="vehicle_template"
-          src="/bmw.jpg"
-          width={size.w}
-          height={size.h}
-        />
+        <img ref={imgRef} src="/bmw.jpg" width={size.w} height={size.h} alt="vehicle_template" />
       </div>
     </>
   );
-};
-
-const preparePoints = (damages: Damage[], w: number, h: number): Point[][] => {
-  return damages.map((damage, i) => {
-    const { left_right } = damage;
-    const d = damage.damage_part;
-    let x = d.canvas_position_x * (w / 325);
-    const y = d.canvas_position_y * (h / 281);
-    const p: Point[] = [];
-
-    const toPoint = (x: number, y: number, i: number) => {
-      const sq: [number, number, number, number] = [x - 9, x + 9, y - 9, y + 9];
-      p.push({ coordinates: { x, y }, hoverArea: sq, index: i + 1 });
-    };
-
-    if (left_right > 1) {
-      if (left_right > 2) { toPoint(x, y, i); } // both
-      x = w - x; // right
-    }
-    toPoint(x, y, i);
-    return p;
-  });
 };
 
 export default Schema;

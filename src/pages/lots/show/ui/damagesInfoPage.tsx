@@ -27,7 +27,7 @@ interface damagesInfoPageParams {
 
 export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
   const [selected, setSelected] = useState(1);
-  const [hovered, setHovered] = useState<number>();
+  const [hovered, setHovered] = useState<number | null>();
 
   const list = damages.map((d, i) => {
     const types = d.part_damages
@@ -38,8 +38,8 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
       .join(', ');
     const name = `${d.damage_part.title}: ${types}`;
 
-    const isHovered = hovered === i + 1;
-    const isSelected = selected === i + 1;
+    const isHovered = hovered === i;
+    const isSelected = selected === i;
 
     return (
       <Card
@@ -50,8 +50,8 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
         mb={6}
         padding={8}
         bg={isHovered ? '#e7f5ff' : isSelected ? '#edf2ff' : 'white'}
-        onMouseEnter={() => setHovered(i + 1)}
-        onClick={() => setSelected(i + 1)}
+        onMouseEnter={() => setHovered(i)}
+        onClick={() => setSelected(i)}
         style={{
           cursor: 'pointer',
           transition: 'background 0.2s'
@@ -78,7 +78,7 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
     <Flex justify="center">
       <Card w="80%" withBorder p="lg">
         <Flex justify="space-between" align="flex-start">
-          <ApCarousel pictures={damages[selected - 1].pictures || []} h={400} w={750}></ApCarousel>
+          <ApCarousel pictures={damages[selected].pictures || []} h={400} w={750}></ApCarousel>
           <Flex direction="column" maw="30%">
             <Schema {...actions} damages={damages} />
             <Flex direction="column">
