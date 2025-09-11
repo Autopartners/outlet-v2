@@ -51,8 +51,9 @@ export const LotPage = () => {
   if (error) {
     nav('/lots');
   }
-  if (isLoading || !lot) {
-    return <CustomLoader />;
+
+  if (isLoading) {
+    return <CustomLoader label="Загружаем информацию о лоте..." />;
   }
 
   const isEnd = new Date(lot.third_stage_at) < new Date();
