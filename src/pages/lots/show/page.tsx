@@ -56,8 +56,8 @@ export const LotPage = () => {
     return <CustomLoader label="Загружаем информацию о лоте..." />;
   }
 
-  const isEnd = new Date(lot.third_stage_at) < new Date();
-  const isStarted = new Date() > new Date(lot.start_at);
+  const isEnd = lot.stage === 'finished' || lot.stage === 'third_stage';
+  const isStarted = lot.stage && lot.stage !== 'preparing';
 
   const renderVehicleInfo = ({ head, info }: renderVehicleInfoParams) => (
     <Stack gap={0}>
@@ -167,7 +167,7 @@ export const LotPage = () => {
                   {isEnd ? (
                     <Card bg="red.1" radius="lg" p={10}>
                       <Text c="red.9" ta="center" fw="bold" fz={20}>
-                        Аукцион уже завершен
+                        Второй этап завершен, ставку поставить нельзя
                       </Text>
                     </Card>
                   ) : isStarted ? (
