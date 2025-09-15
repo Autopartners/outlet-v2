@@ -365,7 +365,7 @@ export const LotPage = () => {
 
       {/* Контент */}
       <Card bg="gray.1" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }} mb={40}>
-        {activeInfoPage === 'to' && <ToInfoPage />}
+        {activeInfoPage === 'to' && <ToInfoPage service_requests={lot.service_requests || []} />}
         {activeInfoPage === 'damages' && <DamagesInfoPage damages={lot.damages || []} />}
         {activeInfoPage === 'kit' && <KitInfoPage />}
       </Card>
