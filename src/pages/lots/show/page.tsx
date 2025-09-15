@@ -5,7 +5,6 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
-import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 import {
   IconAdjustmentsHorizontal, IconBuildingSkyscraper, IconCalendar, IconCarCrash,
   IconCarGarage, IconClipboard, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
@@ -16,9 +15,11 @@ import { KitInfoPage } from '@/pages/lots/show/ui/kitInfoPage.tsx';
 import { DamagesInfoPage } from '@/pages/lots/show/ui/damagesInfoPage.tsx';
 import { ToInfoPage } from '@/pages/lots/show/ui/toInfoPage.tsx';
 import { useMe } from '@/app/providers/me/useMe.ts';
-import { connecturl } from '@/shared/lib/api.ts';
+import { connecturl, ermurl } from '@/shared/lib/api.ts';
 import { useBid } from '@/pages/lots/show/api/useBid.ts';
 import { useApp } from '@/app/providers/app/useApp';
+import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
 
 const stageStrings = {
   'preparing': 'Подготовка',
@@ -31,6 +32,11 @@ const stageStrings = {
 interface renderVehicleInfoParams {
   head: string;
   info: string;
+}
+
+interface Picture {
+  url: string;
+  id: number;
 }
 
 export const LotPage = () => {
@@ -53,6 +59,18 @@ export const LotPage = () => {
 
   const isEnd = lot.stage === 'finished' || lot.stage === 'third_stage';
   const isStarted = lot.stage && lot.stage !== 'preparing';
+
+
+  const galleryItems = lot.sales_pictures.map((p: Picture) => ({
+    original: ermurl + p.url,
+    thumbnail: ermurl + p.url
+  }));
+
+  if (!galleryItems.length) {
+    galleryItems.push({
+      original: '/missing.jpg'
+    });
+  }
 
   const renderVehicleInfo = ({ head, info }: renderVehicleInfoParams) => (
     <Stack gap={0}>
@@ -116,11 +134,26 @@ export const LotPage = () => {
         </Flex>
       </Card>
 
-      <Card bg="gray.1" withBorder w="100%" radius={0} display="grid">
+      <Card bg="gray.1" withBorder w="100%" radius={0}>
         <Grid p={10}>
           <Grid.Col span={{ base: 12, md: 7 }}>
-            <Card withBorder radius="md" p={0}>
-              <ApCarousel h={isMobile ? 300 : 500} pictures={lot.sales_pictures} bottom={30} />
+            <Card
+              withBorder
+              radius="md"
+              p={0}
+              maw={isMobile ? '100%' : 900}
+            >
+              <ImageGallery
+                items={galleryItems}
+                showPlayButton={false}
+                showFullscreenButton={true}
+                showNav={!isMobile}
+                showIndex={true}
+                thumbnailPosition="bottom"
+                slideDuration={0}
+                lazyLoad={false}
+                useBrowserFullscreen={false}
+              />
             </Card>
           </Grid.Col>
 

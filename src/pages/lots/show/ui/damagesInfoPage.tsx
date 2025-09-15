@@ -1,8 +1,9 @@
-import { Badge, Card, Flex, Group } from '@mantine/core';
+import { Badge, Box, Card, Flex, Group } from '@mantine/core';
 import { useState } from 'react';
-import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 import Schema from '@/pages/lots/show/ui/schema.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
+import ImageGallery from 'react-image-gallery';
+import { ermurl } from '@/shared/lib/api.ts';
 
 interface DamagePart {
   canvas_position_x: number;
@@ -80,11 +81,22 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
           align={isMobile ? 'center' : 'flex-start'}
           gap="lg"
         >
-          <ApCarousel
-            pictures={damages[selected].pictures || []}
-            h={isMobile ? 250 : 400}
-            w={isMobile ? '100%' : 750}
-          />
+          <Box w={isMobile ? '100%' : 750}>
+            <ImageGallery
+              items={damages[selected].pictures.map((p) => ({
+                original: ermurl + p.url,
+                thumbnail: ermurl + p.url
+              }))}
+              showPlayButton={false}
+              showFullscreenButton={true}
+              showNav={!isMobile}
+              showIndex={true}
+              thumbnailPosition="bottom"
+              slideDuration={0}
+              lazyLoad={false}
+              useBrowserFullscreen={false}
+            />
+          </Box>
           <Flex direction="column" maw={isMobile ? '100%' : '30%'} mt={isMobile ? 'md' : 0}>
             <Schema {...actions} damages={damages} />
             <Flex direction="column">{list}</Flex>
