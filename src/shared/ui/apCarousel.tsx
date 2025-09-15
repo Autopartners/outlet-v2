@@ -12,7 +12,7 @@ interface Picture {
 interface ApCarouselProps {
   pictures: Picture[];
   h?: number;
-  w?: number;
+  w?: number | string;
   bottom?: number;
 }
 

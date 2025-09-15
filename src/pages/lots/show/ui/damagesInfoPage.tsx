@@ -2,6 +2,7 @@ import { Badge, Card, Flex, Group } from '@mantine/core';
 import { useState } from 'react';
 import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 import Schema from '@/pages/lots/show/ui/schema.tsx';
+import { useApp } from '@/app/providers/app/useApp.ts';
 
 interface DamagePart {
   canvas_position_x: number;
@@ -18,16 +19,17 @@ interface damagesInfoPageParams {
   damages: [
     {
       left_right: number;
-      part_damages: [{ description: string, damage_type: { title: string } }],
-      damage_part: DamagePart,
+      part_damages: [{ description: string; damage_type: { title: string } }];
+      damage_part: DamagePart;
       pictures: Picture[];
     }
   ];
 }
 
 export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
-  const [selected, setSelected] = useState(1);
+  const [selected, setSelected] = useState(0);
   const [hovered, setHovered] = useState<number | null>();
+  const { isMobile } = useApp();
 
   const list = damages.map((d, i) => {
     const types = d.part_damages
@@ -52,21 +54,16 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
         bg={isHovered ? '#e7f5ff' : isSelected ? '#edf2ff' : 'white'}
         onMouseEnter={() => setHovered(i)}
         onClick={() => setSelected(i)}
-        style={{
-          cursor: 'pointer',
-          transition: 'background 0.2s'
-        }}
+        style={{ cursor: 'pointer', transition: 'background 0.2s' }}
       >
         <Group>
-          <Group>
-            <Badge
-              variant="filled"
-              color={isHovered ? 'blue' : isSelected ? 'indigo' : 'gray'}
-            >
-              {i + 1}
-            </Badge>
-            <span>{name}</span>
-          </Group>
+          <Badge
+            variant="filled"
+            color={isHovered ? 'blue' : isSelected ? 'indigo' : 'gray'}
+          >
+            {i + 1}
+          </Badge>
+          <span>{name}</span>
         </Group>
       </Card>
     );
@@ -76,14 +73,21 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
 
   return (
     <Flex justify="center">
-      <Card w="80%" withBorder p="lg">
-        <Flex justify="space-between" align="flex-start">
-          <ApCarousel pictures={damages[selected].pictures || []} h={400} w={750}></ApCarousel>
-          <Flex direction="column" maw="30%">
+      <Card w={isMobile ? '100%' : '80%'} withBorder p="lg">
+        <Flex
+          direction={isMobile ? 'column' : 'row'}
+          justify="space-between"
+          align={isMobile ? 'center' : 'flex-start'}
+          gap="lg"
+        >
+          <ApCarousel
+            pictures={damages[selected].pictures || []}
+            h={isMobile ? 250 : 400}
+            w={isMobile ? '100%' : 750}
+          />
+          <Flex direction="column" maw={isMobile ? '100%' : '30%'} mt={isMobile ? 'md' : 0}>
             <Schema {...actions} damages={damages} />
-            <Flex direction="column">
-              {list}
-            </Flex>
+            <Flex direction="column">{list}</Flex>
           </Flex>
         </Flex>
       </Card>

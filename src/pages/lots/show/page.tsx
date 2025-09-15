@@ -1,5 +1,5 @@
 import {
-  ActionIcon, Anchor, Badge, Box, Button, Card, Container, Divider, Flex, Grid, NumberInput, Select, SimpleGrid,
+  ActionIcon, Anchor, Badge, Box, Button, Card, Container, Divider, Flex, Grid, NumberInput, SimpleGrid,
   Stack, Text, ThemeIcon, Tooltip, Loader as MantineLoader
 } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,8 +7,8 @@ import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
 import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 import {
-  IconAdjustmentsHorizontal, IconBolt, IconBuildingSkyscraper, IconCalendar, IconCarCrash,
-  IconCarGarage, IconClipboard, IconClock, IconLoader, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
+  IconAdjustmentsHorizontal, IconBuildingSkyscraper, IconCalendar, IconCarCrash,
+  IconCarGarage, IconClipboard, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
   IconSettings, IconShield, IconX
 } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -18,12 +18,7 @@ import { ToInfoPage } from '@/pages/lots/show/ui/toInfoPage.tsx';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { connecturl } from '@/shared/lib/api.ts';
 import { useBid } from '@/pages/lots/show/api/useBid.ts';
-
-const stepsData = [
-  { value: '10000', label: '10 000' },
-  { value: '50000', label: '50 000' },
-  { value: '100000', label: '100 000' }
-];
+import { useApp } from '@/app/providers/app/useApp';
 
 const stageStrings = {
   'preparing': 'Подготовка',
@@ -43,10 +38,10 @@ export const LotPage = () => {
   const { isAdmin } = useMe();
   const { lot, error, isLoading } = useLot({ id: id });
   const nav = useNavigate();
-  const [step, setStep] = useState<string | null>('100000');
   const [activeInfoPage, setActiveInfoPage] = useState<'kit' | 'damages' | 'to'>('kit');
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
+  const { isMobile } = useApp();
 
   if (error) {
     nav('/lots');
@@ -69,7 +64,8 @@ export const LotPage = () => {
   );
 
   return (
-    <Container size={1500}>
+    <Container size="100%">
+      {/* Заголовок */}
       <Card bg="blue.9" radius={0} style={{ borderTopRightRadius: 20, borderTopLeftRadius: 20 }} mt={40} pos="relative">
         <Box pos="absolute" top={20} right={20}>
           <Flex gap={10}>
@@ -94,11 +90,11 @@ export const LotPage = () => {
           {lot.code}
         </Badge>
         <Flex mt={10} align="center" justify="space-between" px={10}>
-          <Text c="white" fz={25}>
+          <Text c="white" fz={isMobile ? 18 : 25}>
             {lot.definition_name}
           </Text>
         </Flex>
-        <Flex mx={10} mt={10} gap={20}>
+        <Flex mx={10} mt={10} gap={20} direction={{ base: 'column', sm: 'row' }}>
           <Flex gap={5} align="center">
             <IconCalendar stroke={1.3} color="white" />
             <Text c="white" fz={15}>
@@ -119,23 +115,24 @@ export const LotPage = () => {
           </Flex>
         </Flex>
       </Card>
+
       <Card bg="gray.1" withBorder w="100%" radius={0} display="grid">
         <Grid p={10}>
-          <Grid.Col span={7} style={{ display: 'grid', gridRow: 'span 5' }}>
+          <Grid.Col span={{ base: 12, md: 7 }}>
             <Card withBorder radius="md" p={0}>
-              <ApCarousel h={500} pictures={lot.sales_pictures} bottom={30} />
+              <ApCarousel h={isMobile ? 300 : 500} pictures={lot.sales_pictures} bottom={30} />
             </Card>
           </Grid.Col>
 
-          <Grid.Col span={5}>
+          {/* Ставки */}
+          <Grid.Col span={{ base: 12, md: 5 }}>
             <Card radius="lg" bg="blue.9">
               <Tooltip label="Тут скоро будет инструкция">
-                <Text ta="center" fz={25} c="white">
+                <Text ta="center" fz={isMobile ? 18 : 25} c="white">
                   {stageStrings[lot.stage as keyof typeof stageStrings]}
                 </Text>
               </Tooltip>
             </Card>
-
             <Box mt={20}>
               <Card radius="lg">
                 <Stack>
@@ -172,15 +169,14 @@ export const LotPage = () => {
                     </Card>
                   ) : isStarted ? (
                     <Stack>
-                      <Flex justify="space-between" align="flex-end">
+                      <Flex justify="space-between" align="flex-end" direction={{ base: 'column', sm: 'row' }} gap={10}>
                         <NumberInput
                           max={100000000}
                           size="lg"
-                          w="60%"
+                          w={{ base: '100%', sm: '60%' }}
                           placeholder="Ставка"
                           allowDecimal={false}
                           allowNegative={false}
-                          step={Number(step)}
                           thousandSeparator={' '}
                           value={bid}
                           onChange={setBid}
@@ -190,22 +186,12 @@ export const LotPage = () => {
                           color="green.7"
                           size="lg"
                           disabled={!bid || Number(bid) < (lot.second_stage_minimal_price ?? 0)}
-                          w="35%"
+                          w={{ base: '100%', sm: '35%' }}
                           leftSection={bidMutation.status === 'pending' && <MantineLoader type="dots" color="white" />}
                         >
                           Отправить
                         </Button>
                       </Flex>
-                      <Select
-                        data={stepsData}
-                        size="md"
-                        label="Шаг ставки"
-                        comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 } }}
-                        value={step}
-                        onChange={setStep}
-                        allowDeselect={false}
-                        w="fit-content"
-                      />
                     </Stack>
                   ) : (
                     <Card bg="blue.1" radius="lg" p={10}>
@@ -217,104 +203,105 @@ export const LotPage = () => {
                 </Stack>
               </Card>
             </Box>
-
-            <Box mt={20}>
-              <Card radius="lg" bg="blue.9">
-                <Flex justify="space-between" px={20}>
-                  <Text fz={16} c="white">
-                    {new Date(lot.start_at).toLocaleDateString('ru-RU')} - {new Date(lot.end_at).toLocaleDateString('ru-RU')}
-                  </Text>
-                  <Flex gap={10}>
-                    {isEnd ? <IconClock color="white" /> : isStarted ? <IconBolt color="white" /> :
-                      <IconLoader color="white" />}
-                    <Text fz={16} c="white">
-                      {isEnd ? 'Завершен' : isStarted ? 'В процессе' : 'Ждем начала'}
-                    </Text>
-                  </Flex>
-                </Flex>
-              </Card>
-            </Box>
           </Grid.Col>
         </Grid>
 
-        <Flex mt={10}>
-          <Card mx={10} w="59%">
-            <Flex gap={5} align="center">
-              <ThemeIcon color="red.9" variant="transparent">
-                <IconAdjustmentsHorizontal />
-              </ThemeIcon>
-              <Text fw="bold" fz={18}>
-                Характеристики автомобиля
-              </Text>
-            </Flex>
-            <SimpleGrid cols={4} px={10} mt={20} spacing={32}>
-              <Stack>
-                {renderVehicleInfo({ head: 'Марка', info: lot.brand_name })}
-                {renderVehicleInfo({ head: 'КПП', info: lot.gearbox.name })}
-              </Stack>
-              <Stack>
-                {renderVehicleInfo({ head: 'Модель', info: lot.vehicle_model_name })}
-                {renderVehicleInfo({ head: 'Тип топлива', info: lot.fuel_type.name })}
-              </Stack>
-              <Stack>
-                {renderVehicleInfo({ head: 'Г. В.', info: lot.vehicle_year_of_production + ' г.' })}
-                {renderVehicleInfo({ head: 'Кузов', info: lot.body_type.name })}
-              </Stack>
-              <Stack>
-                {renderVehicleInfo({ head: 'Пробег', info: Number(lot.return_km).toLocaleString('ru-RU') + ' км' })}
-                {renderVehicleInfo({ head: 'Город', info: lot.city_of_remarketing_name })}
-              </Stack>
-            </SimpleGrid>
-          </Card>
-
-          <Card mx={10} w="20%">
-            <Flex gap={5} align="center">
-              <ThemeIcon color="blue.9" variant="transparent">
-                <IconShield />
-              </ThemeIcon>
-              <Text fw="bold" fz={18}>
-                Документы
-              </Text>
-            </Flex>
-            <Stack mt={20} pl={10}>
-              {renderVehicleInfo({ head: 'VIN-номер', info: lot.vin })}
-              {renderVehicleInfo({ head: 'Гос. номер', info: lot.vehicle_plate_no })}
-            </Stack>
-          </Card>
-
-          <Card mx={10} w="20%">
-            <Flex gap={5} align="center">
-              <ThemeIcon color="blue.9" variant="transparent">
-                <IconMessage />
-              </ThemeIcon>
-              <Text fw="bold" fz={18}>
-                Связаться с нами
-              </Text>
-            </Flex>
-            <Stack mt={20} gap="lg">
-              <Flex gap={10} px={10} align="center">
-                <ThemeIcon variant="light" size="lg" color="blue.9">
-                  <IconPhone />
+        {/* Характеристики + Документы + Связь */}
+        <Grid mt={10}>
+          <Grid.Col span={{ base: 12, md: 7 }}>
+            <Card>
+              <Flex gap={5} align="center">
+                <ThemeIcon color="red.9" variant="transparent">
+                  <IconAdjustmentsHorizontal />
                 </ThemeIcon>
-                <Anchor fz={16} href="tel:88003336300" c="black">
-                  8 (800) 333-63-00
-                </Anchor>
+                <Text fw="bold" fz={18}>
+                  Характеристики автомобиля
+                </Text>
               </Flex>
-              <Flex gap={10} px={10} align="center">
-                <ThemeIcon variant="light" size="lg" color="red.9">
-                  <IconMail />
+              <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} px={10} mt={20} spacing={16}>
+                <Stack>
+                  {renderVehicleInfo({ head: 'Марка', info: lot.brand_name })}
+                  {renderVehicleInfo({ head: 'КПП', info: lot.gearbox.name })}
+                </Stack>
+                <Stack>
+                  {renderVehicleInfo({ head: 'Модель', info: lot.vehicle_model_name })}
+                  {renderVehicleInfo({ head: 'Тип топлива', info: lot.fuel_type.name })}
+                </Stack>
+                <Stack>
+                  {renderVehicleInfo({ head: 'Г. В.', info: lot.vehicle_year_of_production + ' г.' })}
+                  {renderVehicleInfo({ head: 'Кузов', info: lot.body_type.name })}
+                </Stack>
+                <Stack>
+                  {renderVehicleInfo({ head: 'Пробег', info: Number(lot.return_km).toLocaleString('ru-RU') + ' км' })}
+                  {renderVehicleInfo({ head: 'Город', info: lot.city_of_remarketing_name })}
+                </Stack>
+              </SimpleGrid>
+            </Card>
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, md: 2 }}>
+            <Card>
+              <Flex gap={5} align="center">
+                <ThemeIcon color="blue.9" variant="transparent">
+                  <IconShield />
                 </ThemeIcon>
-                <Anchor fz={16} href="mailto:remarketing@ap-ru.com" c="black">
-                  remarketing@ap-ru.com
-                </Anchor>
+                <Text fw="bold" fz={18}>
+                  Документы
+                </Text>
               </Flex>
-            </Stack>
-          </Card>
-        </Flex>
+              <Stack mt={20} pl={10}>
+                {renderVehicleInfo({ head: 'VIN-номер', info: lot.vin })}
+                {renderVehicleInfo({ head: 'Гос. номер', info: lot.vehicle_plate_no })}
+              </Stack>
+            </Card>
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, md: 3 }}>
+            <Card>
+              <Flex gap={5} align="center">
+                <ThemeIcon color="blue.9" variant="transparent">
+                  <IconMessage />
+                </ThemeIcon>
+                <Text fw="bold" fz={18}>
+                  Связаться с нами
+                </Text>
+              </Flex>
+              <Stack mt={20} gap="lg">
+                <Flex gap={10} px={10} align="center">
+                  <ThemeIcon variant="light" size="lg" color="blue.9">
+                    <IconPhone />
+                  </ThemeIcon>
+                  <Anchor fz={16} href="tel:88003336300" c="black">
+                    8 (800) 333-63-00
+                  </Anchor>
+                </Flex>
+                <Flex gap={10} px={10} align="center">
+                  <ThemeIcon variant="light" size="lg" color="red.9">
+                    <IconMail />
+                  </ThemeIcon>
+                  <Anchor fz={16} href="mailto:remarketing@ap-ru.com" c="black">
+                    remarketing@ap-ru.com
+                  </Anchor>
+                </Flex>
+              </Stack>
+            </Card>
+          </Grid.Col>
+        </Grid>
       </Card>
 
-      <Flex bg="blue.9" w="100%" h={70} align="center" justify="space-between" px={100}>
-        <Stack gap={2}>
+      {/* Нижнее меню */}
+      <Flex
+        bg="blue.9"
+        w="100%"
+        h={isMobile ? 'auto' : 70}
+        align="center"
+        justify="space-between"
+        px={isMobile ? 20 : 100}
+        direction={isMobile ? 'column' : 'row'}
+        gap={isMobile ? 20 : 'auto'}
+        p={isMobile ? 10 : 'auto'}
+      >
+        <Stack gap={2} w={isMobile ? '100%' : 'auto'}>
           <Flex gap={10} align="center" style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('kit')}>
             <IconClipboard color="white" />
             <Text c="white" fz={20}>
@@ -323,7 +310,7 @@ export const LotPage = () => {
           </Flex>
           {activeInfoPage === 'kit' && <Divider color="white" size={3} style={{ borderRadius: 20 }} />}
         </Stack>
-        <Stack gap={2}>
+        <Stack gap={2} w={isMobile ? '100%' : 'auto'}>
           <Flex gap={10} align="center" style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('damages')}>
             <IconCarCrash color="white" />
             <Text c="white" fz={20}>
@@ -332,7 +319,7 @@ export const LotPage = () => {
           </Flex>
           {activeInfoPage === 'damages' && <Divider color="white" size={3} style={{ borderRadius: 20 }} />}
         </Stack>
-        <Stack gap={2}>
+        <Stack gap={2} w={isMobile ? '100%' : 'auto'}>
           <Flex gap={10} align="center" style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('to')}>
             <IconCarGarage color="white" />
             <Text c="white" fz={20}>
@@ -343,6 +330,7 @@ export const LotPage = () => {
         </Stack>
       </Flex>
 
+      {/* Контент */}
       <Card bg="gray.1" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }} mb={40}>
         {activeInfoPage === 'to' && <ToInfoPage />}
         {activeInfoPage === 'damages' && <DamagesInfoPage damages={lot.damages || []} />}
