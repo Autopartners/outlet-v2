@@ -7,7 +7,8 @@ import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
 import {
   IconAdjustmentsHorizontal, IconBuildingSkyscraper, IconCalendar, IconCarCrash,
-  IconCarGarage, IconClipboard, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
+  IconCarGarage,
+  IconChevronLeft, IconChevronRight, IconClipboard, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
   IconSettings, IconShield, IconX
 } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -42,6 +43,7 @@ interface Picture {
 export const LotPage = () => {
   const { id } = useParams();
   const { isAdmin } = useMe();
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const { lot, error, isLoading } = useLot({ id: id });
   const nav = useNavigate();
   const [activeInfoPage, setActiveInfoPage] = useState<'kit' | 'damages' | 'to'>('kit');
@@ -135,13 +137,13 @@ export const LotPage = () => {
       </Card>
 
       <Card bg="gray.1" withBorder w="100%" radius={0}>
-        <Grid p={10}>
+        <Grid>
           <Grid.Col span={{ base: 12, md: 7 }}>
             <Card
               withBorder
               radius="md"
               p={0}
-              maw={isMobile ? '100%' : 900}
+              maw="100%"
             >
               <ImageGallery
                 items={galleryItems}
@@ -153,6 +155,73 @@ export const LotPage = () => {
                 slideDuration={0}
                 lazyLoad={false}
                 useBrowserFullscreen={false}
+                onScreenChange={(fullscreen) => setIsFullscreen(fullscreen)}
+                renderItem={(item) => (
+                  <img
+                    src={item.original}
+                    alt={item.originalAlt}
+                    style={{
+                      width: '100%',
+                      height: isMobile
+                        ? isFullscreen
+                          ? 700
+                          : '30vh'
+                        : isFullscreen
+                          ? 900
+                          : '50vh',
+                      objectFit: 'contain'
+                    }}
+                  />
+                )}
+                renderThumbInner={(item) => (
+                  <img
+                    src={item.thumbnail}
+                    alt={item.thumbnailAlt}
+                    style={{
+                      width: '100%',
+                      height: 80,
+                      objectFit: 'cover'
+                    }}
+                  />
+                )}
+                renderLeftNav={(onClick, disabled) => (
+                  <Button
+                    variant="subtle"
+                    color="blue"
+                    radius="xl"
+                    size="lg"
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: 10,
+                      transform: 'translateY(-50%)',
+                      zIndex: 10
+                    }}
+                    onClick={onClick}
+                    disabled={disabled}
+                  >
+                    <IconChevronLeft size={32} />
+                  </Button>
+                )}
+                renderRightNav={(onClick, disabled) => (
+                  <Button
+                    variant="subtle"
+                    color="blue"
+                    radius="xl"
+                    size="lg"
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      right: 10,
+                      transform: 'translateY(-50%)',
+                      zIndex: 10
+                    }}
+                    onClick={onClick}
+                    disabled={disabled}
+                  >
+                    <IconChevronRight size={32} />
+                  </Button>
+                )}
               />
             </Card>
           </Grid.Col>

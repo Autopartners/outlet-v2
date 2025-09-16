@@ -1,9 +1,10 @@
-import { Badge, Box, Card, Flex, Group } from '@mantine/core';
+import { Badge, Button, Card, Flex, Grid, Group } from '@mantine/core';
 import { useState } from 'react';
 import Schema from '@/pages/lots/show/ui/schema.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import ImageGallery from 'react-image-gallery';
 import { ermurl } from '@/shared/lib/api.ts';
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 
 interface DamagePart {
   canvas_position_x: number;
@@ -29,6 +30,7 @@ interface damagesInfoPageParams {
 
 export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
   const [selected, setSelected] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [hovered, setHovered] = useState<number | null>();
   const { isMobile } = useApp();
 
@@ -74,34 +76,100 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
 
   return (
     <Flex justify="center">
-      <Card w={isMobile ? '100%' : '80%'} withBorder p="lg">
-        <Flex
-          direction={isMobile ? 'column' : 'row'}
-          justify="space-between"
-          align={isMobile ? 'center' : 'flex-start'}
-          gap="lg"
-        >
-          <Box w={isMobile ? '100%' : 750}>
-            <ImageGallery
-              items={damages[selected].pictures.map((p) => ({
-                original: ermurl + p.url,
-                thumbnail: ermurl + p.url
-              }))}
-              showPlayButton={false}
-              showFullscreenButton={true}
-              showNav={!isMobile}
-              showIndex={true}
-              thumbnailPosition="bottom"
-              slideDuration={0}
-              lazyLoad={false}
-              useBrowserFullscreen={false}
-            />
-          </Box>
-          <Flex direction="column" maw={isMobile ? '100%' : '30%'} mt={isMobile ? 'md' : 0}>
-            <Schema {...actions} damages={damages} />
-            <Flex direction="column">{list}</Flex>
-          </Flex>
-        </Flex>
+      <Card w={isMobile ? '100%' : '80%'} withBorder p="lg" bg="white">
+        <Grid>
+          <Grid.Col span={{ base: 12, sm: 8 }}>
+            <Card w="100%" withBorder shadow="md">
+              <ImageGallery
+                items={damages[selected].pictures.map((p) => ({
+                  original: ermurl + p.url,
+                  thumbnail: ermurl + p.url
+                }))}
+                showPlayButton={false}
+                showFullscreenButton={true}
+                showNav={!isMobile}
+                showIndex={true}
+                thumbnailPosition="bottom"
+                slideDuration={0}
+                lazyLoad={false}
+                useBrowserFullscreen={false}
+                onScreenChange={(fullscreen) => setIsFullscreen(fullscreen)}
+                renderItem={(item) => (
+                  <img
+                    src={item.original}
+                    alt={item.originalAlt}
+                    style={{
+                      width: '100%',
+                      height: isMobile
+                        ? isFullscreen
+                          ? 700
+                          : '30vh'
+                        : isFullscreen
+                          ? 900
+                          : '40vh',
+                      objectFit: 'contain'
+                    }}
+                  />
+                )}
+                renderThumbInner={(item) => (
+                  <img
+                    src={item.thumbnail}
+                    alt={item.thumbnailAlt}
+                    style={{
+                      width: '100%',
+                      height: 80,
+                      objectFit: 'cover'
+                    }}
+                  />
+                )}
+                renderLeftNav={(onClick, disabled) => (
+                  <Button
+                    variant="subtle"
+                    color="blue"
+                    radius="xl"
+                    size="lg"
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: 10,
+                      transform: 'translateY(-50%)',
+                      zIndex: 10
+                    }}
+                    onClick={onClick}
+                    disabled={disabled}
+                  >
+                    <IconChevronLeft size={32} />
+                  </Button>
+                )}
+                renderRightNav={(onClick, disabled) => (
+                  <Button
+                    variant="subtle"
+                    color="blue"
+                    radius="xl"
+                    size="lg"
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      right: 10,
+                      transform: 'translateY(-50%)',
+                      zIndex: 10
+                    }}
+                    onClick={onClick}
+                    disabled={disabled}
+                  >
+                    <IconChevronRight size={32} />
+                  </Button>
+                )}
+              />
+            </Card>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, sm: 4 }}>
+            <Flex direction="column" maw="100%" mt={isMobile ? 'md' : 0} align="center">
+              <Schema {...actions} damages={damages} />
+              <Flex direction="column">{list}</Flex>
+            </Flex>
+          </Grid.Col>
+        </Grid>
       </Card>
     </Flex>
   );
