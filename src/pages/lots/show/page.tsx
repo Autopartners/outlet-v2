@@ -243,7 +243,7 @@ export const LotPage = () => {
                       <Flex justify="space-between" align="flex-end">
                         <Text fz={20}>Текущая ставка</Text>
                         <Text fz={25} fw="bold" c="red.9">
-                          {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0}₽
+                          {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0} ₽
                         </Text>
                       </Flex>
                     </Tooltip>
@@ -252,7 +252,7 @@ export const LotPage = () => {
                     <Flex justify="space-between" align="flex-end">
                       <Text fz={20}>Ваша ставка</Text>
                       <Text fz={25} fw="bold" c="blue.9">
-                        {lot.my_bid.toLocaleString('ru-RU')}₽
+                        {lot.my_bid.toLocaleString('ru-RU')} ₽
                       </Text>
                     </Flex>
                   ) : (

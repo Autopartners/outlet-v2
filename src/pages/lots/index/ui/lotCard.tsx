@@ -26,11 +26,9 @@ interface LotCardProps {
 
 export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
   const nav = useNavigate();
+  const [opened, setOpened] = useState(false);
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
-
-  const isEnd = new Date(lot.third_stage_at) < new Date();
-  const isStarted = new Date() > new Date(lot.start_at);
 
   return (
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
@@ -63,13 +61,13 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
           {lot.my_bid ? (
             <Stack gap={0}>
               <Text fz={14}>Ваша ставка</Text>
-              <Text fz={20} fw="bold" c="blue.7">{lot.my_bid.toLocaleString('ru-RU')}₽</Text>
+              <Text fz={20} fw="bold" c="blue.7">{lot.my_bid.toLocaleString('ru-RU')} ₽</Text>
             </Stack>
-          ) : ((isStarted && !isEnd) && (
+          ) : ((lot.stage === 'first_stage' || lot.stage === 'second_stage') && (
             <Stack>
-              <Popover width={200} position="bottom" withArrow shadow="md">
+              <Popover width={200} position="bottom" opened={opened} onChange={setOpened} withArrow shadow="md">
                 <Popover.Target>
-                  <Button variant="default">Сделать ставку</Button>
+                  <Button variant="default" onClick={() => setOpened(!opened)}>Сделать ставку</Button>
                 </Popover.Target>
                 <Popover.Dropdown w={250}>
                   {lot.stage === 'second_stage' && (
@@ -77,7 +75,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
                       <Flex direction="column" align="flex-start">
                         <Text fz={16}>Текущая ставка</Text>
                         <Text fz={18} fw="bold" c="red.9">
-                          {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0}₽
+                          {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0} ₽
                         </Text>
                       </Flex>
                     </Tooltip>
@@ -100,6 +98,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
                     onClick={() => {
                       bidMutation.mutate({ value: bid, lot_id: String(lot.id) });
                       refetchLots();
+                      setOpened(false);
                     }}
                     color="green.7"
                     disabled={!bid || Number(bid) < (lot.second_stage_minimal_price ?? 0)}
