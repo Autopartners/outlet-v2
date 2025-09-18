@@ -75,7 +75,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
                   {lot.stage === 'second_stage' && (
                     <Tooltip label="Максимально предложенная сумма из первого этапа">
                       <Flex direction="column" align="flex-start">
-                        <Text fz={16}>Минимальная ставка</Text>
+                        <Text fz={16}>Текущая ставка</Text>
                         <Text fz={18} fw="bold" c="red.9">
                           {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0}₽
                         </Text>
