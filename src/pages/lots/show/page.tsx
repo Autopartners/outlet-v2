@@ -16,11 +16,12 @@ import { KitInfoPage } from '@/pages/lots/show/ui/kitInfoPage.tsx';
 import { DamagesInfoPage } from '@/pages/lots/show/ui/damagesInfoPage.tsx';
 import { ToInfoPage } from '@/pages/lots/show/ui/toInfoPage.tsx';
 import { useMe } from '@/app/providers/me/useMe.ts';
-import { connecturl, ermurl } from '@/shared/lib/api.ts';
+import { ermurl } from '@/shared/lib/api.ts';
 import { useBid } from '@/pages/lots/show/api/useBid.ts';
 import { useApp } from '@/app/providers/app/useApp';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
+import { AutotekaInfoPage } from '@/pages/lots/show/ui/autotekaInfoPage.tsx';
 import type { AxiosError } from 'axios';
 
 const stageStrings = {
@@ -47,7 +48,7 @@ export const LotPage = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const { lot, error, isLoading } = useLot({ id: id });
   const nav = useNavigate();
-  const [activeInfoPage, setActiveInfoPage] = useState<'kit' | 'damages' | 'to'>('kit');
+  const [activeInfoPage, setActiveInfoPage] = useState<'kit' | 'damages' | 'to' | 'autoteka'>('kit');
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
   const { isMobile } = useApp();
@@ -93,12 +94,10 @@ export const LotPage = () => {
           <Flex gap={10}>
             {isAdmin && (
               <ActionIcon
-                component="a"
-                target="_blank"
-                href={`${connecturl}outlet/lots/${id}`}
                 size="lg"
                 color="white"
                 variant="light"
+                onClick={() => nav('edit')}
               >
                 <IconSettings />
               </ActionIcon>
@@ -432,14 +431,24 @@ export const LotPage = () => {
           </Flex>
           {activeInfoPage === 'to' && <Divider color="white" size={3} style={{ borderRadius: 20 }} />}
         </Stack>
+        <Stack gap={2} w={isMobile ? '100%' : 'auto'}>
+          <Flex gap={10} align="center" style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('autoteka')}>
+            <IconCarGarage color="white" />
+            <Text c="white" fz={20}>
+              Автотека
+            </Text>
+          </Flex>
+          {activeInfoPage === 'autoteka' && <Divider color="white" size={3} style={{ borderRadius: 20 }} />}
+        </Stack>
       </Flex>
 
       {/* Контент */}
       <Card bg="gray.1" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }} mb={40}>
         {activeInfoPage === 'to' && <ToInfoPage service_requests={lot.service_requests || []} />}
-        {activeInfoPage === 'damages' && <DamagesInfoPage damages={lot.damages || []} />}
+        {activeInfoPage === 'damages' && <DamagesInfoPage damages={lot.damages || []} editable={false} />}
         {activeInfoPage === 'kit' &&
           <KitInfoPage vehicle_options={lot.vehicle_options} remarketing_options={lot.remarketing_options} />}
+        {activeInfoPage === 'autoteka' && <AutotekaInfoPage />}
       </Card>
     </Container>
   );
