@@ -6,9 +6,11 @@ import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
 import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';
 import { IconHourglassHigh, IconHourglassLow } from '@tabler/icons-react';
+import { useApp } from '@/app/providers/app/useApp';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
+  const { isMobile } = useApp();
   const { lots, isLoading, pages, refetch } = useLots({
     page: searchParams.get('page') || '1',
     per_page: '12',
@@ -29,7 +31,7 @@ export const LotsList = () => {
   if (lots.length === 0) {
     return (
       <Container size="xl">
-        <Flex justify="center" align="center" h="35vh">
+        <Flex justify="center" align="center" mt={isMobile ? 300 : 140}>
           <Alert w="100vw" radius="md" color="red">
             <Text>Доступных лотов нет.</Text>
           </Alert>
