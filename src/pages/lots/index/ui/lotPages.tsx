@@ -3,13 +3,13 @@ import { useSearchParams } from 'react-router-dom';
 import { useApp } from '@/app/providers/app/useApp.ts';
 
 interface LotPagesProps {
-    pages: number;
-    pos: string
+  pages: number;
+  pos: string;
 }
 
 export const LotPages = ({ pages, pos }: LotPagesProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isMobile } = useApp()
+  const { isMobile } = useApp();
 
   const currentPage = Number(searchParams.get('page')) || 1;
 

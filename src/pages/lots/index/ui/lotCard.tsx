@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { useNavigate } from 'react-router-dom';
-import { IconBuildingSkyscraper, IconHourglassHigh, IconHourglassLow, IconRoad, IconStar } from '@tabler/icons-react';
+import { IconBuildingSkyscraper, IconRoad, IconStar } from '@tabler/icons-react';
 import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 import { useState } from 'react';
 import { useBid } from '@/pages/lots/show/api/useBid.ts';
@@ -39,15 +39,6 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
             {lot.definition_short_name.trim() || lot.definition_name.split(' ').slice(0, 2).join(' ')}, {lot.vehicle_year_of_production} г.
           </Text>
           <Card shadow="xs" withBorder p={5}><Text fz={14} fw="bold">{lot.code}</Text></Card>
-        </Flex>
-        <Flex align="center" mt={5}>
-          <ThemeIcon variant="transparent" c="blue.7"><IconHourglassHigh size={20} /></ThemeIcon>
-          <Text fz={14}>Аукцион начинается <strong>{(new Date(lot.start_at)).toLocaleString()}</strong></Text>
-        </Flex>
-        <Flex align="center" mt={5}>
-          <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
-          <Text fz={14}>Аукцион
-            завершается <strong>{(new Date(lot.end_at)).toLocaleString()}</strong></Text>
         </Flex>
         <Flex align="center" mt={5}>
           <ThemeIcon variant="transparent" c="blue.7"><IconBuildingSkyscraper size={20} /></ThemeIcon>
