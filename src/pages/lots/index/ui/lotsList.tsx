@@ -26,6 +26,18 @@ export const LotsList = () => {
     return <LotsListSkeletonLoader />;
   }
 
+  if (lots.length === 0) {
+    return (
+      <Container size="xl">
+        <Flex justify="center" align="center" h="35vh">
+          <Alert w="100vw" radius="md" color="red">
+            <Text>Доступных лотов нет.</Text>
+          </Alert>
+        </Flex>
+      </Container>
+    );
+  }
+
   return (
     <Container size="xl">
       <LotPages pages={pages} pos="top" />
