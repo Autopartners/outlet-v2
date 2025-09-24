@@ -33,12 +33,12 @@ export const LotsList = () => {
         <Flex direction="column">
           <Flex align="center" justify="flex-start">
             <ThemeIcon variant="transparent" c="blue.7"><IconHourglassHigh size={20} /></ThemeIcon>
-            <Text fz={14}>Аукцион начинается <strong>{(new Date(lots[0].start_at)).toLocaleString()}</strong></Text>
+            <Text fz={14}>Аукцион начинается <strong>{(new Date(lots[0]?.start_at)).toLocaleString()}</strong></Text>
           </Flex>
           <Flex align="center" justify="flex-start" mt={5}>
             <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
             <Text fz={14}>Аукцион
-              завершается <strong>{(new Date(lots[0].end_at)).toLocaleString()}</strong></Text>
+              завершается <strong>{(new Date(lots[0]?.end_at)).toLocaleString()}</strong></Text>
           </Flex>
         </Flex>
       </Alert>
