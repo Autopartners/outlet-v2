@@ -1,10 +1,10 @@
-import { Badge, Button, Card, Flex, Grid, Group } from '@mantine/core';
+import { ActionIcon, Badge, Button, Card, Flex, Grid, Text } from '@mantine/core';
 import { useState } from 'react';
 import Schema from '@/pages/lots/show/ui/schema.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import ImageGallery from 'react-image-gallery';
-import { ermurl } from '@/shared/lib/api.ts';
-import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import { api, ermurl } from '@/shared/lib/api.ts';
+import { IconChevronLeft, IconChevronRight, IconEye, IconEyeOff } from '@tabler/icons-react';
 
 interface DamagePart {
   canvas_position_x: number;
@@ -17,24 +17,45 @@ interface Picture {
   id: number;
 }
 
-interface damagesInfoPageParams {
-  damages: [
-    {
-      left_right: number;
-      part_damages: [{ description: string; damage_type: { title: string } }];
-      damage_part: DamagePart;
-      pictures: Picture[];
-    }
-  ];
+interface Damage {
+  id: number;
+  left_right: number;
+  part_damages: [{ description: string; damage_type: { title: string } }];
+  damage_part: DamagePart;
+  pictures: Picture[];
+  hide_on_auction: boolean;
 }
 
-export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
+interface damagesInfoPageParams {
+  damages: Damage[];
+  editable: boolean;
+}
+
+export const DamagesInfoPage = ({ damages, editable }: damagesInfoPageParams) => {
   const [selected, setSelected] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [stateDamages, setStateDamages] = useState(damages);
+  const { notification } = useApp();
   const [hovered, setHovered] = useState<number | null>();
   const { isMobile } = useApp();
 
-  const list = damages.map((d, i) => {
+  const hide = async (id: number, i: number, state: boolean) => {
+    const newDamages = [...stateDamages];
+    newDamages[i] = { ...newDamages[i], hide_on_auction: state };
+    setStateDamages(newDamages);
+
+    try {
+      const res = await api.patch(`/erm/damages/${id}`, { damage: { hide_on_auction: state } });
+      if (res) {
+        notification.green('Успех!');
+      }
+    } catch {
+      notification.red('Ошибка!');
+      setStateDamages(stateDamages);
+    }
+  };
+
+  const list = stateDamages.map((d, i) => {
     const types = d.part_damages
       .map((t) => {
         const description = t.description ? `(${t.description})` : '';
@@ -59,15 +80,22 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
         onClick={() => setSelected(i)}
         style={{ cursor: 'pointer', transition: 'background 0.2s' }}
       >
-        <Group>
-          <Badge
-            variant="filled"
-            color={isHovered ? 'blue' : isSelected ? 'indigo' : 'gray'}
-          >
-            {i + 1}
-          </Badge>
-          <span>{name}</span>
-        </Group>
+        <Flex justify="space-between" align="center">
+          <Flex align="center" gap={10}>
+            <Badge
+              variant="filled"
+              color={isHovered ? 'blue' : isSelected ? 'indigo' : 'gray'}
+            >
+              {i + 1}
+            </Badge>
+            <Text>{name}</Text>
+          </Flex>
+          {editable &&
+            <ActionIcon variant="subtle" onClick={() => hide(d.id, i, !d.hide_on_auction)}>
+              {d.hide_on_auction ? <IconEyeOff /> : <IconEye />}
+            </ActionIcon>
+          }
+        </Flex>
       </Card>
     );
   });
@@ -81,7 +109,7 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
           <Grid.Col span={{ base: 12, sm: 8 }}>
             <Card w="100%" withBorder shadow="md">
               <ImageGallery
-                items={damages[selected].pictures.map((p) => ({
+                items={stateDamages[selected].pictures.map((p) => ({
                   original: ermurl + p.url,
                   thumbnail: ermurl + p.url
                 }))}
@@ -165,7 +193,7 @@ export const DamagesInfoPage = ({ damages }: damagesInfoPageParams) => {
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 4 }}>
             <Flex direction="column" maw="100%" mt={isMobile ? 'md' : 0} align="center">
-              <Schema {...actions} damages={damages} />
+              <Schema {...actions} damages={stateDamages} />
               <Flex direction="column">{list}</Flex>
             </Flex>
           </Grid.Col>
