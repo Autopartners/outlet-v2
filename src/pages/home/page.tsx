@@ -20,7 +20,7 @@ export const HomePage = () => {
   const nav = useNavigate();
   const { isMobile } = useApp();
   const { me, isAuctionConfirmed } = useMe();
-  const { lots, isLoading, refetch } = useLots({ page: '1', per_page: '3', params: { q: { started: true } } });
+  const { lots, isLoading, refetch } = useLots({ page: '1', per_page: '3', params: { started: 'true' } });
 
   return (
     <Container p={0} fluid>
