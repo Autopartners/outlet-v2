@@ -21,6 +21,7 @@ import { useBid } from '@/pages/lots/show/api/useBid.ts';
 import { useApp } from '@/app/providers/app/useApp';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
+import type { AxiosError } from 'axios';
 
 const stageStrings = {
   'preparing': 'Подготовка',
@@ -52,7 +53,8 @@ export const LotPage = () => {
   const { isMobile } = useApp();
 
   if (error) {
-    nav('/lots');
+    const err = error as AxiosError<{ error: string }>;
+    return <Box>Ошибка: {err.response?.data?.error || err.message}</Box>;
   }
 
   if (isLoading) {
