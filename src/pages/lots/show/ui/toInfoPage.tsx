@@ -9,13 +9,16 @@ interface ServiceRequest {
   date_at: string;
   smart_km?: number;
   auction_notes?: string;
+  manager_notes?: string;
+  note0?: string;
 }
 
 interface ToInfoPageProps {
   service_requests: ServiceRequest[];
+  editable: boolean;
 }
 
-export const ToInfoPage = ({ service_requests }: ToInfoPageProps) => {
+export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
   const { isMobile } = useApp();
 
   const validRequests = service_requests.filter(
@@ -33,12 +36,44 @@ export const ToInfoPage = ({ service_requests }: ToInfoPageProps) => {
 
   const srs = Object.entries(byYears).map(([year, requests], i) => {
     const requestsThisYear = requests.map((request, j) => (
-      <Timeline.Item key={j} title={<Text fw={700} c="blue">{dayjs(request.date_at).format('D MMMM')}</Text>}>
-        <Flex direction="column" gap="xs">
-          <Text>{request.auction_notes}</Text>
-          <Text fw={700} size="xs">{request.smart_km || 1000} км</Text>
-        </Flex>
-      </Timeline.Item>
+      !editable ? (
+        <Timeline.Item key={j} title={<Text fw={700} c="blue">{dayjs(request.date_at).format('D MMMM')}</Text>}>
+          <Flex direction="column" gap="xs">
+            <Text>{request.auction_notes}</Text>
+            <Text fw={700} size="xs">{request.smart_km || 1000} км</Text>
+          </Flex>
+        </Timeline.Item>
+      ) : (
+        <>
+          <Flex direction="row" gap="lg">
+            <Stack w="10vw">
+              <Text fw={700} c="blue">{dayjs(request.date_at).format('D MMMM')}</Text>
+              <Text fw={700} size="sm">{request.smart_km || 1000} км</Text>
+            </Stack>
+            <Stack w="100vw">
+              <Card bg="blue.1">
+                <Stack>
+                  <Text fw={700} fz={18}>Комментарий водителя</Text>
+                  <Text>{request.note0}</Text>
+                </Stack>
+              </Card>
+              <Card bg="blue.1">
+                <Stack>
+                  <Text fw={700} fz={18}>Комментарий менеджера</Text>
+                  <Text>{request.manager_notes}</Text>
+                </Stack>
+              </Card>
+              <Card bg="blue.1">
+                <Stack>
+                  <Text fw={700} fz={18}>Работы</Text>
+                  <Text>{request.auction_notes}</Text>
+                </Stack>
+              </Card>
+            </Stack>
+          </Flex>
+          <Divider color="blue" my="sm" />
+        </>
+      )
     ));
 
     return (
@@ -46,10 +81,18 @@ export const ToInfoPage = ({ service_requests }: ToInfoPageProps) => {
         <Text fw={700} size="lg" mt="md">
           {year}
         </Text>
-        <Timeline active={requests.length}>
-          {requestsThisYear.reverse()}
-        </Timeline>
-        <Divider color="blue" my="sm" />
+        {!editable ? (
+          <>
+            <Timeline active={requests.length}>
+              {requestsThisYear.reverse()}
+            </Timeline>
+            <Divider color="blue" my="sm" />
+          </>
+        ) : (
+          <>
+            {requestsThisYear.reverse()}
+          </>
+        )}
       </Stack>
     );
   });

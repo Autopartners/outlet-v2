@@ -284,7 +284,7 @@ export const LotEditPage = () => {
 
       {/* Контент */}
       <Card bg="gray.1" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }} mb={40}>
-        {activeInfoPage === 'to' && <ToInfoPage service_requests={lot.service_requests || []} />}
+        {activeInfoPage === 'to' && <ToInfoPage service_requests={lot.service_requests || []} editable />}
         {activeInfoPage === 'damages' && <DamagesInfoPage damages={lot.damages || []} editable />}
         {activeInfoPage === 'kit' &&
           <KitInfoPage vehicle_options={lot.vehicle_options} remarketing_options={lot.remarketing_options} />}
