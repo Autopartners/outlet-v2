@@ -47,7 +47,7 @@ export const DamagesInfoPage = ({ damages, editable }: damagesInfoPageParams) =>
     try {
       const res = await api.patch(`/erm/damages/${id}`, { damage: { hide_on_auction: state } });
       if (res) {
-        notification.green('Успех!');
+        notification.green(state ? 'Повреждение скрыто!' : 'Повреждение отображается!');
       }
     } catch {
       notification.red('Ошибка!');

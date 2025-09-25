@@ -9,6 +9,7 @@ interface MeContextType {
   loading: boolean;
   isAdmin: boolean;
   isAuctionConfirmed: boolean;
+  isRemarketing: boolean;
 }
 
 export const MeContext = createContext<MeContextType>({
@@ -19,5 +20,6 @@ export const MeContext = createContext<MeContextType>({
   },
   loading: false,
   isAdmin: false,
-  isAuctionConfirmed: false
+  isAuctionConfirmed: false,
+  isRemarketing: false
 });
