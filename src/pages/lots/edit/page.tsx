@@ -17,6 +17,7 @@ import ImageGallery from 'react-image-gallery';
 import { ToInfoPage } from '@/pages/lots/show/ui/toInfoPage.tsx';
 import { DamagesInfoPage } from '@/pages/lots/show/ui/damagesInfoPage.tsx';
 import { KitInfoPage } from '@/pages/lots/show/ui/kitInfoPage.tsx';
+import { useMe } from '@/app/providers/me/useMe.ts';
 
 type Picture = {
   id: number;
@@ -29,6 +30,7 @@ type Picture = {
 export const LotEditPage = () => {
   const { id } = useParams();
   const { isMobile } = useApp();
+  const { isAdmin, isRemarketing } = useMe();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [activeInfoPage, setActiveInfoPage] = useState<'kit' | 'damages' | 'to' | 'autoteka'>('kit');
   const nav = useNavigate();
@@ -70,6 +72,12 @@ export const LotEditPage = () => {
 
   if (error) {
     nav('/lots');
+  }
+
+  if (!isRemarketing && !isAdmin) {
+    return (
+      <Box>Отсутствуют права для просмотра раздела!</Box>
+    );
   }
 
   if (isLoading) {

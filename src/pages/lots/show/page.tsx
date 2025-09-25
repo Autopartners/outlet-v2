@@ -44,7 +44,7 @@ interface Picture {
 
 export const LotPage = () => {
   const { id } = useParams();
-  const { isAdmin } = useMe();
+  const { isAdmin, isRemarketing } = useMe();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const { lot, error, isLoading } = useLot({ id: id });
   const nav = useNavigate();
@@ -92,7 +92,7 @@ export const LotPage = () => {
       <Card bg="blue.9" radius={0} style={{ borderTopRightRadius: 20, borderTopLeftRadius: 20 }} mt={40} pos="relative">
         <Box pos="absolute" top={20} right={20}>
           <Flex gap={10}>
-            {isAdmin && (
+            {(isAdmin || isRemarketing) && (
               <ActionIcon
                 size="lg"
                 color="white"
