@@ -49,7 +49,7 @@ export const ToInfoPage = ({ service_requests }: ToInfoPageProps) => {
         <Timeline active={requests.length}>
           {requestsThisYear.reverse()}
         </Timeline>
-        <Divider my="sm" />
+        <Divider color="blue" my="sm" />
       </Stack>
     );
   });
