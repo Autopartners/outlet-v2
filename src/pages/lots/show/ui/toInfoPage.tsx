@@ -92,19 +92,19 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
               <Text fw={700} size="sm">{request.smart_km || 1000} км</Text>
             </Stack>
             <Stack w="100vw">
-              <Card bg="blue.1">
+              <Card bg="blue.1" radius="lg">
                 <Stack>
                   <Text fw={700} fz={18}>Комментарий водителя</Text>
                   <Text>{request.note0}</Text>
                 </Stack>
               </Card>
-              <Card bg="blue.1">
+              <Card bg="blue.1" radius="lg">
                 <Stack>
                   <Text fw={700} fz={18}>Комментарий менеджера</Text>
                   <Text>{request.manager_notes}</Text>
                 </Stack>
               </Card>
-              <Card bg="blue.1">
+              <Card bg="blue.1" radius="lg">
                 <Stack>
                   <Text fw={700} fz={18}>Работы</Text>
                   <Text>{request.auction_notes}</Text>
@@ -113,6 +113,7 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
               <Textarea
                 label="Наименование"
                 autosize
+                radius="lg"
                 maxRows={15}
                 placeholder="Наименование"
                 value={value[request.id]}
@@ -121,6 +122,7 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
                 }}
               />
               <Button
+                radius="md"
                 leftSection={mutation.isPending && <Loader size="sm" />}
                 disabled={mutation.isPending}
                 w="10vw"
