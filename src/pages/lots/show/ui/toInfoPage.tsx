@@ -1,10 +1,12 @@
 import { useApp } from '@/app/providers/app/useApp';
-import { Card, Flex, Stack, Text, Divider, Timeline, Textarea, Button } from '@mantine/core';
+import { Card, Flex, Stack, Text, Divider, Timeline, Textarea, Button, Loader } from '@mantine/core';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import { useCallback, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/shared/lib/api.ts';
+import { useParams } from 'react-router-dom';
+import type { Lot } from '@/entities/lot';
 
 dayjs.locale('ru');
 
@@ -29,6 +31,8 @@ interface ToInfoPageProps {
 
 export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
   const { isMobile } = useApp();
+  const { id } = useParams();
+  const client = useQueryClient();
   const { notification } = useApp();
   const [value, setValue] = useState<Record<number, string>>(
     () =>
@@ -43,8 +47,14 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
       const { data } = await api.patch(`/erm/service_requests/${params.req_id}`, { auction_notes: params.value });
       return data;
     },
-    onSuccess: () => {
-      notification.green('Изменено!');
+    onSuccess: (data) => {
+      client.setQueryData(['lot', id], (prev: Lot) => (
+        {
+          ...prev,
+          service_requests: [...prev.service_requests, data]
+        }
+      ));
+      notification.green('Обновлено!');
     }
   });
 
@@ -111,6 +121,8 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
                 }}
               />
               <Button
+                leftSection={mutation.isPending && <Loader size="sm" />}
+                disabled={mutation.isPending}
                 w="10vw"
                 color="green"
                 onClick={() => mutation.mutate({ req_id: request.id, value: value[request.id] })}
