@@ -36,7 +36,7 @@ export const ToInfoPage = ({ service_requests }: ToInfoPageProps) => {
       <Timeline.Item key={j} title={<Text fw={700} c="blue">{dayjs(request.date_at).format('D MMMM')}</Text>}>
         <Flex direction="column" gap="xs">
           <Text>{request.auction_notes}</Text>
-          <Text fw={500} size="sm">{request.smart_km || 1000} км</Text>
+          <Text fw={700} size="xs">{request.smart_km || 1000} км</Text>
         </Flex>
       </Timeline.Item>
     ));
