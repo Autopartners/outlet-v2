@@ -1,5 +1,5 @@
 import { useApp } from '@/app/providers/app/useApp';
-import { Card, Flex, Stack, Group, Text, Paper, Divider } from '@mantine/core';
+import { Card, Flex, Stack, Text, Divider, Timeline } from '@mantine/core';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 
@@ -33,23 +33,22 @@ export const ToInfoPage = ({ service_requests }: ToInfoPageProps) => {
 
   const srs = Object.entries(byYears).map(([year, requests], i) => {
     const requestsThisYear = requests.map((request, j) => (
-      <Paper key={j} shadow="xs" p="sm" withBorder radius="md">
-        <Group justify="space-between" mb="xs">
-          <Text size="sm" c="dimmed">
-            {dayjs(request.date_at).format('D MMMM')}
-          </Text>
-          <Text fw={500}>{request.smart_km || 1000} км</Text>
-        </Group>
-        <Text size="sm">{request.auction_notes}</Text>
-      </Paper>
+      <Timeline.Item key={j} title={<Text fw={700} c="blue">{dayjs(request.date_at).format('D MMMM')}</Text>}>
+        <Flex direction="column" gap="xs">
+          <Text>{request.auction_notes}</Text>
+          <Text fw={500} size="sm">{request.smart_km || 1000} км</Text>
+        </Flex>
+      </Timeline.Item>
     ));
 
     return (
-      <Stack key={i} gap="sm">
+      <Stack key={i} gap="md">
         <Text fw={700} size="lg" mt="md">
           {year}
         </Text>
-        {requestsThisYear.reverse()}
+        <Timeline active={requests.length}>
+          {requestsThisYear.reverse()}
+        </Timeline>
         <Divider my="sm" />
       </Stack>
     );
