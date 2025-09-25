@@ -55,7 +55,7 @@ export const DamagesInfoPage = ({ damages, editable }: damagesInfoPageParams) =>
     }
   };
 
-  const list = stateDamages.map((d, i) => {
+  const list = stateDamages.filter(d => editable || !d.hide_on_auction).map((d, i) => {
     const types = d.part_damages
       .map((t) => {
         const description = t.description ? `(${t.description})` : '';
@@ -193,7 +193,7 @@ export const DamagesInfoPage = ({ damages, editable }: damagesInfoPageParams) =>
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 4 }}>
             <Flex direction="column" maw="100%" mt={isMobile ? 'md' : 0} align="center">
-              <Schema {...actions} damages={stateDamages} />
+              <Schema {...actions} damages={stateDamages.filter(d => editable || !d.hide_on_auction)} />
               <Flex direction="column">{list}</Flex>
             </Flex>
           </Grid.Col>
