@@ -107,7 +107,7 @@ export const LotEditPage = () => {
     <Container size="100%">
       {/* Header info card */}
       <Card
-        bg="cyan.8"
+        bg="dark.5"
         radius={0}
         style={{ borderTopRightRadius: 20, borderTopLeftRadius: 20 }}
         mt={40}
@@ -243,7 +243,7 @@ export const LotEditPage = () => {
 
       {/* Нижнее меню */}
       <Flex
-        bg="cyan.8"
+        bg="dark.5"
         w="100%"
         h={isMobile ? 'auto' : 70}
         align="center"
