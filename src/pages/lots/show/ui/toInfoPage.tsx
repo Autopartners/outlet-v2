@@ -1,7 +1,10 @@
 import { useApp } from '@/app/providers/app/useApp';
-import { Card, Flex, Stack, Text, Divider, Timeline } from '@mantine/core';
+import { Card, Flex, Stack, Text, Divider, Timeline, Textarea, Button } from '@mantine/core';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
+import { useCallback, useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { api } from '@/shared/lib/api.ts';
 
 dayjs.locale('ru');
 
@@ -11,6 +14,12 @@ interface ServiceRequest {
   auction_notes?: string;
   manager_notes?: string;
   note0?: string;
+  id: number;
+}
+
+interface mutationRequestParams {
+  req_id: number;
+  value: string;
 }
 
 interface ToInfoPageProps {
@@ -20,6 +29,28 @@ interface ToInfoPageProps {
 
 export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
   const { isMobile } = useApp();
+  const { notification } = useApp();
+  const [value, setValue] = useState<Record<number, string>>(
+    () =>
+      service_requests.reduce((acc, req) => {
+        acc[req.id] = req.auction_notes ?? '';
+        return acc;
+      }, {} as Record<number, string>)
+  );
+
+  const mutation = useMutation({
+    mutationFn: async (params: mutationRequestParams) => {
+      const { data } = await api.patch(`/erm/service_requests/${params.req_id}`, { auction_notes: params.value });
+      return data;
+    },
+    onSuccess: () => {
+      notification.green('Изменено!');
+    }
+  });
+
+  const setV = useCallback((k: number) => (v: string) => {
+    setValue(ex => ({ ...ex, [k]: v }));
+  }, [setValue]);
 
   const validRequests = service_requests.filter(
     (val) => val.date_at !== null && val.date_at !== ''
@@ -69,6 +100,21 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
                   <Text>{request.auction_notes}</Text>
                 </Stack>
               </Card>
+              <Textarea
+                label="Наименование"
+                autosize
+                maxRows={15}
+                placeholder="Наименование"
+                value={value[request.id]}
+                onChange={(e) => {
+                  setV(request.id)(e.currentTarget.value);
+                }}
+              />
+              <Button
+                w="10vw"
+                color="green"
+                onClick={() => mutation.mutate({ req_id: request.id, value: value[request.id] })}
+              >Сохранить</Button>
             </Stack>
           </Flex>
           <Divider color="blue" my="sm" />
