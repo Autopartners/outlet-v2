@@ -17,11 +17,13 @@ interface ServiceRequest {
   manager_notes?: string;
   note0?: string;
   id: number;
+  hide_on_auction: boolean;
 }
 
 interface mutationRequestParams {
   req_id: number;
-  value: string;
+  field: string;
+  value: string | boolean;
 }
 
 interface ToInfoPageProps {
@@ -44,7 +46,7 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
 
   const mutation = useMutation({
     mutationFn: async (params: mutationRequestParams) => {
-      const { data } = await api.patch(`/erm/service_requests/${params.req_id}`, { auction_notes: params.value });
+      const { data } = await api.patch(`/erm/service_requests/${params.req_id}`, { [params.field]: params.value });
       return data;
     },
     onSuccess: (data) => {
@@ -121,14 +123,34 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
                   setV(request.id)(e.currentTarget.value);
                 }}
               />
-              <Button
-                radius="md"
-                leftSection={mutation.isPending && <Loader size="sm" />}
-                disabled={mutation.isPending}
-                w="10vw"
-                color="green"
-                onClick={() => mutation.mutate({ req_id: request.id, value: value[request.id] })}
-              >Сохранить</Button>
+              <Flex gap="md">
+                <Button
+                  radius="md"
+                  leftSection={mutation.isPending && <Loader size="sm" />}
+                  disabled={mutation.isPending}
+                  w="10vw"
+                  color="green"
+                  onClick={() => mutation.mutate({
+                    req_id: request.id,
+                    value: value[request.id],
+                    field: 'auction_notes'
+                  })}
+                >Сохранить</Button>
+                <Button
+                  radius="md"
+                  leftSection={mutation.isPending && <Loader size="sm" />}
+                  disabled={mutation.isPending}
+                  w="10vw"
+                  color={request.hide_on_auction ? 'blue' : 'yellow'}
+                  onClick={() => mutation.mutate({
+                    req_id: request.id,
+                    value: !request.hide_on_auction,
+                    field: 'hide_on_auction'
+                  })}
+                >
+                  {request.hide_on_auction ? 'Показать' : 'Скрыть'}
+                </Button>
+              </Flex>
             </Stack>
           </Flex>
           <Divider color="blue" my="sm" />
