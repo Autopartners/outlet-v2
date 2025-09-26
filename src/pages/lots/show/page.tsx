@@ -23,6 +23,7 @@ import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { AutotekaInfoPage } from '@/pages/lots/show/ui/autotekaInfoPage.tsx';
 import type { AxiosError } from 'axios';
+import type { ServiceRequest } from '@/entities/lot';
 
 const stageStrings = {
   'preparing': 'Подготовка',
@@ -444,7 +445,11 @@ export const LotPage = () => {
 
       {/* Контент */}
       <Card bg="gray.1" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }} mb={40}>
-        {activeInfoPage === 'to' && <ToInfoPage service_requests={lot.service_requests || []} editable={false} />}
+        {activeInfoPage === 'to' &&
+          <ToInfoPage
+            service_requests={lot.service_requests.filter((request: ServiceRequest) => !request.hide_on_auction) || []}
+            editable={false}
+          />}
         {activeInfoPage === 'damages' && <DamagesInfoPage damages={lot.damages || []} editable={false} />}
         {activeInfoPage === 'kit' &&
           <KitInfoPage vehicle_options={lot.vehicle_options} remarketing_options={lot.remarketing_options} />}
