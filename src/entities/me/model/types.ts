@@ -36,7 +36,7 @@ export interface Me {
   documents_comment?: string;
   phone_confirmation_sent_at: string;
   email_confirmation_sent_at: string;
-
+  avatar_url: string;
 
   [key: string]: unknown;
 }

@@ -2,6 +2,7 @@ import { Avatar, UnstyledButton, Text, Flex } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useMe } from '@/app/providers/me/useMe';
 import { useApp } from '@/app/providers/app/useApp.ts';
+import { authurl } from '@/shared/lib/api.ts';
 
 export const NavStatus = () => {
   const { me } = useMe();
@@ -9,7 +10,7 @@ export const NavStatus = () => {
   return (
     <UnstyledButton component={Link} to="/profile/main">
       <Flex px="sm" gap="sm" align="center">
-        <Avatar radius="xl" color="blue" />
+        <Avatar name={me.name || me.username} src={authurl + me.avatar_url} radius="xl" color="initials" />
         {!isMobile && <Text size="md">{me.name || me.username}</Text>}
       </Flex>
     </UnstyledButton>

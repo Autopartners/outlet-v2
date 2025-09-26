@@ -24,5 +24,6 @@ export const initialMe: Me = {
   lawyer_comments: [],
   documents_comment: '',
   phone_confirmation_sent_at: '',
-  email_confirmation_sent_at: ''
+  email_confirmation_sent_at: '',
+  avatar_url: ''
 };

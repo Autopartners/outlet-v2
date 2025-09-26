@@ -11,16 +11,13 @@ interface MeProviderProps {
 
 const MeProvider = ({ children }: MeProviderProps) => {
   const [me, setMe] = useState(initialMe);
-
   const [loading, setLoading] = useState(false);
 
   const tryMe = useCallback(async () => {
     setLoading(true);
     try {
       const { data } = await api.get('/common/users/me', {
-        params: {
-          method: 'outlet_me'
-        }
+        params: { method: 'outlet_me' }
       });
       setMe((prev) => ({ ...prev, ...data }));
     } catch {
