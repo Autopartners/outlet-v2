@@ -30,5 +30,15 @@ export interface Lot {
   third_stage_at: string;
   sales_pictures_limited: [{ url: string; id: number }];
   damages: Array<object>;
-  service_requests: Array<object>;
+  service_requests: ServiceRequest[];
+}
+
+export interface ServiceRequest {
+  date_at: string;
+  smart_km?: number;
+  auction_notes?: string;
+  manager_notes?: string;
+  note0?: string;
+  id: number;
+  hide_on_auction: boolean;
 }

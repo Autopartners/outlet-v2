@@ -6,19 +6,9 @@ import { useCallback, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/shared/lib/api.ts';
 import { useParams } from 'react-router-dom';
-import type { Lot } from '@/entities/lot';
+import type { Lot, ServiceRequest } from '@/entities/lot';
 
 dayjs.locale('ru');
-
-interface ServiceRequest {
-  date_at: string;
-  smart_km?: number;
-  auction_notes?: string;
-  manager_notes?: string;
-  note0?: string;
-  id: number;
-  hide_on_auction: boolean;
-}
 
 interface mutationRequestParams {
   req_id: number;
@@ -50,12 +40,18 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
       return data;
     },
     onSuccess: (data) => {
-      client.setQueryData(['lot', id], (prev: Lot) => (
-        {
-          ...prev,
-          service_requests: [...prev.service_requests, data]
+      client.setQueryData(['lot', id], (prev: Lot) => {
+        if (!prev) {
+          return prev;
         }
-      ));
+
+        return {
+          ...prev,
+          service_requests: prev.service_requests.map(sr =>
+            sr.id === data.id ? data : sr
+          )
+        };
+      });
       notification.green('Обновлено!');
     }
   });
