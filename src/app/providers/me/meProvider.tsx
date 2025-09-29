@@ -19,7 +19,8 @@ const MeProvider = ({ children }: MeProviderProps) => {
       const { data } = await api.get('/common/users/me', {
         params: { method: 'outlet_me' }
       });
-      setMe((prev) => ({ ...prev, ...data }));
+      const user = data.logged_as ? { ...data.logged_as, parent: data } : data;
+      setMe((prev) => ({ ...prev, ...user }));
     } catch {
       return false;
     } finally {
