@@ -1,4 +1,4 @@
-import { AppShell, Image, Group, Button, rem, Menu, Flex } from '@mantine/core';
+import { AppShell, Image, Group, Button, rem, Menu, Flex, ActionIcon } from '@mantine/core';
 import { NavLink, useLocation } from 'react-router';
 import { AppRouter } from '@/app/routers/appRouter.tsx';
 import { useNavigate } from 'react-router-dom';
@@ -14,14 +14,14 @@ export function Navbar() {
   const { pathname } = useLocation();
   const { isMobile } = useApp();
   const { me, loading } = useMe();
-  const lotsMobilePage = pathname === '/lots' && isMobile;
+  const withoutHeaderPage = pathname !== '/' && isMobile;
 
   if (loading) {
     return <CustomLoader label="Загружаем информацию о пользователе..." />;
   }
 
   return (
-    <AppShell header={{ height: lotsMobilePage ? 0 : 70 }} footer={{ height: isMobile ? 70 : 0 }} padding="md">
+    <AppShell header={{ height: withoutHeaderPage ? 0 : 70 }} footer={{ height: isMobile ? 70 : 0 }} padding="md">
       {(!isMobile || !me.id || pathname === '/') && (
         <AppShell.Header>
           <Group h="100%" px="md" w="100rem" maw="100vw" mx="auto">
@@ -80,25 +80,25 @@ export function Navbar() {
       )}
       <AppShell.Main
         px={0}
-        pt={!lotsMobilePage ? `calc(${rem(70)}` : 0}
+        pt={!withoutHeaderPage ? `calc(${rem(70)}` : 0}
         pb={isMobile ? `calc(${rem(70)}` : 0}
       >
         <AppRouter />
       </AppShell.Main>
       <AppShell.Footer>
         <Group justify="space-around" p="md" hiddenFrom="md" fw={500}>
-          <Button variant={pathname === '/' ? 'light' : 'subtle'} size="xs" color="black" onClick={() => nav('/')}>
+          <ActionIcon variant={pathname === '/' ? 'light' : 'subtle'} size={40} color="black" onClick={() => nav('/')}>
             <IconHome size={30} />
-          </Button>
+          </ActionIcon>
           {me.id && (
-            <Button
+            <ActionIcon
               variant={pathname.includes('/lots') ? 'light' : 'subtle'}
-              size="xs"
+              size={40}
               color="black"
               onClick={() => nav('/lots')}
             >
               <IconCar size={30} />
-            </Button>
+            </ActionIcon>
           )}
           {me.id && <NavStatus />}
           <Menu
@@ -110,37 +110,35 @@ export function Navbar() {
             closeDelay={100}
           >
             <Menu.Target>
-              <Button
-                size="xs"
+              <ActionIcon
+                size={40}
                 variant="subtle"
                 color="black"
               >
-                <IconBaselineDensityMedium size={24} />
-              </Button>
+                <IconBaselineDensityMedium size={30} />
+              </ActionIcon>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Dropdown>
-                <Flex direction="column" gap="sm" p="xs">
-                  <Button
-                    fullWidth
-                    variant={pathname === '/about' ? 'filled' : 'light'}
-                    color="dark"
-                    onClick={() => nav('/about')}
-                    leftSection={<IconSquareRotated size={20} />}
-                  >
+              <Flex direction="column" gap="sm" p="xs">
+                <Button
+                  fullWidth
+                  variant={pathname === '/about' ? 'filled' : 'light'}
+                  color="dark"
+                  onClick={() => nav('/about')}
+                  leftSection={<IconSquareRotated size={20} />}
+                >
                     О компании
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant={pathname === '/rules' ? 'filled' : 'light'}
-                    color="dark"
-                    onClick={() => nav('/rules')}
-                    leftSection={<IconInfoCircle size={20} />}
-                  >
+                </Button>
+                <Button
+                  fullWidth
+                  variant={pathname === '/rules' ? 'filled' : 'light'}
+                  color="dark"
+                  onClick={() => nav('/rules')}
+                  leftSection={<IconInfoCircle size={20} />}
+                >
                     Правила
-                  </Button>
-                </Flex>
-              </Menu.Dropdown>
+                </Button>
+              </Flex>
             </Menu.Dropdown>
           </Menu>
         </Group>

@@ -11,7 +11,7 @@ export const ProfilePage = () => {
   const { isMobile } = useApp();
 
   return (
-    <Container p={0} mt={isMobile ? 0 : 50} fluid>
+    <Container p={0} mt={isMobile ? 20 : 50} fluid>
       <Flex
         gap="md"
         justify="center"
@@ -51,7 +51,7 @@ export const ProfilePage = () => {
               to="/profile/won"
               fullWidth={isMobile}
             >
-              Выйгранные
+              Выигранные
             </Button>
             <Button
               size="md"

@@ -4,6 +4,9 @@ const mantineTheme = createTheme({
   cursorType: 'pointer',
   components: {
     Button: { defaultProps: { radius: 'md' } },
+    Alert: { defaultProps: { radius: 'lg' } },
+    ActionIcon: { defaultProps: { radius: 'md' } },
+    Menu: { defaultProps: { radius: 'md' } },
     Card: { defaultProps: { shadow: 'sm', radius: 'md' } },
     TextInput: { defaultProps: { radius: 'md' } },
     NumberInput: { defaultProps: { radius: 'md' } },

@@ -4,10 +4,17 @@ import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
 import {
   IconBuildingSkyscraper,
-  IconCalendar, IconCarCrash, IconCarGarage,
+  IconCalendar,
+  IconCameraRotate,
+  IconCameraStar,
+  IconCarCrash,
+  IconCarGarage,
   IconChevronLeft,
-  IconChevronRight, IconClipboard,
+  IconChevronRight,
+  IconClipboard,
   IconRoad,
+  IconTrash,
+  IconTrashX,
   IconX
 } from '@tabler/icons-react';
 import { useApp } from '@/app/providers/app/useApp.ts';
@@ -60,11 +67,11 @@ export const LotEditPage = () => {
     return picture
       ? (
         <Flex gap={10} p={10}>
-          <Button color={picture.is_deleted ? 'green' : 'blue'}>
-            {picture.is_deleted ? 'восстановить' : 'скрыть'}
+          <Button color={picture.is_deleted ? 'green' : 'blue'} leftSection={picture.is_deleted ? <IconTrashX/> : <IconTrash/>}>
+            {picture.is_deleted ? 'Восстановить' : 'Скрыть'}
           </Button>
-          <Button color={picture.is_avatar ? 'orange' : 'green'}>
-            {picture.is_avatar ? 'убрать аватар' : 'сделать аватаром'}
+          <Button color={picture.is_avatar ? 'orange' : 'green'} leftSection={picture.is_avatar ? <IconCameraRotate/> : <IconCameraStar/>}>
+            {picture.is_avatar ? 'Убрать аватар' : 'Сделать аватаром'}
           </Button>
         </Flex>
       ) : '';

@@ -32,8 +32,8 @@ export const LotsList = () => {
     return (
       <Container size="xl">
         <Flex justify="center" align="center" mt={isMobile ? 300 : 140}>
-          <Alert w="100vw" radius="md" color="red">
-            <Text>Доступных лотов нет.</Text>
+          <Alert w="fit-content" radius="md" color="gray">
+            <Text ta="center" px={20}>Доступных лотов нет</Text>
           </Alert>
         </Flex>
       </Container>
@@ -43,7 +43,7 @@ export const LotsList = () => {
   return (
     <Container size="xl">
       <LotPages pages={pages} pos="top" />
-      <Alert variant="light" color="blue" radius="md">
+      <Alert variant="light" color="blue" radius="md" mt={50}>
         <Flex direction="column">
           <Flex align="center" justify="flex-start">
             <ThemeIcon variant="transparent" c="blue.7"><IconHourglassHigh size={20} /></ThemeIcon>
@@ -56,7 +56,7 @@ export const LotsList = () => {
           </Flex>
         </Flex>
       </Alert>
-      <SimpleGrid spacing={30} mt={10} cols={{ lg: 3, sm: 1 }}>
+      <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }}>
         {lots.map((lot: Lot) => (
           <Box key={lot.id}>
             <LotCard lot={lot} maxPhotos={5} refetchLots={refetch} />

@@ -1,16 +1,13 @@
 import {
-  ActionIcon, Anchor, Badge, Box, Button, Card, Container, Divider, Flex, Grid, NumberInput, SimpleGrid,
-  Stack, Text, ThemeIcon, Tooltip, Loader as MantineLoader
+  ActionIcon, Anchor, Badge, Box, Button, Card, Container, Flex, Grid, NumberInput, SimpleGrid,
+  Stack, Text, ThemeIcon, Tooltip, Loader as MantineLoader, Tabs
 } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
-import {
-  IconAdjustmentsHorizontal, IconBuildingSkyscraper, IconCalendar, IconCarCrash,
-  IconCarGarage,
+import { IconAdjustmentsHorizontal, IconBook, IconBuildingSkyscraper, IconCalendar, IconCarCrash, IconCarGarage,
   IconChevronLeft, IconChevronRight, IconClipboard, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
-  IconSettings, IconShield, IconX
-} from '@tabler/icons-react';
+  IconSettings, IconShield, IconX } from '@tabler/icons-react';
 import { useState } from 'react';
 import { KitInfoPage } from '@/pages/lots/show/ui/kitInfoPage.tsx';
 import { DamagesInfoPage } from '@/pages/lots/show/ui/damagesInfoPage.tsx';
@@ -49,7 +46,6 @@ export const LotPage = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const { lot, error, isLoading } = useLot({ id: id });
   const nav = useNavigate();
-  const [activeInfoPage, setActiveInfoPage] = useState<'kit' | 'damages' | 'to' | 'autoteka'>('kit');
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
   const { isMobile } = useApp();
@@ -94,12 +90,7 @@ export const LotPage = () => {
         <Box pos="absolute" top={20} right={20}>
           <Flex gap={10}>
             {(isAdmin || isRemarketing) && (
-              <ActionIcon
-                size="lg"
-                color="white"
-                variant="light"
-                onClick={() => nav('edit')}
-              >
+              <ActionIcon size="lg" color="white" variant="light" onClick={() => nav('edit')}>
                 <IconSettings />
               </ActionIcon>
             )}
@@ -138,15 +129,10 @@ export const LotPage = () => {
         </Flex>
       </Card>
 
-      <Card bg="gray.1" withBorder w="100%" radius={0}>
+      <Card bg="gray.1" withBorder w="100%" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}>
         <Grid>
           <Grid.Col span={{ base: 12, md: 7 }}>
-            <Card
-              withBorder
-              radius="md"
-              p={0}
-              maw="100%"
-            >
+            <Card withBorder radius="md" p={0} maw="100%">
               <ImageGallery
                 items={galleryItems}
                 showPlayButton={false}
@@ -164,13 +150,7 @@ export const LotPage = () => {
                     alt={item.originalAlt}
                     style={{
                       width: '100%',
-                      height: isMobile
-                        ? isFullscreen
-                          ? 700
-                          : '30vh'
-                        : isFullscreen
-                          ? 900
-                          : '50vh',
+                      height: isMobile ? (isFullscreen ? 700 : '30vh') : isFullscreen ? 900 : '50vh',
                       objectFit: 'contain'
                     }}
                   />
@@ -361,7 +341,7 @@ export const LotPage = () => {
           </Grid.Col>
 
           <Grid.Col span={{ base: 12, md: 3 }}>
-            <Card>
+            <Card h="100%">
               <Flex gap={5} align="center">
                 <ThemeIcon color="blue.9" variant="transparent">
                   <IconMessage />
@@ -370,7 +350,7 @@ export const LotPage = () => {
                   Связаться с нами
                 </Text>
               </Flex>
-              <Stack mt={20} gap="lg">
+              <Stack mt={30} gap={20}>
                 <Flex gap={10} px={10} align="center">
                   <ThemeIcon variant="light" size="lg" color="blue.9">
                     <IconPhone />
@@ -393,68 +373,38 @@ export const LotPage = () => {
         </Grid>
       </Card>
 
-      {/* Нижнее меню */}
-      <Flex
-        bg="blue.9"
-        w="100%"
-        h={isMobile ? 'auto' : 70}
-        align="center"
-        justify="space-between"
-        px={isMobile ? 20 : 100}
-        direction={isMobile ? 'column' : 'row'}
-        gap={isMobile ? 20 : 'auto'}
-        p={isMobile ? 10 : 'auto'}
-      >
-        <Stack gap={2} w={isMobile ? '100%' : 'auto'}>
-          <Flex gap={10} align="center" style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('kit')}>
-            <IconClipboard color="white" />
-            <Text c="white" fz={20}>
-              Комплектация
-            </Text>
-          </Flex>
-          {activeInfoPage === 'kit' && <Divider color="white" size={3} style={{ borderRadius: 20 }} />}
-        </Stack>
-        <Stack gap={2} w={isMobile ? '100%' : 'auto'}>
-          <Flex gap={10} align="center" style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('damages')}>
-            <IconCarCrash color="white" />
-            <Text c="white" fz={20}>
-              Повреждения
-            </Text>
-          </Flex>
-          {activeInfoPage === 'damages' && <Divider color="white" size={3} style={{ borderRadius: 20 }} />}
-        </Stack>
-        <Stack gap={2} w={isMobile ? '100%' : 'auto'}>
-          <Flex gap={10} align="center" style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('to')}>
-            <IconCarGarage color="white" />
-            <Text c="white" fz={20}>
-              ТО
-            </Text>
-          </Flex>
-          {activeInfoPage === 'to' && <Divider color="white" size={3} style={{ borderRadius: 20 }} />}
-        </Stack>
-        <Stack gap={2} w={isMobile ? '100%' : 'auto'}>
-          <Flex gap={10} align="center" style={{ cursor: 'pointer' }} onClick={() => setActiveInfoPage('autoteka')}>
-            <IconCarGarage color="white" />
-            <Text c="white" fz={20}>
-              Автотека
-            </Text>
-          </Flex>
-          {activeInfoPage === 'autoteka' && <Divider color="white" size={3} style={{ borderRadius: 20 }} />}
-        </Stack>
-      </Flex>
+      <Tabs color="blue.7" defaultValue="kit" py={20} radius="lg">
+        <Tabs.List grow>
+          <Tabs.Tab value="kit" leftSection={<IconClipboard color="black" />} fz={20}>
+            Комплектация
+          </Tabs.Tab>
+          <Tabs.Tab value="damages" leftSection={<IconCarCrash color="black" />} fz={20}>
+            Повреждения
+          </Tabs.Tab>
+          <Tabs.Tab value="to" leftSection={<IconCarGarage color="black" />} fz={20}>
+            ТО
+          </Tabs.Tab>
+          <Tabs.Tab value="autoteka" leftSection={<IconBook color="black" />} fz={20}>
+            Автотека
+          </Tabs.Tab>
+        </Tabs.List>
 
-      {/* Контент */}
-      <Card bg="gray.1" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }} mb={40}>
-        {activeInfoPage === 'to' &&
+        <Tabs.Panel value="kit">
+          <KitInfoPage vehicle_options={lot.vehicle_options} remarketing_options={lot.remarketing_options} />
+        </Tabs.Panel>
+        <Tabs.Panel value="damages">
+          <DamagesInfoPage damages={lot.damages || []} editable={false} />
+        </Tabs.Panel>
+        <Tabs.Panel value="to">
           <ToInfoPage
             service_requests={lot.service_requests.filter((request: ServiceRequest) => !request.hide_on_auction) || []}
             editable={false}
-          />}
-        {activeInfoPage === 'damages' && <DamagesInfoPage damages={lot.damages || []} editable={false} />}
-        {activeInfoPage === 'kit' &&
-          <KitInfoPage vehicle_options={lot.vehicle_options} remarketing_options={lot.remarketing_options} />}
-        {activeInfoPage === 'autoteka' && <AutotekaInfoPage />}
-      </Card>
+          />
+        </Tabs.Panel>
+        <Tabs.Panel value="autoteka">
+          <AutotekaInfoPage />
+        </Tabs.Panel>
+      </Tabs>
     </Container>
   );
 };

@@ -1,10 +1,10 @@
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { LotsFilters } from '@/pages/lots/index/ui/lotsFilters.tsx';
 import { LotsList } from '@/pages/lots/index/ui/lotsList.tsx';
-import { Alert, Container, Flex, Text } from '@mantine/core';
+import { Container, Flex } from '@mantine/core';
 import { useApp } from '@/app/providers/app/useApp';
-import { IconInfoCircle } from '@tabler/icons-react';
 import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';
+import { ConfirmBanner } from '@/shared/ui/ConfirmBanner.tsx';
 
 export const LotsPage = () => {
   const { isAuctionConfirmed } = useMe();
@@ -14,16 +14,7 @@ export const LotsPage = () => {
     return (
       <Container p={0} mt={isMobile ? 0 : 50} fluid>
         <Flex justify="center" align="center" direction="column">
-          <Alert h={150} w="90vw" icon={<IconInfoCircle />} title="Ограничено в доступе!" color="red">
-            <Text>
-              Подтвердите
-              телефон и
-              почту
-              в
-              профиле для просмотра
-              лотов!
-            </Text>
-          </Alert>
+          <ConfirmBanner />
           <LotsListSkeletonLoader />
         </Flex>
       </Container>

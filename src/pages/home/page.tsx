@@ -15,6 +15,7 @@ import { useLots } from '@/pages/lots/index/api/useLots.ts';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import type { Lot } from '@/entities/lot';
 import { useMe } from '@/app/providers/me/useMe.ts';
+import { ConfirmBanner } from '@/shared/ui/ConfirmBanner.tsx';
 
 export const HomePage = () => {
   const nav = useNavigate();
@@ -56,6 +57,7 @@ export const HomePage = () => {
           Смотреть все
         </Button>
       </Box>}
+      {me.id && !isAuctionConfirmed && <Box mx="auto" w="fit-content"><ConfirmBanner /></Box>}
       <Box ta="center" mt={20} mb={40} w={isMobile ? '90%' : '60%'} mx="auto">
         <Text fz={isMobile ? 30 : 40}>Наши преимущества</Text>
         <Divider mx="auto" mt={10} w={100} color="blue.8" size={5} style={{ borderRadius: 20 }} />
