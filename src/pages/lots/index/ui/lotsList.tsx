@@ -122,7 +122,7 @@ export const LotsList = () => {
                 <Tooltip label="Моя ставка">
                   <Flex align="center" justify="start">
                     {lot.my_bid && <IconCurrencyRubel stroke={2} size={20} />}
-                    <Text fz={18} fw="bold">{lot.my_bid}</Text>
+                    <Text fz={20} fw="bold">{lot.my_bid}</Text>
                   </Flex>
                 </Tooltip>
               </Box>
