@@ -1,7 +1,5 @@
-import {
-  ActionIcon, Anchor, Badge, Box, Button, Card, Container, Flex, Grid, NumberInput, SimpleGrid,
-  Stack, Text, ThemeIcon, Tooltip, Loader as MantineLoader, Tabs
-} from '@mantine/core';
+import { ActionIcon, Anchor, Badge, Box, Button, Card, Container, Flex, Grid, NumberInput, SimpleGrid, Stack, Text,
+  ThemeIcon, Tooltip, Loader as MantineLoader, Tabs, Space } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
@@ -390,18 +388,22 @@ export const LotPage = () => {
         </Tabs.List>
 
         <Tabs.Panel value="kit">
+          <Space h={20}/>
           <KitInfoPage vehicle_options={lot.vehicle_options} remarketing_options={lot.remarketing_options} />
         </Tabs.Panel>
         <Tabs.Panel value="damages">
+          <Space h={20}/>
           <DamagesInfoPage damages={lot.damages || []} editable={false} />
         </Tabs.Panel>
         <Tabs.Panel value="to">
+          <Space h={20}/>
           <ToInfoPage
             service_requests={lot.service_requests.filter((request: ServiceRequest) => !request.hide_on_auction) || []}
             editable={false}
           />
         </Tabs.Panel>
         <Tabs.Panel value="autoteka">
+          <Space h={20}/>
           <AutotekaInfoPage />
         </Tabs.Panel>
       </Tabs>
