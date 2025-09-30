@@ -46,7 +46,7 @@ export const HomePage = () => {
         <Text fz={isMobile ? 30 : 40}>Актуальные лоты</Text>
         <Divider mx="auto" mt={10} w={100} color="blue.8" size={5} style={{ borderRadius: 20 }} />
         {isLoading ? <Center mt={40} mb={20}><Loader size="lg" /></Center> :
-          <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '60%'} mx="auto">
+          <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '70%'} mx="auto">
             {lots.map((lot: Lot) => (
               <Box key={lot.id}>
                 <LotCard lot={lot} maxPhotos={10} refetchLots={refetch} />

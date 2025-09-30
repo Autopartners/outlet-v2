@@ -30,7 +30,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
   const { bidMutation } = useBid();
 
   return (
-    <Card h={490} withBorder p={0} classNames={{ root: 'cardHover' }}>
+    <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
       <ApCarousel pictures={lot.sales_pictures_limited.slice(0, maxPhotos || lot.sales_pictures_limited.length - 1)} />
       <Box p={10} ta="left" w="100%">
         <Flex justify="space-between">
