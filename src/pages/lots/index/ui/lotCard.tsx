@@ -6,7 +6,6 @@ import {
   Flex,
   NumberInput,
   Popover,
-  Stack,
   Text,
   ThemeIcon,
   Loader as MantineLoader, Tooltip
@@ -31,7 +30,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
   const { bidMutation } = useBid();
 
   return (
-    <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
+    <Card h={490} withBorder p={0} classNames={{ root: 'cardHover' }}>
       <ApCarousel pictures={lot.sales_pictures_limited.slice(0, maxPhotos || lot.sales_pictures_limited.length - 1)} />
       <Box p={10} ta="left" w="100%">
         <Flex justify="space-between">
@@ -48,14 +47,14 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
           <ThemeIcon variant="transparent" c="blue.7"><IconRoad size={20} /></ThemeIcon>
           <Text fz={14}>Пробег <strong>{Number(lot.return_km).toLocaleString('ru-RU')} км</strong></Text>
         </Flex>
-        <Flex mt={10} align="center" justify="space-between">
+        <Flex mt={20} h={50} align="center" justify="space-between">
           {lot.my_bid ? (
-            <Stack gap={0}>
+            <Flex direction="column">
               <Text fz={14}>Ваша ставка</Text>
               <Text fz={20} fw="bold" c="blue.7">{lot.my_bid.toLocaleString('ru-RU')} ₽</Text>
-            </Stack>
+            </Flex>
           ) : ((lot.stage === 'first_stage' || lot.stage === 'second_stage') && (
-            <Stack>
+            <Flex direction="column">
               <Popover width={200} position="bottom" opened={opened} onChange={setOpened} withArrow shadow="md">
                 <Popover.Target>
                   <Button variant="default" onClick={() => setOpened(!opened)}>Сделать ставку</Button>
@@ -99,7 +98,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
                   </Button>
                 </Popover.Dropdown>
               </Popover>
-            </Stack>
+            </Flex>
           ))}
           <Flex gap={10}>
             <Button variant="light" color="blue.7" w={150} onClick={() => nav(`/lots/${lot.id}`)}>Подробнее</Button>
