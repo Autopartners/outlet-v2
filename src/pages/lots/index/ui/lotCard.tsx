@@ -33,8 +33,8 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
       <ApCarousel pictures={lot.sales_pictures_limited.slice(0, maxPhotos || lot.sales_pictures_limited.length - 1)} />
       <Box p={10} ta="left" w="100%">
-        <Flex justify="space-between">
-          <Text fw="bold" fz={20}>
+        <Flex justify="space-between" align="flex-start">
+          <Text fw="bold" fz={20} maw={300}>
             {lot.definition_short_name.trim() || lot.definition_name.split(' ').slice(0, 2).join(' ')}, {lot.vehicle_year_of_production} г.
           </Text>
           <Card shadow="xs" withBorder p={5}><Text fz={14} fw="bold">{lot.code}</Text></Card>
