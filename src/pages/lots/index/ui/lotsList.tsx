@@ -37,6 +37,7 @@ export const LotsList = () => {
   const per_page = '12';
   const params = {
     started: 'true',
+    liked: searchParams.get('liked'),
     q: {
       vehicle_vehicle_model_id_eq: searchParams.get('vehicle_model_id'),
       vehicle_vehicle_brand_id_eq: searchParams.get('vehicle_brand_id'),
