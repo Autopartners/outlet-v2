@@ -21,7 +21,12 @@ export const HomePage = () => {
   const nav = useNavigate();
   const { isMobile } = useApp();
   const { me, isAuctionConfirmed } = useMe();
-  const { lots, isLoading, refetch } = useLots({ page: '1', per_page: '3', params: { started: 'true' } });
+  const page = '1';
+  const per_page = '3';
+  const params = {
+    started: 'true'
+  };
+  const { lots, isLoading, refetch } = useLots({ page: page, per_page: per_page, params: params });
 
   return (
     <Container p={0} fluid>
@@ -49,7 +54,14 @@ export const HomePage = () => {
           <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '70%'} mx="auto">
             {lots.map((lot: Lot) => (
               <Box key={lot.id}>
-                <LotCard lot={lot} maxPhotos={10} refetchLots={refetch} />
+                <LotCard
+                  lot={lot}
+                  maxPhotos={10}
+                  refetchLots={refetch}
+                  page={page}
+                  per_page={per_page}
+                  params={params}
+                />
               </Box>
             ))}
           </SimpleGrid>}
