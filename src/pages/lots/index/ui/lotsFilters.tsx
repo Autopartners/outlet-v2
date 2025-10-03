@@ -4,20 +4,25 @@ import { useBrands, useCities, useModels } from '@/pages/lots/index/api/useFilte
 import { FilterSelect } from '@/shared/ui/filterSelect.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { useState } from 'react';
-import { IconFilter, IconX } from '@tabler/icons-react';
+import { IconFilter, IconStar, IconStarFilled, IconX } from '@tabler/icons-react';
 
 export const LotsFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isMobile } = useApp();
+  const activeStar = searchParams.get('liked') === 'true';
   const [showFilters, setShowFilters] = useState(true);
 
   const updateParams = (value: string | null, key: string) => {
     if (value) {
       searchParams.set(key, value);
-      if (key === 'vehicle_brand_id') { searchParams.delete('vehicle_model_id'); }
+      if (key === 'vehicle_brand_id') {
+        searchParams.delete('vehicle_model_id');
+      }
     } else {
       searchParams.delete(key);
-      if (key === 'vehicle_brand_id') { searchParams.delete('vehicle_model_id'); }
+      if (key === 'vehicle_brand_id') {
+        searchParams.delete('vehicle_model_id');
+      }
     }
     setSearchParams(searchParams);
   };
@@ -34,15 +39,27 @@ export const LotsFilters = () => {
     return (
       <Card
         withBorder
-        pos='fixed'
+        pos="fixed"
         top={130}
         left="50%"
         style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}
       >
-        <ActionIcon onClick={() => setShowFilters(false)} pos="absolute" right={10} top={5} color="gray" variant="subtle">
-          <IconX/>
+        <ActionIcon
+          onClick={() => setShowFilters(false)}
+          pos="absolute"
+          right={10}
+          top={5}
+          color="gray"
+          variant="subtle"
+        >
+          <IconX />
         </ActionIcon>
-        <Flex direction={isMobile ? 'column' : 'row'} justify="space-between" w={isMobile ? '100%' : 700}>
+        <Flex
+          direction={isMobile ? 'column' : 'row'}
+          justify="space-around"
+          align="flex-end"
+          w={isMobile ? '100%' : 800}
+        >
           <FilterSelect
             label="Город"
             data={cities}
@@ -62,13 +79,22 @@ export const LotsFilters = () => {
             onChange={(v: string | null) => updateParams(v, 'vehicle_model_id')}
             disabled={!brandId}
           />
+          <ActionIcon
+            size={38}
+            variant="transparent"
+            onClick={() => updateParams(String(!activeStar), 'liked')}
+            c="yellow.3"
+          >
+            {activeStar ? <IconStarFilled size={32} /> : <IconStar size={32} />}
+          </ActionIcon>
         </Flex>
       </Card>
-    ) }
+    );
+  }
 
   return (
     <Box
-      pos='fixed'
+      pos="fixed"
       top={isMobile ? 40 : 100}
       left="50%"
       style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}
@@ -77,5 +103,5 @@ export const LotsFilters = () => {
         <IconFilter />
       </ActionIcon>
     </Box>
-  )
+  );
 };
