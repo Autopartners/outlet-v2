@@ -19,6 +19,7 @@ import { useBid } from '@/pages/lots/show/api/useBid.ts';
 import { api } from '@/shared/lib/api.ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useApp } from '@/app/providers/app/useApp';
+import { useHover } from '@mantine/hooks';
 
 interface LotCardProps {
   lot: Lot;
@@ -43,6 +44,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots, page, per_page, params }:
   const { isMobile } = useApp();
   const client = useQueryClient();
   const liked = lot.like_status === 'like';
+  const { hovered, ref } = useHover();
 
   const like = async () => {
     const status = liked ? 'indifferent' : 'like';
@@ -138,10 +140,11 @@ export const LotCard = ({ lot, maxPhotos, refetchLots, page, per_page, params }:
             <ActionIcon
               onClick={like}
               size="lg"
+              ref={ref}
               color="yellow.3"
               variant="transparent"
             >
-              {liked ? <IconStarFilled /> : <IconStar />}
+              {liked ? <IconStarFilled size={hovered ? 32 : 24} /> : <IconStar size={hovered ? 32 : 24} />}
             </ActionIcon>
           </Flex>
         </Flex>
