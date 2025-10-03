@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { useBid } from '@/pages/lots/show/api/useBid.ts';
 import { api } from '@/shared/lib/api.ts';
 import { useQueryClient } from '@tanstack/react-query';
+import { useApp } from '@/app/providers/app/useApp';
 
 interface LotCardProps {
   lot: Lot;
@@ -39,6 +40,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots, page, per_page, params }:
   const [opened, setOpened] = useState(false);
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
+  const { isMobile } = useApp();
   const client = useQueryClient();
   const liked = lot.like_status === 'like';
 
@@ -61,7 +63,7 @@ export const LotCard = ({ lot, maxPhotos, refetchLots, page, per_page, params }:
   };
 
   return (
-    <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
+    <Card withBorder p={0} classNames={{ root: !isMobile ? 'cardHover' : undefined }}>
       <ApCarousel pictures={lot.sales_pictures_limited.slice(0, maxPhotos || lot.sales_pictures_limited.length - 1)} />
       <Box p={10} ta="left" w="100%">
         <Flex justify="space-between" align="flex-start">
