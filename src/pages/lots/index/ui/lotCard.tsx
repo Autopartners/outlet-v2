@@ -17,7 +17,6 @@ import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 import { useState } from 'react';
 import { useBid } from '@/pages/lots/show/api/useBid.ts';
 import { api } from '@/shared/lib/api.ts';
-import { useApp } from '@/app/providers/app/useApp.ts';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface LotCardProps {
@@ -40,7 +39,6 @@ export const LotCard = ({ lot, maxPhotos, refetchLots, page, per_page, params }:
   const [opened, setOpened] = useState(false);
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
-  const { notification } = useApp();
   const client = useQueryClient();
   const liked = lot.like_status === 'like';
 
@@ -60,7 +58,6 @@ export const LotCard = ({ lot, maxPhotos, refetchLots, page, per_page, params }:
         )
       };
     });
-    notification.green(liked ? 'Дизлайк' : 'Лайк');
   };
 
   return (
