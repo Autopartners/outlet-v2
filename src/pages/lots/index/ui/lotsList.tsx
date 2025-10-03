@@ -32,7 +32,7 @@ export const LotsList = () => {
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
   const nav = useNavigate();
-  const [activeView, setActiveView] = useState('cards');
+  const [activeView, setActiveView] = useState('table');
   const { lots, isLoading, pages, refetch } = useLots({
     page: searchParams.get('page') || '1',
     per_page: '12',
