@@ -16,7 +16,7 @@ export interface Lot {
   address: string;
   stage: 'preparing' | 'first_stage' | 'second_stage' | 'third_stage' | 'finished';
   my_bid: number | null;
-  like_status: 'indifferent' | 'liked' | 'unliked';
+  like_status: 'indifferent' | 'like';
   code: string;
   city_of_remarketing_name: string;
   brand_name: string

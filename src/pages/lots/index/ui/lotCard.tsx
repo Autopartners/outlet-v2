@@ -12,22 +12,56 @@ import {
 } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { useNavigate } from 'react-router-dom';
-import { IconBuildingSkyscraper, IconRoad, IconStar } from '@tabler/icons-react';
+import { IconBuildingSkyscraper, IconRoad, IconStar, IconStarFilled } from '@tabler/icons-react';
 import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
 import { useState } from 'react';
 import { useBid } from '@/pages/lots/show/api/useBid.ts';
+import { api } from '@/shared/lib/api.ts';
+import { useApp } from '@/app/providers/app/useApp.ts';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface LotCardProps {
   lot: Lot;
   maxPhotos?: number;
   refetchLots: () => void;
+  page: string;
+  per_page: string;
+  params: object;
 }
 
-export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
+interface LotsCache {
+  result: Lot[];
+  pages: number;
+  total: number;
+}
+
+export const LotCard = ({ lot, maxPhotos, refetchLots, page, per_page, params }: LotCardProps) => {
   const nav = useNavigate();
   const [opened, setOpened] = useState(false);
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
+  const { notification } = useApp();
+  const client = useQueryClient();
+  const liked = lot.like_status === 'like';
+
+  const like = async () => {
+    const status = liked ? 'indifferent' : 'like';
+    await api.post('outlet/lots/make_favourite', { status, id: lot.id });
+
+    client.setQueryData(['lots', page, per_page, params], (old: LotsCache) => {
+      if (!old || !old.result) {
+        return old;
+      }
+
+      return {
+        ...old,
+        result: old.result.map((item: Lot) =>
+          item.id === lot.id ? { ...item, like_status: status } : item
+        )
+      };
+    });
+    notification.green(liked ? 'Дизлайк' : 'Лайк');
+  };
 
   return (
     <Card withBorder p={0} classNames={{ root: 'cardHover' }}>
@@ -102,8 +136,13 @@ export const LotCard = ({ lot, maxPhotos, refetchLots }: LotCardProps) => {
           ))}
           <Flex gap={10}>
             <Button variant="light" color="blue.7" w={150} onClick={() => nav(`/lots/${lot.id}`)}>Подробнее</Button>
-            <ActionIcon size="lg" color="yellow.3" variant="transparent">
-              <IconStar />
+            <ActionIcon
+              onClick={like}
+              size="lg"
+              color="yellow.3"
+              variant="transparent"
+            >
+              {liked ? <IconStarFilled /> : <IconStar />}
             </ActionIcon>
           </Flex>
         </Flex>

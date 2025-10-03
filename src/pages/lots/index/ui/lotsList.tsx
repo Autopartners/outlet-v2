@@ -33,17 +33,20 @@ export const LotsList = () => {
   const { bidMutation } = useBid();
   const nav = useNavigate();
   const [activeView, setActiveView] = useState('table');
-  const { lots, isLoading, pages, refetch } = useLots({
-    page: searchParams.get('page') || '1',
-    per_page: '12',
-    params: {
-      started: 'true',
-      q: {
-        vehicle_vehicle_model_id_eq: searchParams.get('vehicle_model_id'),
-        vehicle_vehicle_brand_id_eq: searchParams.get('vehicle_brand_id'),
-        vehicle_city_of_remarketing_id_eq: searchParams.get('city_id')
-      }
+  const page = searchParams.get('page') || '1';
+  const per_page = '12';
+  const params = {
+    started: 'true',
+    q: {
+      vehicle_vehicle_model_id_eq: searchParams.get('vehicle_model_id'),
+      vehicle_vehicle_brand_id_eq: searchParams.get('vehicle_brand_id'),
+      vehicle_city_of_remarketing_id_eq: searchParams.get('city_id')
     }
+  };
+  const { lots, isLoading, pages, refetch } = useLots({
+    page,
+    per_page,
+    params
   });
 
   if (isLoading || !lots) {
@@ -102,7 +105,14 @@ export const LotsList = () => {
         <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }}>
           {lots.map((lot: Lot) => (
             <Box key={lot.id}>
-              <LotCard lot={lot} maxPhotos={5} refetchLots={refetch} />
+              <LotCard
+                lot={lot}
+                maxPhotos={5}
+                page={page}
+                per_page={per_page}
+                params={params}
+                refetchLots={refetch}
+              />
             </Box>
           ))}
         </SimpleGrid>
