@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Card, Flex } from '@mantine/core';
+import { ActionIcon, Box, Card, Flex, Tooltip } from '@mantine/core';
 import { useSearchParams } from 'react-router-dom';
 import { useBrands, useCities, useModels } from '@/pages/lots/index/api/useFilters.ts';
 import { FilterSelect } from '@/shared/ui/filterSelect.tsx';
@@ -81,16 +81,18 @@ export const LotsFilters = () => {
             onChange={(v: string | null) => updateParams(v, 'vehicle_model_id')}
             disabled={!brandId}
           />
-          <ActionIcon
-            size={42}
-            variant="transparent"
-            ref={ref}
-            onClick={() => updateParams(String(!activeStar), 'liked')}
-            c="yellow.3"
-          >
-            {activeStar ? <IconStarFilled size={hovered ? 42 : 32} style={{ transition: 'all 0.2s ease' }} /> :
-              <IconStar size={hovered ? 42 : 32} style={{ transition: 'all 0.2s ease' }} />}
-          </ActionIcon>
+          <Tooltip label="Показывать только избранные">
+            <ActionIcon
+              size={42}
+              variant="transparent"
+              ref={ref}
+              onClick={() => updateParams(String(!activeStar), 'liked')}
+              c="yellow.3"
+            >
+              {activeStar ? <IconStarFilled size={hovered ? 42 : 32} style={{ transition: 'all 0.2s ease' }} /> :
+                <IconStar size={hovered ? 42 : 32} style={{ transition: 'all 0.2s ease' }} />}
+            </ActionIcon>
+          </Tooltip>
         </Flex>
       </Card>
     );
