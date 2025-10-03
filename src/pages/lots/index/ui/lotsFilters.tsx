@@ -5,12 +5,14 @@ import { FilterSelect } from '@/shared/ui/filterSelect.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { useState } from 'react';
 import { IconFilter, IconStar, IconStarFilled, IconX } from '@tabler/icons-react';
+import { useHover } from '@mantine/hooks';
 
 export const LotsFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isMobile } = useApp();
   const activeStar = searchParams.get('liked') === 'true';
   const [showFilters, setShowFilters] = useState(true);
+  const { ref, hovered } = useHover();
 
   const updateParams = (value: string | null, key: string) => {
     if (value) {
@@ -80,12 +82,14 @@ export const LotsFilters = () => {
             disabled={!brandId}
           />
           <ActionIcon
-            size={38}
+            size={42}
             variant="transparent"
+            ref={ref}
             onClick={() => updateParams(String(!activeStar), 'liked')}
             c="yellow.3"
           >
-            {activeStar ? <IconStarFilled size={32} /> : <IconStar size={32} />}
+            {activeStar ? <IconStarFilled size={hovered ? 42 : 32} style={{ transition: 'all 0.2s ease' }} /> :
+              <IconStar size={hovered ? 42 : 32} style={{ transition: 'all 0.2s ease' }} />}
           </ActionIcon>
         </Flex>
       </Card>

@@ -144,7 +144,8 @@ export const LotCard = ({ lot, maxPhotos, refetchLots, page, per_page, params }:
               color="yellow.3"
               variant="transparent"
             >
-              {liked ? <IconStarFilled size={hovered ? 32 : 24} /> : <IconStar size={hovered ? 32 : 24} />}
+              {liked ? <IconStarFilled size={hovered ? 32 : 24} style={{ transition: 'all 0.2s ease' }} /> :
+                <IconStar size={hovered ? 32 : 24} style={{ transition: 'all 0.2s ease' }} />}
             </ActionIcon>
           </Flex>
         </Flex>
