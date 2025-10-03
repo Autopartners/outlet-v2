@@ -57,7 +57,7 @@ export const LotsFilters = () => {
         <Flex
           direction={isMobile ? 'column' : 'row'}
           justify="space-around"
-          align="flex-end"
+          align={isMobile ? 'center' : 'flex-end'}
           w={isMobile ? '100%' : 800}
         >
           <FilterSelect
