@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { IconLayoutGridFilled } from '@tabler/icons-react';
 import { useBid } from '@/pages/lots/show/api/useBid.ts';
 import { LotsTableSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonLoader.tsx';
+import { useNavigate } from 'react-router';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
@@ -30,6 +31,7 @@ export const LotsList = () => {
   const [openedLotId, setOpenedLotId] = useState<number | null>(null);
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
+  const nav = useNavigate();
   const [activeView, setActiveView] = useState('cards');
   const { lots, isLoading, pages, refetch } = useLots({
     page: searchParams.get('page') || '1',
@@ -109,7 +111,13 @@ export const LotsList = () => {
         <Stack mt={50} gap={20}>
           {lots.map((lot: Lot) => (
             <Flex justify="space-between" align="center">
-              <Text fz={16}>{lot.code}</Text>
+              <Button
+                onClick={() => nav(`${lot.id}`)}
+                variant="subtle"
+                color="dark"
+              >
+                <Text fz={16} fw="bold">{lot.code}</Text>
+              </Button>
               <Stack gap={0} w={450}>
                 <Text c="blue" fw="bold">{lot.definition_name}</Text>
                 <Flex justify="space-between" w={300}>
