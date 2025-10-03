@@ -17,7 +17,7 @@ import { useSearchParams } from 'react-router-dom';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
 import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';
-import { IconCurrencyRubel, IconHourglassHigh, IconHourglassLow, IconTable } from '@tabler/icons-react';
+import { IconCurrencyRubel, IconHourglassHigh, IconHourglassLow, IconList } from '@tabler/icons-react';
 import { useApp } from '@/app/providers/app/useApp';
 import { useState } from 'react';
 import { IconLayoutGridFilled } from '@tabler/icons-react';
@@ -87,7 +87,7 @@ export const LotsList = () => {
           size="xl"
           c={activeView === 'table' ? 'white' : 'dark'}
         >
-          <IconTable size={32} />
+          <IconList size={32} />
         </ActionIcon>
         <ActionIcon
           onClick={() => setActiveView('cards')}
