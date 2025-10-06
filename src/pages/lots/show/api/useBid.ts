@@ -17,7 +17,8 @@ export const useBid = () => {
       return data;
     },
     onSuccess: (data) => {
-      client.setQueryData(['lot', String(data.id)], data);
+      const oldLot: object | undefined = client.getQueryData(['lot', String(data.lot_id)]);
+      client.setQueryData(['lot', String(data.lot_id)], { ...oldLot, my_bid: data.second_stage_amount || data.first_stage_amount });
       notification.green('Ставка поставлена!');
     }
   })

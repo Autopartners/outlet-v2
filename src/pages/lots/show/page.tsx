@@ -19,6 +19,7 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 import { AutotekaInfoPage } from '@/pages/lots/show/ui/autotekaInfoPage.tsx';
 import type { AxiosError } from 'axios';
 import type { ServiceRequest } from '@/entities/lot';
+import { useTimeout } from '@mantine/hooks';
 
 const stageStrings = {
   'preparing': 'Подготовка',
@@ -47,6 +48,9 @@ export const LotPage = () => {
   const [bid, setBid] = useState<string | number | undefined>('');
   const { bidMutation } = useBid();
   const { isMobile } = useApp();
+
+  const bottomScroll = () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  const { start: scrollBottomTimeout } = useTimeout(() => bottomScroll(), 200);
 
   if (error) {
     const err = error as AxiosError<{ error: string }>;
@@ -262,14 +266,19 @@ export const LotPage = () => {
                           thousandSeparator={' '}
                           value={bid}
                           onChange={setBid}
+                          disabled={bidMutation.status === 'pending'}
+                          step={100000}
                         />
                         <Button
-                          onClick={() => bidMutation.mutate({ value: bid, lot_id: id })}
+                          onClick={() => {
+                            bidMutation.mutate({ value: bid, lot_id: id })
+                            setBid('');
+                          }}
                           color="green.7"
                           size="lg"
                           disabled={!bid || Number(bid) < (lot.second_stage_minimal_price ?? 0)}
                           w={{ base: '100%', sm: '35%' }}
-                          leftSection={bidMutation.status === 'pending' && <MantineLoader type="dots" color="white" />}
+                          leftSection={bidMutation.status === 'pending' && <MantineLoader type="dots" color="gray.6" />}
                         >
                           Отправить
                         </Button>
@@ -373,37 +382,37 @@ export const LotPage = () => {
 
       <Tabs color="blue.7" defaultValue="kit" py={20} radius="lg">
         <Tabs.List grow>
-          <Tabs.Tab value="kit" leftSection={<IconClipboard color="black" />} fz={20}>
+          <Tabs.Tab onClick={() => scrollBottomTimeout()} value="kit" leftSection={<IconClipboard color="black" />} fz={20}>
             Комплектация
           </Tabs.Tab>
-          <Tabs.Tab value="damages" leftSection={<IconCarCrash color="black" />} fz={20}>
+          <Tabs.Tab onClick={() => scrollBottomTimeout()} value="damages" leftSection={<IconCarCrash color="black" />} fz={20}>
             Повреждения
           </Tabs.Tab>
-          <Tabs.Tab value="to" leftSection={<IconCarGarage color="black" />} fz={20}>
+          <Tabs.Tab onClick={() => scrollBottomTimeout()} value="to" leftSection={<IconCarGarage color="black" />} fz={20}>
             ТО
           </Tabs.Tab>
-          <Tabs.Tab value="autoteka" leftSection={<IconBook color="black" />} fz={20}>
+          <Tabs.Tab onClick={() => scrollBottomTimeout()} value="autoteka" leftSection={<IconBook color="black" />} fz={20}>
             Автотека
           </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="kit">
-          <Space h={20}/>
+          <Space h={20} />
           <KitInfoPage vehicle_options={lot.vehicle_options} remarketing_options={lot.remarketing_options} />
         </Tabs.Panel>
         <Tabs.Panel value="damages">
-          <Space h={20}/>
+          <Space h={20} />
           <DamagesInfoPage damages={lot.damages || []} editable={false} />
         </Tabs.Panel>
         <Tabs.Panel value="to">
-          <Space h={20}/>
+          <Space h={20} />
           <ToInfoPage
             service_requests={lot.service_requests.filter((request: ServiceRequest) => !request.hide_on_auction) || []}
             editable={false}
           />
         </Tabs.Panel>
         <Tabs.Panel value="autoteka">
-          <Space h={20}/>
+          <Space h={20} />
           <AutotekaInfoPage />
         </Tabs.Panel>
       </Tabs>

@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Button, Card, Flex, Grid, Text } from '@mantine/core';
+import { ActionIcon, Alert, Badge, Button, Card, Flex, Grid, Text } from '@mantine/core';
 import { useState } from 'react';
 import Schema from '@/pages/lots/show/ui/schema.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
@@ -101,6 +101,8 @@ export const DamagesInfoPage = ({ damages, editable }: damagesInfoPageParams) =>
   });
 
   const actions = { selected, setSelected, hovered, setHovered };
+
+  if (!stateDamages[selected]) { return <Alert bg="gray.3"><Text fz={20} my={20} ta="center">Нет повреждений</Text></Alert> }
 
   return (
     <Flex justify="center">

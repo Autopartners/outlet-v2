@@ -27,7 +27,7 @@ interface UseLotParams {
 export const useLot = ({ id }: UseLotParams) => {
 
   const { data: lot, isLoading, isFetching, error } = useQuery({
-    queryKey: ['lot', id],
+    queryKey: ['lot', String(id)],
     queryFn: () => api.get(`outlet/lots/${id}`).then(e => e.data),
     enabled: !!id
   });
