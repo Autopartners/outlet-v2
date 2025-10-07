@@ -6,8 +6,8 @@ import { useLots } from '@/pages/lots/index/api/useLots.ts';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import type { Lot } from '@/entities/lot';
 import { useMe } from '@/app/providers/me/useMe.ts';
-import { ConfirmBanner } from '@/shared/ui/ConfirmBanner.tsx';
-import { NoAvailableLots } from '@/shared/ui/NoAvailableLots';
+import { ConfirmBanner } from '@/shared/ui/Banners/ConfirmBanner.tsx';
+import { NoAvailableLots } from '@/shared/ui/Banners/NoAvailableLots';
 import { OutletDescriptionCards } from '@/pages/home/ui/OutletDescriptionCards';
 import { HomeSkeletonLoader } from '@/pages/home/ui/HomeSkeletonLoader';
 
@@ -20,7 +20,7 @@ export const HomePage = () => {
   const params = {
     started: 'true'
   };
-  const { lots, isLoading } = useLots({ page: page, per_page: per_page, params: params });
+  const { lots, isLoading } = useLots({ page, per_page, params });
 
   return (
     <Container p={0} fluid>
@@ -53,7 +53,7 @@ export const HomePage = () => {
             ) : <NoAvailableLots mt={30} />
           )}
           {!isLoading && lots.length > 0 && (
-            <Button leftSection={<IconEye />} color="blue.6" mt={20} size="lg" onClick={() => nav('/lots')}>
+            <Button leftSection={<IconEye />} color="blue.6" mt={20} size="lg" onClick={() => nav('/LotOperations')}>
               Смотреть все
             </Button>
           )}

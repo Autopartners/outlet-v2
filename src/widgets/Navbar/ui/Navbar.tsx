@@ -48,10 +48,10 @@ export function Navbar() {
                 </Button>
                 {me.id && (
                   <Button
-                    variant={pathname.includes('/lots') ? 'light' : 'subtle'}
+                    variant={pathname.includes('/LotOperations') ? 'light' : 'subtle'}
                     size="md"
                     color="black"
-                    onClick={() => nav('/lots')}
+                    onClick={() => nav('/LotOperations')}
                   >
                     Лоты
                   </Button>
@@ -92,10 +92,10 @@ export function Navbar() {
           </ActionIcon>
           {me.id && (
             <ActionIcon
-              variant={pathname.includes('/lots') ? 'light' : 'subtle'}
+              variant={pathname.includes('/LotOperations') ? 'light' : 'subtle'}
               size={40}
               color="black"
-              onClick={() => nav('/lots')}
+              onClick={() => nav('/LotOperations')}
             >
               <IconCar size={30} />
             </ActionIcon>

@@ -17,8 +17,8 @@ import { AutotekaInfoPage } from '@/pages/lots/show/ui/autotekaInfoPage.tsx';
 import type { AxiosError } from 'axios';
 import type { ServiceRequest } from '@/entities/lot';
 import { useTimeout } from '@mantine/hooks';
-import { MakeBidInput } from '@/shared/ui/lots/MakeBidInput';
-import { LotImageGallery } from '@/shared/ui/lots/LotImageGallery';
+import { MakeBidInput } from '@/shared/ui/LotOperations/MakeBidInput';
+import { LotImageGallery } from '@/shared/ui/Images/LotImageGallery';
 
 const stageStrings = {
   'preparing': 'Подготовка',
@@ -91,7 +91,7 @@ export const LotPage = () => {
                 <IconSettings />
               </ActionIcon>
             )}
-            <ActionIcon onClick={() => nav('/lots')} size="lg" color="white" variant="light">
+            <ActionIcon onClick={() => nav('/LotOperations')} size="lg" color="white" variant="light">
               <IconX />
             </ActionIcon>
           </Flex>

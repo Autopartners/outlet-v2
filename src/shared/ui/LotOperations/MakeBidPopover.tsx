@@ -1,7 +1,7 @@
 import { Button, Flex, Popover, Text, Tooltip, type MantineColor } from '@mantine/core';
 import { useState } from 'react';
 import type { Lot } from '@/entities/lot';
-import { MakeBidInput } from '@/shared/ui/lots/MakeBidInput';
+import { MakeBidInput } from '@/shared/ui/LotOperations/MakeBidInput';
 
 interface MakeBidButtonProps {
   lot: Lot,

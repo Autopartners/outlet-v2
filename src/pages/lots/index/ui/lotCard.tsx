@@ -2,10 +2,10 @@ import { Box, Button, Card, Flex, Text, ThemeIcon } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { useNavigate } from 'react-router-dom';
 import { IconBuildingSkyscraper, IconRoad } from '@tabler/icons-react';
-import { ApCarousel } from '@/shared/ui/apCarousel.tsx';
+import { ApCarousel } from '@/shared/ui/Images/apCarousel.tsx';
 import { useApp } from '@/app/providers/app/useApp';
-import { MakeBidPopover } from '@/shared/ui/lots/MakeBidPopover';
-import { MakeFavourite } from '@/shared/ui/lots/MakeFavourite';
+import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBidPopover';
+import { MakeFavourite } from '@/shared/ui/LotOperations/MakeFavourite';
 
 interface LotCardProps {
   lot: Lot;

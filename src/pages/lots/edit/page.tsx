@@ -12,7 +12,7 @@ import { ToInfoPage } from '@/pages/lots/show/ui/toInfoPage.tsx';
 import { DamagesInfoPage } from '@/pages/lots/show/ui/damagesInfoPage.tsx';
 import { KitInfoPage } from '@/pages/lots/show/ui/kitInfoPage.tsx';
 import { useMe } from '@/app/providers/me/useMe.ts';
-import { LotImageGallery } from '@/shared/ui/lots/LotImageGallery';
+import { LotImageGallery } from '@/shared/ui/Images/LotImageGallery';
 
 type Picture = {
   id: number;
@@ -65,7 +65,7 @@ export const LotEditPage = () => {
   }, [sortedPics]);
 
   if (error) {
-    nav('/lots');
+    nav('/LotOperations');
   }
 
   if (!isRemarketing && !isAdmin) {

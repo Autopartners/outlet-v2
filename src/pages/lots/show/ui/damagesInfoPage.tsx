@@ -4,7 +4,7 @@ import Schema from '@/pages/lots/show/ui/schema.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { api, ermurl } from '@/shared/lib/api.ts';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
-import { LotImageGallery } from '@/shared/ui/lots/LotImageGallery';
+import { LotImageGallery } from '@/shared/ui/Images/LotImageGallery';
 
 interface DamagePart {
   canvas_position_x: number;

@@ -7,7 +7,7 @@ import { IconHourglassHigh, IconHourglassLow, IconList } from '@tabler/icons-rea
 import { useState } from 'react';
 import { IconLayoutGridFilled } from '@tabler/icons-react';
 import { LotsTableSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonLoader.tsx';
-import { NoAvailableLots } from '@/shared/ui/NoAvailableLots';
+import { NoAvailableLots } from '@/shared/ui/Banners/NoAvailableLots';
 import { ViewTypeCards } from '@/pages/lots/index/ui/viewTypes/ViewTypeCards';
 import { ViewTypeTable } from '@/pages/lots/index/ui/viewTypes/ViewTypeTable';
 import { useApp } from '@/app/providers/app/useApp';

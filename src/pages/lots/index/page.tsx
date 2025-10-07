@@ -4,7 +4,7 @@ import { LotsList } from '@/pages/lots/index/ui/lotsList.tsx';
 import { Container, Flex } from '@mantine/core';
 import { useApp } from '@/app/providers/app/useApp';
 import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';
-import { ConfirmBanner } from '@/shared/ui/ConfirmBanner.tsx';
+import { ConfirmBanner } from '@/shared/ui/Banners/ConfirmBanner.tsx';
 
 export const LotsPage = () => {
   const { isAuctionConfirmed } = useMe();
