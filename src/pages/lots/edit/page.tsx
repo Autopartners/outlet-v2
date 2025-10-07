@@ -1,7 +1,7 @@
 import { ActionIcon, Badge, Box, Button, Card, Container, Divider, Flex, Stack, Text } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
-import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
+import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader.tsx';
 import {
   IconBuildingSkyscraper,
   IconCalendar,

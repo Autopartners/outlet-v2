@@ -6,7 +6,7 @@ import '@mantine/carousel/styles.css';
 import App from './App';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { MantineProvider } from '@mantine/core';
-import { queryClient } from '../shared/lib/react-query';
+import { queryClient } from '@/shared/lib/react-query';
 import mantineTheme from './styles/mantineTheme';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
@@ -15,7 +15,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppProvider } from '@/app/providers/app/appProvider';
 import { initialize } from '@/shared/lib/api';
 import { isLocalhost } from '@/shared/lib/api';
-import { CustomLoader } from '@/shared/ui/Loader/Loader';
+import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
 import { ServerUnavailable } from '@/shared/ui/ServerUnavailable/ServerUnavailable';
 
 function Main() {

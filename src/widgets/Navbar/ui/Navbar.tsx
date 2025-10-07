@@ -7,7 +7,7 @@ import { useMe } from '@/app/providers/me/useMe';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { AuthButtons } from '@/widgets/Navbar/ui/AuthButtons';
 import { IconCar, IconHome, IconBaselineDensityMedium, IconSquareRotated, IconInfoCircle } from '@tabler/icons-react';
-import { CustomLoader } from '@/shared/ui/Loader/Loader';
+import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
 
 export function Navbar() {
   const nav = useNavigate();

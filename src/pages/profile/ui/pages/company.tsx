@@ -2,7 +2,7 @@ import { useApp } from '@/app/providers/app/useApp';
 import { api } from '@/shared/lib/api';
 import { Button, Flex, Loader, Text, TextInput } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { CustomLoader } from '@/shared/ui/Loader/Loader';
+import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
 import type { Me, Company } from '@/entities/me';
 
 

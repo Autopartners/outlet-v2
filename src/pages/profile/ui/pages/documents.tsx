@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useMe } from '@/app/providers/me/useMe';
 import { useApp } from '@/app/providers/app/useApp';
 import dayjs from 'dayjs';
-import { CustomLoader } from '@/shared/ui/Loader/Loader';
+import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
 import { Loader } from '@mantine/core';
 import type { Me } from '@/entities/me';
 

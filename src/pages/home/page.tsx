@@ -8,7 +8,7 @@ import type { Lot } from '@/entities/lot';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { ConfirmBanner } from '@/shared/ui/ConfirmBanner.tsx';
 import { NoAvailablerLots } from '@/shared/ui/NoAvailablerLots';
-import { CustomLoader } from '@/shared/ui/Loader/Loader';
+import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
 import { OutletDescriptionCards } from '@/pages/home/ui/OutletDescriptionCards';
 
 export const HomePage = () => {

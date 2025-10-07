@@ -2,7 +2,7 @@ import { ActionIcon, Anchor, Badge, Box, Button, Card, Container, Flex, Grid, Nu
   ThemeIcon, Tooltip, Loader as MantineLoader, Tabs, Space } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
-import { CustomLoader } from '@/shared/ui/Loader/Loader.tsx';
+import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader.tsx';
 import { IconAdjustmentsHorizontal, IconBook, IconBuildingSkyscraper, IconCalendar, IconCarCrash, IconCarGarage,
   IconChevronLeft, IconChevronRight, IconClipboard, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
   IconSettings, IconShield, IconX } from '@tabler/icons-react';
