@@ -7,9 +7,9 @@ import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import type { Lot } from '@/entities/lot';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { ConfirmBanner } from '@/shared/ui/ConfirmBanner.tsx';
-import { NoAvailablerLots } from '@/shared/ui/NoAvailablerLots';
-import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
+import { NoAvailableLots } from '@/shared/ui/NoAvailableLots';
 import { OutletDescriptionCards } from '@/pages/home/ui/OutletDescriptionCards';
+import { HomeSkeletonLoader } from '@/pages/home/ui/HomeSkeletonLoader';
 
 export const HomePage = () => {
   const nav = useNavigate();
@@ -40,7 +40,7 @@ export const HomePage = () => {
           <Text fz={isMobile ? 30 : 40}>Актуальные лоты</Text>
           <Divider mx="auto" mt={10} w={100} color="blue.8" size={5} style={{ borderRadius: 20 }} />
           {isLoading ? (
-            <CustomLoader/>
+            <HomeSkeletonLoader />
           ) : (
             lots.length > 0 ? (
               <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '70%'} mx="auto">
@@ -50,9 +50,9 @@ export const HomePage = () => {
                   </Box>
                 ))}
               </SimpleGrid>
-            ) : <NoAvailablerLots />
+            ) : <NoAvailableLots mt={30} />
           )}
-          {lots.length > 0 && (
+          {!isLoading && lots.length > 0 && (
             <Button leftSection={<IconEye />} color="blue.6" mt={20} size="lg" onClick={() => nav('/lots')}>
               Смотреть все
             </Button>

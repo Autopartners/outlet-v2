@@ -1,25 +1,24 @@
-import { ActionIcon, Anchor, Badge, Box, Button, Card, Container, Flex, Grid, NumberInput, SimpleGrid, Stack, Text,
-  ThemeIcon, Tooltip, Loader as MantineLoader, Tabs, Space } from '@mantine/core';
+import { ActionIcon, Anchor, Badge, Box, Card, Container, Flex, Grid, SimpleGrid, Stack, Text,
+  ThemeIcon, Tooltip, Tabs, Space } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader.tsx';
 import { IconAdjustmentsHorizontal, IconBook, IconBuildingSkyscraper, IconCalendar, IconCarCrash, IconCarGarage,
-  IconChevronLeft, IconChevronRight, IconClipboard, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
+  IconClipboard, IconMail, IconMessage, IconMoodSad, IconPhone, IconRoad,
   IconSettings, IconShield, IconX } from '@tabler/icons-react';
-import { useState } from 'react';
 import { KitInfoPage } from '@/pages/lots/show/ui/kitInfoPage.tsx';
 import { DamagesInfoPage } from '@/pages/lots/show/ui/damagesInfoPage.tsx';
 import { ToInfoPage } from '@/pages/lots/show/ui/toInfoPage.tsx';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { ermurl } from '@/shared/lib/api.ts';
-import { useBid } from '@/pages/lots/show/api/useBid.ts';
 import { useApp } from '@/app/providers/app/useApp';
-import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { AutotekaInfoPage } from '@/pages/lots/show/ui/autotekaInfoPage.tsx';
 import type { AxiosError } from 'axios';
 import type { ServiceRequest } from '@/entities/lot';
 import { useTimeout } from '@mantine/hooks';
+import { MakeBidInput } from '@/shared/ui/lots/MakeBidInput';
+import { LotImageGallery } from '@/shared/ui/lots/LotImageGallery';
 
 const stageStrings = {
   'preparing': 'Подготовка',
@@ -42,11 +41,8 @@ interface Picture {
 export const LotPage = () => {
   const { id } = useParams();
   const { isAdmin, isRemarketing } = useMe();
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const { lot, error, isLoading } = useLot({ id: id });
   const nav = useNavigate();
-  const [bid, setBid] = useState<string | number | undefined>('');
-  const { bidMutation } = useBid();
   const { isMobile } = useApp();
 
   const bottomScroll = () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -63,7 +59,6 @@ export const LotPage = () => {
 
   const isEnd = lot.stage === 'finished' || lot.stage === 'third_stage';
   const isStarted = lot.stage && lot.stage !== 'preparing';
-
 
   const galleryItems = lot.sales_pictures.map((p: Picture) => ({
     original: ermurl + p.url,
@@ -104,7 +99,7 @@ export const LotPage = () => {
         <Badge mx={10} size="lg" variant="light" color="white">
           {lot.code}
         </Badge>
-        <Flex mt={10} align="center" justify="space-between" px={10}>
+        <Flex mt={20} align="center" justify="space-between" px={10}>
           <Text c="white" fz={isMobile ? 18 : 25}>
             {lot.definition_name}
           </Text>
@@ -135,78 +130,7 @@ export const LotPage = () => {
         <Grid>
           <Grid.Col span={{ base: 12, md: 7 }}>
             <Card withBorder radius="md" p={0} maw="100%">
-              <ImageGallery
-                items={galleryItems}
-                showPlayButton={false}
-                showFullscreenButton={true}
-                showNav={!isMobile}
-                showIndex={true}
-                thumbnailPosition="bottom"
-                slideDuration={0}
-                lazyLoad={false}
-                useBrowserFullscreen={false}
-                onScreenChange={(fullscreen) => setIsFullscreen(fullscreen)}
-                renderItem={(item) => (
-                  <img
-                    src={item.original}
-                    alt={item.originalAlt}
-                    style={{
-                      width: '100%',
-                      height: isMobile ? (isFullscreen ? 700 : '30vh') : isFullscreen ? 900 : '50vh',
-                      objectFit: 'contain'
-                    }}
-                  />
-                )}
-                renderThumbInner={(item) => (
-                  <img
-                    src={item.thumbnail}
-                    alt={item.thumbnailAlt}
-                    style={{
-                      width: '100%',
-                      height: 80,
-                      objectFit: 'cover'
-                    }}
-                  />
-                )}
-                renderLeftNav={(onClick, disabled) => (
-                  <Button
-                    variant="subtle"
-                    color="blue"
-                    radius="xl"
-                    size="lg"
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: 10,
-                      transform: 'translateY(-50%)',
-                      zIndex: 10
-                    }}
-                    onClick={onClick}
-                    disabled={disabled}
-                  >
-                    <IconChevronLeft size={32} />
-                  </Button>
-                )}
-                renderRightNav={(onClick, disabled) => (
-                  <Button
-                    variant="subtle"
-                    color="blue"
-                    radius="xl"
-                    size="lg"
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      right: 10,
-                      transform: 'translateY(-50%)',
-                      zIndex: 10
-                    }}
-                    onClick={onClick}
-                    disabled={disabled}
-                  >
-                    <IconChevronRight size={32} />
-                  </Button>
-                )}
-              />
+              <LotImageGallery galleryItems={galleryItems} />
             </Card>
           </Grid.Col>
 
@@ -256,32 +180,7 @@ export const LotPage = () => {
                   ) : isStarted ? (
                     <Stack>
                       <Flex justify="space-between" align="flex-end" direction={{ base: 'column', sm: 'row' }} gap={10}>
-                        <NumberInput
-                          max={100000000}
-                          size="lg"
-                          w={{ base: '100%', sm: '60%' }}
-                          placeholder="Ставка"
-                          allowDecimal={false}
-                          allowNegative={false}
-                          thousandSeparator={' '}
-                          value={bid}
-                          onChange={setBid}
-                          disabled={bidMutation.status === 'pending'}
-                          step={100000}
-                        />
-                        <Button
-                          onClick={() => {
-                            bidMutation.mutate({ value: bid, lot_id: id })
-                            setBid('');
-                          }}
-                          color="green.7"
-                          size="lg"
-                          disabled={!bid || Number(bid) < (lot.second_stage_minimal_price ?? 0)}
-                          w={{ base: '100%', sm: '35%' }}
-                          leftSection={bidMutation.status === 'pending' && <MantineLoader type="dots" color="gray.6" />}
-                        >
-                          Отправить
-                        </Button>
+                        <MakeBidInput lot={lot} bidMutationParams={{ variant: 'show' }} />
                       </Flex>
                     </Stack>
                   ) : (
@@ -382,18 +281,22 @@ export const LotPage = () => {
 
       <Tabs color="blue.7" defaultValue="kit" py={20} radius="lg">
         <Tabs.List grow>
-          <Tabs.Tab onClick={() => scrollBottomTimeout()} value="kit" leftSection={<IconClipboard color="black" />} fz={20}>
-            Комплектация
-          </Tabs.Tab>
-          <Tabs.Tab onClick={() => scrollBottomTimeout()} value="damages" leftSection={<IconCarCrash color="black" />} fz={20}>
-            Повреждения
-          </Tabs.Tab>
-          <Tabs.Tab onClick={() => scrollBottomTimeout()} value="to" leftSection={<IconCarGarage color="black" />} fz={20}>
-            ТО
-          </Tabs.Tab>
-          <Tabs.Tab onClick={() => scrollBottomTimeout()} value="autoteka" leftSection={<IconBook color="black" />} fz={20}>
-            Автотека
-          </Tabs.Tab>
+          {[
+            { icon: <IconClipboard color="black" />, value: 'kit', label: 'Комплектация' },
+            { icon: <IconCarCrash color="black" />, value: 'damages', label: 'Повреждения' },
+            { icon: <IconCarGarage color="black" />, value: 'to', label: 'ТО' },
+            { icon: <IconBook color="black" />, value: 'autoteka', label: 'Автотека' }
+          ].map((tab) => (
+            <Tabs.Tab
+              w={isMobile ? '100%' : 'fit-content'}
+              onClick={() => scrollBottomTimeout()}
+              value={tab.value}
+              leftSection={tab.icon}
+              fz={20}
+            >
+              {tab.label}
+            </Tabs.Tab>
+          ))}
         </Tabs.List>
 
         <Tabs.Panel value="kit">

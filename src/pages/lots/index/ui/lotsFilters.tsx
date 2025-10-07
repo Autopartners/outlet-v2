@@ -5,14 +5,12 @@ import { FilterSelect } from '@/shared/ui/filterSelect.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { useState } from 'react';
 import { IconFilter, IconStar, IconStarFilled, IconX } from '@tabler/icons-react';
-import { useHover } from '@mantine/hooks';
 
 export const LotsFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isMobile } = useApp();
   const activeStar = searchParams.get('liked') === 'true';
-  const [showFilters, setShowFilters] = useState(true);
-  const { ref, hovered } = useHover();
+  const [showFilters, setShowFilters] = useState(!isMobile);
 
   const updateParams = (value: string | null, key: string) => {
     if (value) {
@@ -42,7 +40,7 @@ export const LotsFilters = () => {
       <Card
         withBorder
         pos="fixed"
-        top={130}
+        top={140}
         left="50%"
         style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}
       >
@@ -85,12 +83,11 @@ export const LotsFilters = () => {
             <ActionIcon
               size={42}
               variant="transparent"
-              ref={ref}
               onClick={() => updateParams(String(!activeStar), 'liked')}
               c="yellow.3"
+              classNames={{ root: 'hoverScale' }}
             >
-              {activeStar ? <IconStarFilled size={hovered ? 42 : 32} style={{ transition: 'all 0.2s ease' }} /> :
-                <IconStar size={hovered ? 42 : 32} style={{ transition: 'all 0.2s ease' }} />}
+              {activeStar ? <IconStarFilled size={32} /> : <IconStar size={32} />}
             </ActionIcon>
           </Tooltip>
         </Flex>

@@ -42,3 +42,9 @@ export interface ServiceRequest {
   id: number;
   hide_on_auction: boolean;
 }
+
+export interface LotsCache {
+  result: Lot[];
+  pages: number;
+  total: number;
+}

@@ -7,13 +7,16 @@ import { IconHourglassHigh, IconHourglassLow, IconList } from '@tabler/icons-rea
 import { useState } from 'react';
 import { IconLayoutGridFilled } from '@tabler/icons-react';
 import { LotsTableSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonLoader.tsx';
-import { NoAvailablerLots } from '@/shared/ui/NoAvailablerLots';
+import { NoAvailableLots } from '@/shared/ui/NoAvailableLots';
 import { ViewTypeCards } from '@/pages/lots/index/ui/viewTypes/ViewTypeCards';
-import { ViewTypeTable } from '@/pages/lots/index/ui/viewTypes/viewTypeTable';
+import { ViewTypeTable } from '@/pages/lots/index/ui/viewTypes/ViewTypeTable';
+import { useApp } from '@/app/providers/app/useApp';
+import { ViewTypeTableMobile } from '@/pages/lots/index/ui/viewTypes/ViewTypeTableMobile';
+import { LotsTableSkeletonMobileLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonMobileLoader';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
-
+  const { isMobile } = useApp()
   const [activeView, setActiveView] = useState('table');
   const page = searchParams.get('page') || '1';
   const per_page = '12';
@@ -26,19 +29,19 @@ export const LotsList = () => {
       vehicle_city_of_remarketing_id_eq: searchParams.get('city_id')
     }
   };
-  const { lots, isLoading, pages, refetch } = useLots({
+  const { lots, isLoading, pages } = useLots({
     page,
     per_page,
     params
   });
 
   if (isLoading || !lots) {
-    return activeView === 'cards'
-      ? <LotsListSkeletonLoader />
-      : <LotsTableSkeletonLoader />;
+    if (activeView === 'cards') { return <LotsListSkeletonLoader /> }
+    if (activeView === 'table' && !isMobile) { return <LotsTableSkeletonLoader /> }
+    return <LotsTableSkeletonMobileLoader />
   }
 
-  if (lots.length === 0) { return <NoAvailablerLots /> }
+  if (lots.length === 0) { return <NoAvailableLots mt={isMobile ? 300 : 140} /> }
 
   return (
     <Container size="xl">
@@ -73,8 +76,9 @@ export const LotsList = () => {
           <IconLayoutGridFilled size={32} />
         </ActionIcon>
       </Flex>
-      {activeView === 'cards' && <ViewTypeCards {...{ lots, page, per_page, params, refetch }} />}
-      {activeView === 'table' && <ViewTypeTable {...{ lots }} /> }
+      {activeView === 'cards' && <ViewTypeCards {...{ lots, page, per_page, params }} />}
+      {activeView === 'table' && isMobile && <ViewTypeTableMobile {...{ lots, page, per_page, params }} /> }
+      {activeView === 'table' && !isMobile && <ViewTypeTable {...{ lots, page, per_page, params }} /> }
       <LotPages pages={pages} pos="bottom" />
     </Container>);
 };
