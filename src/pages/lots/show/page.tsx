@@ -130,7 +130,10 @@ export const LotPage = () => {
         <Grid>
           <Grid.Col span={{ base: 12, md: 7 }}>
             <Card withBorder radius="md" p={0} maw="100%">
-              <LotImageGallery galleryItems={galleryItems} />
+              <LotImageGallery
+                items={galleryItems}
+                isMobile={isMobile}
+              />
             </Card>
           </Grid.Col>
 

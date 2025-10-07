@@ -2,21 +2,8 @@ import { ActionIcon, Badge, Box, Button, Card, Container, Divider, Flex, Stack, 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader.tsx';
-import {
-  IconBuildingSkyscraper,
-  IconCalendar,
-  IconCameraRotate,
-  IconCameraStar,
-  IconCarCrash,
-  IconCarGarage,
-  IconChevronLeft,
-  IconChevronRight,
-  IconClipboard,
-  IconRoad,
-  IconTrash,
-  IconTrashX,
-  IconX
-} from '@tabler/icons-react';
+import { IconBuildingSkyscraper, IconCalendar, IconCameraRotate, IconCameraStar, IconCarCrash, IconCarGarage,
+  IconClipboard, IconRoad, IconTrash, IconTrashX, IconX } from '@tabler/icons-react';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { ermurl } from '@/shared/lib/api.ts';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -25,6 +12,7 @@ import { ToInfoPage } from '@/pages/lots/show/ui/toInfoPage.tsx';
 import { DamagesInfoPage } from '@/pages/lots/show/ui/damagesInfoPage.tsx';
 import { KitInfoPage } from '@/pages/lots/show/ui/kitInfoPage.tsx';
 import { useMe } from '@/app/providers/me/useMe.ts';
+import { LotImageGallery } from '@/shared/ui/lots/LotImageGallery';
 
 type Picture = {
   id: number;
@@ -38,7 +26,6 @@ export const LotEditPage = () => {
   const { id } = useParams();
   const { isMobile } = useApp();
   const { isAdmin, isRemarketing } = useMe();
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [activeInfoPage, setActiveInfoPage] = useState<'kit' | 'damages' | 'to' | 'autoteka'>('kit');
   const nav = useNavigate();
   const imageGallery = useRef<ImageGallery | null>(null);
@@ -165,85 +152,11 @@ export const LotEditPage = () => {
           p={0}
           maw="50%"
         >
-          <ImageGallery
-            ref={imageGallery}
+          <LotImageGallery
+            galleryRef={imageGallery}
             items={carousel}
-            showPlayButton={false}
-            showFullscreenButton={true}
-            showNav={!isMobile}
-            showIndex={true}
-            thumbnailPosition="bottom"
-            slideDuration={0}
-            lazyLoad={false}
-            useBrowserFullscreen={false}
-            onScreenChange={(fullscreen) => setIsFullscreen(fullscreen)}
+            isMobile={isMobile}
             renderCustomControls={custom}
-            renderItem={(item) => (
-              <img
-                src={item.original}
-                alt={item.originalAlt}
-                style={{
-                  width: '100%',
-                  height: isMobile
-                    ? isFullscreen
-                      ? 700
-                      : '30vh'
-                    : isFullscreen
-                      ? 900
-                      : '40vh',
-                  objectFit: 'contain'
-                }}
-              />
-            )}
-            renderThumbInner={(item) => (
-              <img
-                src={item.thumbnail}
-                alt={item.thumbnailAlt}
-                style={{
-                  width: '100%',
-                  height: 80,
-                  objectFit: 'cover'
-                }}
-              />
-            )}
-            renderLeftNav={(onClick, disabled) => (
-              <Button
-                variant="subtle"
-                color="blue"
-                radius="xl"
-                size="lg"
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: 10,
-                  transform: 'translateY(-50%)',
-                  zIndex: 10
-                }}
-                onClick={onClick}
-                disabled={disabled}
-              >
-                <IconChevronLeft size={32} />
-              </Button>
-            )}
-            renderRightNav={(onClick, disabled) => (
-              <Button
-                variant="subtle"
-                color="blue"
-                radius="xl"
-                size="lg"
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  right: 10,
-                  transform: 'translateY(-50%)',
-                  zIndex: 10
-                }}
-                onClick={onClick}
-                disabled={disabled}
-              >
-                <IconChevronRight size={32} />
-              </Button>
-            )}
           />
         </Card>
       </Card>

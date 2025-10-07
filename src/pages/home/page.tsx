@@ -20,7 +20,7 @@ export const HomePage = () => {
   const params = {
     started: 'true'
   };
-  const { lots, isLoading, refetch } = useLots({ page: page, per_page: per_page, params: params });
+  const { lots, isLoading } = useLots({ page: page, per_page: per_page, params: params });
 
   return (
     <Container p={0} fluid>
@@ -46,7 +46,7 @@ export const HomePage = () => {
               <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '70%'} mx="auto">
                 {lots.map((lot: Lot) => (
                   <Box key={lot.id}>
-                    <LotCard lot={lot} maxPhotos={10} refetchLots={refetch} page={page} per_page={per_page} params={params} />
+                    <LotCard lot={lot} maxPhotos={10} {...{ page, per_page, params }} />
                   </Box>
                 ))}
               </SimpleGrid>

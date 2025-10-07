@@ -1,16 +1,30 @@
+import { type ReactNode, type RefObject, useState } from 'react';
+import ImageGallery, { type ReactImageGalleryItem } from 'react-image-gallery';
 import { Button } from '@mantine/core';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
-import ImageGallery from 'react-image-gallery';
-import { useApp } from '@/app/providers/app/useApp';
-import { useState } from 'react';
 
-export const LotImageGallery = ({ galleryItems }: {galleryItems: []}) => {
-  const { isMobile } = useApp()
+type LotImageGalleryProps = {
+  items: ReactImageGalleryItem[];
+  isMobile: boolean;
+  galleryRef?: RefObject<ImageGallery | null>;
+  renderCustomControls?: () => ReactNode;
+  heightMobile?: string | number;
+  heightDesktop?: string | number;
+};
+
+export const LotImageGallery = (
+  {
+    items, isMobile, galleryRef, renderCustomControls,
+    heightMobile = '30vh', heightDesktop = '40vh'
+  }:LotImageGalleryProps) => {
+
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const imageHeight = isMobile ? (isFullscreen ? 700 : heightMobile) : isFullscreen ? 900 : heightDesktop;
 
   return (
     <ImageGallery
-      items={galleryItems}
+      ref={galleryRef}
+      items={items}
       showPlayButton={false}
       showFullscreenButton={true}
       showNav={!isMobile}
@@ -20,13 +34,14 @@ export const LotImageGallery = ({ galleryItems }: {galleryItems: []}) => {
       lazyLoad={false}
       useBrowserFullscreen={false}
       onScreenChange={(fullscreen) => setIsFullscreen(fullscreen)}
+      renderCustomControls={renderCustomControls}
       renderItem={(item) => (
         <img
           src={item.original}
-          alt={item.originalAlt}
+          alt={item.originalAlt || 'gallery image'}
           style={{
             width: '100%',
-            height: isMobile ? (isFullscreen ? 700 : '30vh') : isFullscreen ? 900 : '50vh',
+            height: imageHeight,
             objectFit: 'contain'
           }}
         />
@@ -34,7 +49,7 @@ export const LotImageGallery = ({ galleryItems }: {galleryItems: []}) => {
       renderThumbInner={(item) => (
         <img
           src={item.thumbnail}
-          alt={item.thumbnailAlt}
+          alt={item.thumbnailAlt || 'thumbnail'}
           style={{
             width: '100%',
             height: 80,
@@ -81,5 +96,5 @@ export const LotImageGallery = ({ galleryItems }: {galleryItems: []}) => {
         </Button>
       )}
     />
-  )
+  );
 }
