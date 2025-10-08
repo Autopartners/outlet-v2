@@ -3,6 +3,7 @@ import { api } from '@/shared/lib/api.ts';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import type { Lot } from '@/entities/lot';
 import type { LotsCache } from '@/entities/lot/model/types';
+import type { AxiosError } from 'axios';
 
 interface UseLotsParams {
   page: string;
@@ -27,13 +28,13 @@ interface UseLotParams {
 }
 
 export const useLot = ({ id }: UseLotParams) => {
-  const { data: lot, isLoading, isFetching, error } = useQuery({
+  const { data: lot, isLoading, isFetching, error } = useQuery<Lot, AxiosError>({
     queryKey: ['lot', String(id)],
     queryFn: () => api.get(`outlet/lots/${id}`).then(e => e.data),
     enabled: !!id
   });
 
-  return { lot: lot, isLoading, isFetching, error };
+  return { lot, isLoading, isFetching, error };
 };
 
 interface UseLikeParams {

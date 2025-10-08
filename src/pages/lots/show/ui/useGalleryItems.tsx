@@ -5,7 +5,7 @@ import { Button, Flex } from '@mantine/core';
 import type ImageGallery from 'react-image-gallery';
 import { IconCameraRotate, IconCameraStar, IconTrash, IconTrashX } from '@tabler/icons-react';
 
-export const useGalleryItems = ({ mode, lot }: { mode: 'view' | 'edit'; lot: Lot }) => {
+export const useGalleryItems = ({ mode, lot }: { mode: 'view' | 'edit'; lot: Lot | undefined }) => {
   const imageGallery = useRef<ImageGallery | null>(null);
   const [pictures, setPictures] = useState<Picture[]>([]);
 
@@ -41,7 +41,7 @@ export const useGalleryItems = ({ mode, lot }: { mode: 'view' | 'edit'; lot: Lot
     }
   }, [lot, mode]);
 
-  if (!lot) { return { items: [], custom: undefined, ref: null } }
+  if (!lot) { return { items: [], custom: undefined, ref: undefined } }
 
   if (mode === 'edit') {
     const carousel = sortedPics.map(e => ({
@@ -53,7 +53,6 @@ export const useGalleryItems = ({ mode, lot }: { mode: 'view' | 'edit'; lot: Lot
     return { items: carousel, custom, ref: imageGallery };
   }
 
-  // режим просмотра
   const galleryItems =
     lot.sales_pictures?.length > 0
       ? lot.sales_pictures.map((p: Picture) => ({
@@ -62,5 +61,5 @@ export const useGalleryItems = ({ mode, lot }: { mode: 'view' | 'edit'; lot: Lot
       }))
       : [{ original: '/missing.jpg', thumbnail: '/missing.jpg' }];
 
-  return { items: galleryItems, ref: imageGallery };
+  return { items: galleryItems };
 };

@@ -27,15 +27,15 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
           <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} px={10} mt={20} spacing={16}>
             <Stack>
               {renderVehicleInfo({ head: 'Марка', info: lot.brand_name })}
-              {renderVehicleInfo({ head: 'КПП', info: lot.gearbox.name })}
+              {renderVehicleInfo({ head: 'КПП', info: lot.gearbox?.name })}
             </Stack>
             <Stack>
               {renderVehicleInfo({ head: 'Модель', info: lot.vehicle_model_name })}
-              {renderVehicleInfo({ head: 'Тип топлива', info: lot.fuel_type.name })}
+              {renderVehicleInfo({ head: 'Тип топлива', info: lot.fuel_type?.name })}
             </Stack>
             <Stack>
               {renderVehicleInfo({ head: 'Г. В.', info: lot.vehicle_year_of_production + ' г.' })}
-              {renderVehicleInfo({ head: 'Кузов', info: lot.body_type.name })}
+              {renderVehicleInfo({ head: 'Кузов', info: lot.body_type?.name })}
             </Stack>
             <Stack>
               {renderVehicleInfo({ head: 'Пробег', info: Number(lot.return_km).toLocaleString('ru-RU') + ' км' })}

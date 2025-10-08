@@ -60,7 +60,7 @@ export const LotImageGallery = (
       )}
       renderLeftNav={(onClick, disabled) => (
         <Button
-          variant="subtle"
+          variant="light"
           color="blue"
           radius="xl"
           size="lg"
@@ -79,7 +79,7 @@ export const LotImageGallery = (
       )}
       renderRightNav={(onClick, disabled) => (
         <Button
-          variant="subtle"
+          variant="light"
           color="blue"
           radius="xl"
           size="lg"
