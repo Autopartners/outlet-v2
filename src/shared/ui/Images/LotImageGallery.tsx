@@ -7,17 +7,18 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 
 type LotImageGalleryProps = {
   items: ReactImageGalleryItem[];
-  galleryRef?: RefObject<ImageGallery | null>;
+  galleryRef?: RefObject<ImageGallery | null> | null;
   renderCustomControls?: () => ReactNode | undefined;
   heightMobile?: string | number;
   heightDesktop?: string | number;
 };
 
 export const LotImageGallery = (
-  { items, galleryRef, renderCustomControls,
+  {
+    items, galleryRef, renderCustomControls,
     heightMobile = '30vh', heightDesktop = '40vh'
-  }:LotImageGalleryProps) => {
-  const { isMobile } = useApp()
+  }: LotImageGalleryProps) => {
+  const { isMobile } = useApp();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const imageHeight = isMobile ? (isFullscreen ? 700 : heightMobile) : isFullscreen ? 900 : heightDesktop;
 
@@ -97,4 +98,4 @@ export const LotImageGallery = (
       )}
     />
   );
-}
+};
