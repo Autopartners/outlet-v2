@@ -1,6 +1,6 @@
-// import { useMe } from '@/app/providers/me/useMe';
+import { useMe } from '@/app/providers/me/useMe';
 import type { Lot, AutotekaReport } from '@/entities/lot';
-import { Flex, Card, Button } from '@mantine/core';
+import { Flex, Card, Button, Alert, Stack } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { useAutotekaReport } from '@/pages/lots/show/api/useAutotekaReport.ts';
 
@@ -12,7 +12,7 @@ interface AutotekaInfoPageProps {
 export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
   const lotVin = lot?.vin;
   const { id } = useParams();
-  // const { isAdmin } = useMe();
+  const { isAdmin } = useMe();
   const filtered = lot?.autoteka_reports.filter((report: AutotekaReport) => report.status === 'success');
   const autotekaReport = filtered?.[filtered.length - 1];
 
@@ -21,24 +21,32 @@ export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
   return (
     <Flex justify="center">
       <Card w="80%" withBorder>
-        <Flex gap="lg" justify="center">
+        <Stack gap="lg" align="center">
           {editable &&
-            <Button
-              loading={autotekaReportMutation.isPending}
-              w="20%"
-              color="green"
-              onClick={() => autotekaReportMutation.mutate()}
-              // disabled={!!autotekaReport || !isAdmin}
-              disabled={true} // отключение полностью возможности создать отчет.
-            >Создать
-              отчет</Button>
+            <Alert title="Предупреждение!" color="red">Не нажимайте кнопку "Создать
+              отчет" без
+              надобности.
+              Списывает отчеты в
+              автотеке!
+            </Alert>
           }
-          {autotekaReport && (
-            <Button w="20%" component="a" href={autotekaReport?.web_link} target="_blank">
-              Посмотреть отчет
-            </Button>
-          )}
-        </Flex>
+          <Flex gap="lg">
+            {editable &&
+              <Button
+                loading={autotekaReportMutation.isPending}
+                color="green"
+                onClick={() => autotekaReportMutation.mutate()}
+                disabled={!!autotekaReport || !isAdmin}
+              >Создать
+                отчет</Button>
+            }
+            {autotekaReport && (
+              <Button component="a" href={autotekaReport?.web_link} target="_blank">
+                Посмотреть отчет
+              </Button>
+            )}
+          </Flex>
+        </Stack>
       </Card>
     </Flex>
   );
