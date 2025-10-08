@@ -1,4 +1,4 @@
-import { useMe } from '@/app/providers/me/useMe';
+// import { useMe } from '@/app/providers/me/useMe';
 import type { Lot, AutotekaReport } from '@/entities/lot';
 import { Flex, Card, Button } from '@mantine/core';
 import { useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ interface AutotekaInfoPageProps {
 export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
   const lotVin = lot?.vin;
   const { id } = useParams();
-  const { isAdmin } = useMe();
+  // const { isAdmin } = useMe();
   const filtered = lot?.autoteka_reports.filter((report: AutotekaReport) => report.status === 'success');
   const autotekaReport = filtered?.[filtered.length - 1];
 
@@ -28,7 +28,8 @@ export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
               w="20%"
               color="green"
               onClick={() => autotekaReportMutation.mutate()}
-              disabled={!!autotekaReport || !isAdmin}
+              // disabled={!!autotekaReport || !isAdmin}
+              disabled={true} // отключение полностью возможности создать отчет.
             >Создать
               отчет</Button>
           }
