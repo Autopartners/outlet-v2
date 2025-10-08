@@ -53,7 +53,7 @@ export const HomePage = () => {
             ) : <NoAvailableLots mt={30} />
           )}
           {!isLoading && lots.length > 0 && (
-            <Button leftSection={<IconEye />} color="blue.6" mt={20} size="lg" onClick={() => nav('/LotOperations')}>
+            <Button leftSection={<IconEye />} color="blue.6" mt={20} size="lg" onClick={() => nav('/lots')}>
               Смотреть все
             </Button>
           )}

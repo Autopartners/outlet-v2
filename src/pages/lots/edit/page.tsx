@@ -65,7 +65,7 @@ export const LotEditPage = () => {
   }, [sortedPics]);
 
   if (error) {
-    nav('/LotOperations');
+    nav('/lots');
   }
 
   if (!isRemarketing && !isAdmin) {

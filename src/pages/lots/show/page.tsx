@@ -91,7 +91,7 @@ export const LotPage = () => {
                 <IconSettings />
               </ActionIcon>
             )}
-            <ActionIcon onClick={() => nav('/LotOperations')} size="lg" color="white" variant="light">
+            <ActionIcon onClick={() => nav('/lots')} size="lg" color="white" variant="light">
               <IconX />
             </ActionIcon>
           </Flex>
