@@ -1,4 +1,4 @@
-import { Button, Flex, Popover, Text, Tooltip, type MantineColor } from '@mantine/core';
+import { Button, Stack, Flex, Popover, Text, Tooltip, type MantineColor } from '@mantine/core';
 import { useState } from 'react';
 import type { Lot } from '@/entities/lot';
 import { MakeBidInput } from '@/shared/ui/LotOperations/MakeBid/MakeBidInput.tsx';
@@ -32,7 +32,9 @@ export const MakeBidPopover = ({ lot, page, per_page, params, color }: MakeBidBu
             </Flex>
           </Tooltip>
         )}
-        <MakeBidInput lot={lot} bidMutationParams={{ page, per_page, params }} />
+        <Stack gap={10}>
+          <MakeBidInput lot={lot} bidMutationParams={{ page, per_page, params }} size="sm" />
+        </Stack>
       </Popover.Dropdown>
     </Popover>
   );

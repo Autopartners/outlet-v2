@@ -183,7 +183,7 @@ export const LotPage = () => {
                   ) : isStarted ? (
                     <Stack>
                       <Flex justify="space-between" align="flex-end" direction={{ base: 'column', sm: 'row' }} gap={10}>
-                        <MakeBidInput lot={lot} bidMutationParams={{ variant: 'show' }} />
+                        <MakeBidInput lot={lot} bidMutationParams={{ variant: 'show' }} size="lg" />
                       </Flex>
                     </Stack>
                   ) : (
