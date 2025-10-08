@@ -1,4 +1,4 @@
-import { useApp } from '@/app/providers/app/useApp';
+import { useApp } from '@/app/providers/app/useApp.ts';
 import { Card, Flex, Stack, Text, Divider, Timeline, Textarea, Button, Loader } from '@mantine/core';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';

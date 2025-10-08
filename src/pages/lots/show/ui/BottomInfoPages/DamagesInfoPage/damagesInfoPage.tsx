@@ -1,30 +1,11 @@
 import { ActionIcon, Alert, Badge, Card, Flex, Grid, Text } from '@mantine/core';
 import { useState } from 'react';
-import Schema from '@/pages/lots/show/ui/schema.tsx';
+import Schema from '@/pages/lots/show/ui/BottomInfoPages/DamagesInfoPage/schema.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { api, ermurl } from '@/shared/lib/api.ts';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
-import { LotImageGallery } from '@/shared/ui/Images/LotImageGallery';
-
-interface DamagePart {
-  canvas_position_x: number;
-  canvas_position_y: number;
-  title?: string;
-}
-
-interface Picture {
-  url: string;
-  id: number;
-}
-
-interface Damage {
-  id: number;
-  left_right: number;
-  part_damages: [{ description: string; damage_type: { title: string } }];
-  damage_part: DamagePart;
-  pictures: Picture[];
-  hide_on_auction: boolean;
-}
+import { LotImageGallery } from '@/shared/ui/Images/LotImageGallery.tsx';
+import type { Damage } from '@/entities/lot/model/types.ts';
 
 interface damagesInfoPageParams {
   damages: Damage[];
@@ -114,7 +95,6 @@ export const DamagesInfoPage = ({ damages, editable }: damagesInfoPageParams) =>
                   original: ermurl + p.url,
                   thumbnail: ermurl + p.url
                 }))}
-                isMobile={isMobile}
               />
             </Card>
           </Grid.Col>

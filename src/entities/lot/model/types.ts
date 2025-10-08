@@ -1,3 +1,26 @@
+export type Picture = {
+  id: number;
+  url: string;
+  thumbnail: string;
+  is_avatar: boolean;
+  is_deleted: boolean;
+};
+
+export type DamagePart = {
+  canvas_position_x: number;
+  canvas_position_y: number;
+  title?: string;
+}
+
+export type Damage = {
+  id: number;
+  left_right: number;
+  part_damages: [{ description: string; damage_type: { title: string } }];
+  damage_part: DamagePart;
+  pictures: Picture[];
+  hide_on_auction: boolean;
+}
+
 export interface Lot {
   id: number;
   status: 'agreement' | 'agreed' | 'sold' | 'cancelled';
@@ -28,9 +51,12 @@ export interface Lot {
   start_at: string;
   second_stage_at: string;
   third_stage_at: string;
-  sales_pictures_limited: [{ url: string; id: number }];
-  damages: Array<object>;
+  sales_pictures_limited: Picture[];
+  sales_pictures: Picture[];
+  damages: Damage[];
   service_requests: ServiceRequest[];
+  vehicle_options: string;
+  remarketing_options: string;
 }
 
 export interface ServiceRequest {

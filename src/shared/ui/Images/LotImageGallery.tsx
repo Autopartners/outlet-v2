@@ -2,22 +2,22 @@ import { type ReactNode, type RefObject, useState } from 'react';
 import ImageGallery, { type ReactImageGalleryItem } from 'react-image-gallery';
 import { Button } from '@mantine/core';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import { useApp } from '@/app/providers/app/useApp.ts';
+import 'react-image-gallery/styles/css/image-gallery.css';
 
 type LotImageGalleryProps = {
   items: ReactImageGalleryItem[];
-  isMobile: boolean;
   galleryRef?: RefObject<ImageGallery | null>;
-  renderCustomControls?: () => ReactNode;
+  renderCustomControls?: () => ReactNode | undefined;
   heightMobile?: string | number;
   heightDesktop?: string | number;
 };
 
 export const LotImageGallery = (
-  {
-    items, isMobile, galleryRef, renderCustomControls,
+  { items, galleryRef, renderCustomControls,
     heightMobile = '30vh', heightDesktop = '40vh'
   }:LotImageGalleryProps) => {
-
+  const { isMobile } = useApp()
   const [isFullscreen, setIsFullscreen] = useState(false);
   const imageHeight = isMobile ? (isFullscreen ? 700 : heightMobile) : isFullscreen ? 900 : heightDesktop;
 
