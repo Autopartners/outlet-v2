@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { IconBuildingSkyscraper, IconRoad } from '@tabler/icons-react';
 import { ApCarousel } from '@/shared/ui/Images/apCarousel.tsx';
 import { useApp } from '@/app/providers/app/useApp';
-import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBidPopover';
+import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBid/MakeBidPopover.tsx';
 import { MakeFavourite } from '@/shared/ui/LotOperations/MakeFavourite';
 
 interface LotCardProps {

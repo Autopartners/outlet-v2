@@ -2,7 +2,7 @@ import { Button, Flex, Table, Text } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { IconCurrencyRubel } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
-import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBidPopover';
+import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBid/MakeBidPopover.tsx';
 import { MakeFavourite } from '@/shared/ui/LotOperations/MakeFavourite';
 
 interface ViewTypeTableProps {

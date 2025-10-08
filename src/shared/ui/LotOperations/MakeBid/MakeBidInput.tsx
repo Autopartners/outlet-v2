@@ -1,5 +1,5 @@
 import { Button, NumberInput, Loader as MantineLoader } from '@mantine/core';
-import { useBid, type useBidParams } from '@/pages/lots/show/api/useBid';
+import { useBid, type useBidParams } from '@/pages/lots/show/api/useBid.ts';
 import { useState } from 'react';
 import type { Lot } from '@/entities/lot';
 

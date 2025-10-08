@@ -80,5 +80,6 @@ export const LotsList = () => {
       {activeView === 'table' && isMobile && <ViewTypeTableMobile {...{ lots, page, per_page, params }} /> }
       {activeView === 'table' && !isMobile && <ViewTypeTable {...{ lots, page, per_page, params }} /> }
       <LotPages pages={pages} pos="bottom" />
-    </Container>);
+    </Container>
+  );
 };

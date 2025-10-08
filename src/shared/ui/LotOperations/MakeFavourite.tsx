@@ -11,16 +11,17 @@ interface MakeFavouriteProps {
 }
 
 export const MakeFavourite = ({ lot, page, per_page, params }:MakeFavouriteProps) => {
-  const { mutateLike } = useLike({ id: Number(lot.id), page, per_page, params,
-    status: lot.like_status === 'like' ? 'indifferent' : 'like' })
+  const { mutateLike } = useLike({
+    id: Number(lot.id),
+    page,
+    per_page,
+    params,
+    status: lot.like_status === 'like' ? 'indifferent' : 'like'
+  })
 
   return (
     <ActionIcon classNames={{ root: 'hoverScale' }} onClick={() => mutateLike()} size="lg" color="yellow.3" variant="transparent">
-      {lot.like_status === 'like' ? (
-        <IconStarFilled size={32} style={{ transition: 'all 0.2s ease' }} />
-      ) : (
-        <IconStar size={32} style={{ transition: 'all 0.2s ease' }} />
-      )}
+      {lot.like_status === 'like' ? <IconStarFilled size={32} /> : <IconStar size={32} />}
     </ActionIcon>
   );
 }

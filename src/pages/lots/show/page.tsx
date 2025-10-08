@@ -17,7 +17,7 @@ import { AutotekaInfoPage } from '@/pages/lots/show/ui/autotekaInfoPage.tsx';
 import type { AxiosError } from 'axios';
 import type { ServiceRequest } from '@/entities/lot';
 import { useTimeout } from '@mantine/hooks';
-import { MakeBidInput } from '@/shared/ui/LotOperations/MakeBidInput';
+import { MakeBidInput } from '@/shared/ui/LotOperations/MakeBid/MakeBidInput.tsx';
 import { LotImageGallery } from '@/shared/ui/Images/LotImageGallery';
 
 const stageStrings = {
