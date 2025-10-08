@@ -8,7 +8,10 @@ import { AutotekaInfoPage } from '@/pages/lots/show/ui/BottomInfoPages/autotekaI
 import type { Lot } from '@/entities/lot';
 
 export const LotTabs = ({ lot, editable }: { lot: Lot, editable: boolean }) => {
-  const { start: scrollBottomTimeout } = useTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 200);
+  const { start: scrollBottomTimeout } = useTimeout(() => window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: 'smooth'
+  }), 200);
 
   return (
     <Tabs color="blue.7" defaultValue="kit" py={20} radius="lg">
@@ -19,7 +22,13 @@ export const LotTabs = ({ lot, editable }: { lot: Lot, editable: boolean }) => {
           { icon: <IconCarGarage color="black" />, value: 'to', label: 'ТО' },
           { icon: <IconBook color="black" />, value: 'autoteka', label: 'Автотека' }
         ].map((tab) => (
-          <Tabs.Tab key={tab.value} value={tab.value} leftSection={tab.icon} fz={20} onClick={() => scrollBottomTimeout()}>
+          <Tabs.Tab
+            key={tab.value}
+            value={tab.value}
+            leftSection={tab.icon}
+            fz={20}
+            onClick={() => scrollBottomTimeout()}
+          >
             {tab.label}
           </Tabs.Tab>
         ))}
@@ -39,7 +48,7 @@ export const LotTabs = ({ lot, editable }: { lot: Lot, editable: boolean }) => {
       </Tabs.Panel>
       <Tabs.Panel value="autoteka">
         <Space h={20} />
-        <AutotekaInfoPage />
+        <AutotekaInfoPage lot={lot} editable={editable} />
       </Tabs.Panel>
     </Tabs>
   );

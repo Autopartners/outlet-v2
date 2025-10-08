@@ -1,9 +1,9 @@
 import { Container, Box, Grid, Card } from '@mantine/core';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLot } from '@/pages/lots/index/api/useLots.ts';
+import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader.tsx';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { useApp } from '@/app/providers/app/useApp.ts';
-import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader.tsx';
 import { LotHeader } from '@/pages/lots/show/ui/ShowPage/LotHeader.tsx';
 import { LotImageGallery } from '@/shared/ui/Images/LotImageGallery.tsx';
 import { LotTabs } from '@/pages/lots/show/ui/ShowPage/LotTabs.tsx';

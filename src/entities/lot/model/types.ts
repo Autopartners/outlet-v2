@@ -21,6 +21,16 @@ export type Damage = {
   hide_on_auction: boolean;
 }
 
+export type AutotekaReport = {
+  data: object;
+  id: number;
+  web_link: string;
+  pdf_link: string;
+  status: string;
+  report_id: string;
+  vehicle_id: number;
+}
+
 export interface Lot {
   id: number;
   status: 'agreement' | 'agreed' | 'sold' | 'cancelled';
@@ -55,6 +65,7 @@ export interface Lot {
   sales_pictures: Picture[];
   damages: Damage[];
   service_requests: ServiceRequest[];
+  autoteka_reports: AutotekaReport[];
   vehicle_options: string;
   remarketing_options: string;
 }

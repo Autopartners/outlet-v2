@@ -1,1 +1,1 @@
-export type { Lot, ServiceRequest } from './model/types';
+export type { Lot, ServiceRequest, AutotekaReport } from './model/types';
