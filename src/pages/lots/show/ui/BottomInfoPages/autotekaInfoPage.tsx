@@ -1,6 +1,6 @@
 import { useMe } from '@/app/providers/me/useMe';
 import type { Lot, AutotekaReport } from '@/entities/lot';
-import { Flex, Card, Button, Alert, Stack } from '@mantine/core';
+import { Flex, Card, Button, Alert, Stack, Text } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { useAutotekaReport } from '@/pages/lots/show/api/useAutotekaReport.ts';
 
@@ -40,11 +40,13 @@ export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
               >Создать
                 отчет</Button>
             }
-            {autotekaReport && (
+            {autotekaReport ? (
               <Button component="a" href={autotekaReport?.web_link} target="_blank">
                 Посмотреть отчет
               </Button>
-            )}
+            ) : <Alert w="fit-content" radius="md" color="gray">
+              <Text ta="center" px={20}>Отчёт по автотеке отсутствует</Text>
+            </Alert>}
           </Flex>
         </Stack>
       </Card>
