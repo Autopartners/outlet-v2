@@ -81,7 +81,7 @@ export const LotPage = () => {
   );
 
   return (
-    <Container size="100%">
+    <Container size={isMobile ? '100%' : '70%'} miw={isMobile ? 0 : 1600}>
       {/* Заголовок */}
       <Card bg="blue.9" radius={0} style={{ borderTopRightRadius: 20, borderTopLeftRadius: 20 }} mt={40} pos="relative">
         <Box pos="absolute" top={20} right={20}>
@@ -104,20 +104,20 @@ export const LotPage = () => {
             {lot.definition_name}
           </Text>
         </Flex>
-        <Flex mx={10} mt={10} gap={20} direction={{ base: 'column', sm: 'row' }}>
-          <Flex gap={5} align="center">
+        <Flex mx={10} mt={10} gap={20} justify={{ base: 'space-between', sm: 'flex-start' }}>
+          <Flex gap={5} align="center" direction={{ base: 'column', sm: 'row' }}>
             <IconCalendar stroke={1.3} color="white" />
             <Text c="white" fz={15}>
               {lot.vehicle_year_of_production} г.
             </Text>
           </Flex>
-          <Flex gap={5} align="center">
+          <Flex gap={5} align="center" direction={{ base: 'column', sm: 'row' }}>
             <IconRoad stroke={1.3} color="white" />
             <Text c="white" fz={15}>
               {Number(lot.return_km).toLocaleString('ru-RU')} км
             </Text>
           </Flex>
-          <Flex gap={5} align="center">
+          <Flex gap={5} align="center" direction={{ base: 'column', sm: 'row' }}>
             <IconBuildingSkyscraper stroke={1.3} color="white" />
             <Text c="white" fz={15}>
               {lot.city_of_remarketing_name}
@@ -130,10 +130,7 @@ export const LotPage = () => {
         <Grid>
           <Grid.Col span={{ base: 12, md: 7 }}>
             <Card withBorder radius="md" p={0} maw="100%">
-              <LotImageGallery
-                items={galleryItems}
-                isMobile={isMobile}
-              />
+              <LotImageGallery items={galleryItems} isMobile={isMobile} />
             </Card>
           </Grid.Col>
 
