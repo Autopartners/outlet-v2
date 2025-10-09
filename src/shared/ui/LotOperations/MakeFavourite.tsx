@@ -1,6 +1,6 @@
 import { IconStar, IconStarFilled } from '@tabler/icons-react';
 import { ActionIcon } from '@mantine/core';
-import { useLike } from '@/pages/lots/index/api/useLots';
+import { useLike } from '@/shared/api/useLots.ts';
 import type { Lot } from '@/entities/lot';
 
 interface MakeFavouriteProps {

@@ -1,6 +1,6 @@
 import { Container, Grid, Card } from '@mantine/core';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useLot } from '@/pages/lots/index/api/useLots.ts';
+import { useLot } from '@/shared/api/useLots.ts';
 import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader.tsx';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { useApp } from '@/app/providers/app/useApp.ts';
@@ -11,6 +11,7 @@ import { LotBiddingSection } from '@/pages/lots/show/ui/ShowPage/LotBiddingSecti
 import { LotInfoSections } from '@/pages/lots/show/ui/ShowPage/LotInfoSections.tsx';
 import { useGalleryItems } from '@/pages/lots/show/ui/useGalleryItems.tsx';
 import { LoadError } from '@/shared/ui/Banners/LoadError.tsx';
+import { LotEditSubmodel } from '@/pages/lots/show/ui/EditPage/LotEditSubmodel.tsx';
 
 export const LotPage = ({ mode = 'view' }: { mode?: 'view' | 'edit' }) => {
   const { id } = useParams();
@@ -36,6 +37,7 @@ export const LotPage = ({ mode = 'view' }: { mode?: 'view' | 'edit' }) => {
               <LotImageGallery items={items} galleryRef={ref} renderCustomControls={custom} />
             </Card>
           </Grid.Col>
+          {editable && <LotEditSubmodel lot={lot} />}
           {!editable && <LotBiddingSection lot={lot} />}
         </Grid>
         {!editable && <LotInfoSections lot={lot} />}

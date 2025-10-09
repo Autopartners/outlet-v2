@@ -2,7 +2,7 @@ import { Image, Container, Text, Box, Divider, Button, SimpleGrid } from '@manti
 import { useNavigate } from 'react-router-dom';
 import { IconEye, } from '@tabler/icons-react';
 import { useApp } from '@/app/providers/app/useApp.ts';
-import { useLots } from '@/pages/lots/index/api/useLots.ts';
+import { useLots } from '@/shared/api/useLots.ts';
 import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import type { Lot } from '@/entities/lot';
 import { useMe } from '@/app/providers/me/useMe.ts';

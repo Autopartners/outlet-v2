@@ -1,5 +1,5 @@
 import { Container, Flex, ThemeIcon, Text, Alert, ActionIcon } from '@mantine/core';
-import { useLots } from '@/pages/lots/index/api/useLots.ts';
+import { useLots } from '@/shared/api/useLots.ts';
 import { useSearchParams } from 'react-router-dom';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
 import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';

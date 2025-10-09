@@ -55,11 +55,11 @@ export interface Lot {
   like_status: 'indifferent' | 'like';
   code: string;
   city_of_remarketing_name: string;
-  brand_name: string
+  vehicle_brand_name: string
   vehicle_model_name: string,
-  body_type: { name: string },
-  gearbox: { name: string },
-  fuel_type: { name: string },
+  body_type_name: string,
+  gearbox_name: string,
+  fuel_type_name: string,
   end_at: string;
   start_at: string;
   second_stage_at: string;

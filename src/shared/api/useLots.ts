@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/shared/lib/api.ts';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import type { Lot } from '@/entities/lot';
-import type { LotsCache } from '@/entities/lot/model/types';
+import type { LotsCache } from '@/entities/lot/model/types.ts';
 import type { AxiosError } from 'axios';
 
 interface UseLotsParams {
@@ -67,4 +67,20 @@ export const useLike = ({ id, page, per_page, params, status }: UseLikeParams) =
   })
 
   return { mutateLike, statusLike }
+}
+
+export const usePatchLot = () => {
+  const client = useQueryClient();
+
+  const { mutate: mutateLot, status: statusLot } = useMutation({
+    mutationFn: async (args: { lot_id: number | string, params: object }) => {
+      const { data } = await api.patch(`erm/lots/${args.lot_id}`, { ...args.params, method: 'outlet_show' });
+      return data
+    },
+    onSuccess: data => {
+      client.setQueryData(['lot', String(data.id)], data);
+    }
+  })
+
+  return { mutateLot, statusLot }
 }
