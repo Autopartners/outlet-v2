@@ -55,7 +55,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
             </Table.Td>
 
             <Table.Td>
-              <Text>{Number(lot.return_km).toLocaleString('ru-RU')} км</Text>
+              <Text>{Number(lot.return_km).toLocaleString('ru-RU')}</Text>
             </Table.Td>
 
             <Table.Td>
@@ -78,4 +78,4 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
       </Table.Tbody>
     </Table>
   );
-}
+};
