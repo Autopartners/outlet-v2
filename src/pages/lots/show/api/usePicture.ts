@@ -10,10 +10,11 @@ export const usePicture = () => {
   const { mutate: mutatePicture, status: statusPicture } = useMutation({
     mutationFn: async (args: { picture_id: number, params: object }) => {
       const { data } = await api.patch(`/erm/pictures/${args.picture_id}`, args.params);
-      return data
+      return data;
     },
-    onError: () => {
-      notification.red('Ошибка обновления')
+    onError: (error) => {
+      console.log(error);
+      notification.red('Ошибка обновления');
     },
     onSuccess: (data) => {
       client.setQueryData(['lot', String(data.lot_id)], (oldLot: Lot) => {
@@ -28,5 +29,5 @@ export const usePicture = () => {
     }
   });
 
-  return { mutatePicture, statusPicture }
-}
+  return { mutatePicture, statusPicture };
+};
