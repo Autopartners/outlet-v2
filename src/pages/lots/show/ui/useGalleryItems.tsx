@@ -12,9 +12,9 @@ export const useGalleryItems = ({ mode, lot }: { mode: 'view' | 'edit'; lot: Lot
 
   const sortedPics = useMemo(() =>
     lot?.sales_pictures
-      .sort((a, b) => (a.is_avatar === b.is_avatar ? 0 : a.is_avatar ? -1 : 1))
-      .sort((a, b) => Number(a.updated_at) - Number(b.updated_at))
-      .sort((a, b) => Number(a.is_deleted) - Number(b.is_deleted)), [lot?.sales_pictures]
+      ?.sort((a, b) => (a.is_avatar === b.is_avatar ? 0 : a.is_avatar ? -1 : 1))
+      ?.sort((a, b) => Number(a.updated_at) - Number(b.updated_at))
+      ?.sort((a, b) => Number(a.is_deleted) - Number(b.is_deleted)), [lot?.sales_pictures]
   );
 
   const custom = useCallback(() => {
