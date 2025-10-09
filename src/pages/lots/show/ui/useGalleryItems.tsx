@@ -8,7 +8,7 @@ import { usePicture } from '@/pages/lots/show/api/usePicture.ts';
 
 export const useGalleryItems = ({ mode, lot }: { mode: 'view' | 'edit'; lot: Lot | undefined }) => {
   const imageGallery = useRef<ImageGallery | null>(null);
-  const { mutatePicture } = usePicture()
+  const { mutatePicture } = usePicture({ lotId: lot?.id })
 
   const sortedPics = useMemo(() =>
     lot?.sales_pictures

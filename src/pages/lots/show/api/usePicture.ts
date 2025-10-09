@@ -3,7 +3,7 @@ import { api } from '@/shared/lib/api.ts';
 import type { Lot } from '@/entities/lot';
 import { useApp } from '@/app/providers/app/useApp.ts';
 
-export const usePicture = () => {
+export const usePicture = ({ lotId }: {lotId: number | string | undefined}) => {
   const client = useQueryClient();
   const { notification } = useApp();
 
@@ -17,7 +17,7 @@ export const usePicture = () => {
       notification.red('Ошибка обновления');
     },
     onSuccess: (data) => {
-      client.setQueryData(['lot', String(data.lot_id)], (oldLot: Lot) => {
+      client.setQueryData(['lot', String(lotId)], (oldLot: Lot) => {
         return {
           ...oldLot,
           sales_pictures: (oldLot.sales_pictures || []).map(picture =>
