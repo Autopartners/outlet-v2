@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon.ico" />
   <title>CarsOutlet</title>
+
+  <base href="/" />
+  <script>
+    if (!window.__vitePreload) {
+      window.__vitePreload = (fn, deps) => fn();
+    }
+  </script>
 </head>
 <body>
 <div id="root"></div>
