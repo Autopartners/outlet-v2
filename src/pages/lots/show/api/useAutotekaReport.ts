@@ -5,13 +5,14 @@ import type { Lot } from '@/entities/lot';
 interface UseAutotekaReportParams {
   lotId: string | undefined;
   lotVin: string;
+  lotRegNumber: string;
 }
 
-export const useAutotekaReport = ({ lotId, lotVin }: UseAutotekaReportParams) => {
+export const useAutotekaReport = ({ lotId, lotVin, lotRegNumber }: UseAutotekaReportParams) => {
   const client = useQueryClient();
   const mutation = useMutation({
     mutationFn: async () => {
-      const { data } = await api.post('outlet/autoteka_reports', { vin: lotVin });
+      const { data } = await api.post('outlet/autoteka_reports', { vin: lotVin, vehicle_plate_no: lotRegNumber });
       return data;
     },
     onSuccess: (data) => {

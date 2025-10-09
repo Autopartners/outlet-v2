@@ -11,12 +11,13 @@ interface AutotekaInfoPageProps {
 
 export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
   const lotVin = lot?.vin;
+  const lotRegNumber = lot?.vehicle_plate_no;
   const { id } = useParams();
   const { isAdmin } = useMe();
   const filtered = lot?.autoteka_reports.filter((report: AutotekaReport) => report.status === 'success');
   const autotekaReport = filtered?.[filtered.length - 1];
 
-  const { autotekaReportMutation } = useAutotekaReport({ lotId: id, lotVin });
+  const { autotekaReportMutation } = useAutotekaReport({ lotId: id, lotVin, lotRegNumber });
 
   return (
     <Flex justify="center">
