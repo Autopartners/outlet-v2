@@ -1,11 +1,7 @@
 import { Navbar } from '@/widgets/Navbar';
 
 function App() {
-  return (
-    <>
-      <Navbar />
-    </>
-  );
+  return <Navbar />;
 }
 
 export default App;

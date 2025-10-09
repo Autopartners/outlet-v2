@@ -27,7 +27,7 @@ export const useBid = ({ page, per_page, params, variant = 'index' }: useBidPara
     },
     onSuccess: (data) => {
       // make bid in show
-      client.setQueryData(['lot', String(data.lot_id)], (oldLot: object) => ({
+      client.setQueryData(['lot', String(data.lot_id)], (oldLot: Lot) => ({
         ...oldLot,
         my_bid: data.second_stage_amount ?? data.first_stage_amount,
       }));

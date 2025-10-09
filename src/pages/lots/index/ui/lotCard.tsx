@@ -23,18 +23,22 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
   return (
     <Card withBorder p={0} mx="auto" classNames={{ root: !isMobile ? 'cardHover' : undefined }}>
       {!mobileSimplified && (
-        <ApCarousel pictures={lot.sales_pictures_limited.slice(0, maxPhotos || lot.sales_pictures_limited.length - 1)} />
+        <ApCarousel
+          pictures={lot.sales_pictures_limited
+            .sort((a, b) => Number(a.is_avatar) + Number(b.is_avatar))
+            .slice(0, maxPhotos || lot.sales_pictures_limited.length - 1)}
+        />
       )}
       <Box p={10} ta="left" w="100%">
         <Flex justify="space-between" align="flex-start" gap={10}>
-          <Text fw="bold" fz={20} maw={300}>
+          <Text fw="bold" fz={20} maw={290}>
             {mobileSimplified
               ? lot.definition_name
               : lot.definition_short_name.trim() || lot.definition_name.split(' ').slice(0, 2).join(' ')}
             , {lot.vehicle_year_of_production} г.
           </Text>
-          <Card shadow="xs" withBorder p={5}>
-            <Text fz={14} fw="bold" ta="center">
+          <Card shadow="xs" withBorder p={5} w="fit-content">
+            <Text style={!mobileSimplified ? { whiteSpace: 'pre' } : {}} fz={14} fw="bold" ta="center">
               {mobileSimplified ? lot.code.replace('-', '\n') : lot.code}
             </Text>
           </Card>

@@ -33,15 +33,13 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
         {lots.map((lot: Lot) => (
           <Table.Tr key={lot.id}>
             <Table.Td>
-              <Button onClick={() => nav(`${lot.id}`)} variant="light" color="dark">
-                <Text fz={14} fw="bold">
-                  {lot.code}
-                </Text>
-              </Button>
+              <Text fz={14} fw="bold">
+                {lot.code}
+              </Text>
             </Table.Td>
 
             <Table.Td>
-              <Button onClick={() => nav(`${lot.id}`)} variant="subtle" color="blue.7">
+              <Button w="100%" onClick={() => nav(`${lot.id}`)} variant="light" color="blue.9">
                 <Text fz={16} fw="bold">
                   {lot.definition_name}
                 </Text>
@@ -71,7 +69,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
 
             <Table.Td>
               <Flex align="center" gap={10}>
-                <MakeBidPopover {...{ lot, page, per_page, params }} color="green.7" />
+                <MakeBidPopover {...{ lot, page, per_page, params }} />
                 <MakeFavourite {...{ lot, page, per_page, params }} />
               </Flex>
             </Table.Td>

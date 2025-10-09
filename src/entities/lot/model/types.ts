@@ -1,9 +1,12 @@
+import 'react-image-gallery';
+
 export type Picture = {
   id: number;
   url: string;
   thumbnail: string;
   is_avatar: boolean;
   is_deleted: boolean;
+  updated_at: string;
 };
 
 export type DamagePart = {
@@ -84,4 +87,12 @@ export interface LotsCache {
   result: Lot[];
   pages: number;
   total: number;
+}
+
+// Глобально расширенный тип
+declare module 'react-image-gallery' {
+  interface ReactImageGalleryItem {
+    is_deleted?: boolean;
+    is_avatar?: boolean;
+  }
 }

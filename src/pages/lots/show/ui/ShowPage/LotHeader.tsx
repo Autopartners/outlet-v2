@@ -35,14 +35,14 @@ export const LotHeader = ({ lot, editable, onClose }: { lot: Lot, editable: bool
           {lot.definition_name}
         </Text>
       </Flex>
-      <Flex mx={10} mt={10} gap={20}>
+      <Flex mx={10} mt={10} gap={{ sm: 20, base: 5 }}>
         <Flex gap={5} align="center">
           <IconCalendar color="white" />
-          <Text c="white">{lot.vehicle_year_of_production} г.</Text>
+          <Text c="white" style={{ whiteSpace: 'pre' }}>{lot.vehicle_year_of_production} г.</Text>
         </Flex>
         <Flex gap={5} align="center">
           <IconRoad color="white" />
-          <Text c="white">{Number(lot.return_km).toLocaleString('ru-RU')} км</Text>
+          <Text c="white" style={{ whiteSpace: 'pre' }}>{Number(lot.return_km).toLocaleString('ru-RU')} км</Text>
         </Flex>
         <Flex gap={5} align="center">
           <IconBuildingSkyscraper color="white" />
