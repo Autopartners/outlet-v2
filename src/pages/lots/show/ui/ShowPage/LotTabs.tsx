@@ -6,8 +6,10 @@ import { DamagesInfoPage } from '@/pages/lots/show/ui/BottomInfoPages/DamagesInf
 import { ToInfoPage } from '@/pages/lots/show/ui/BottomInfoPages/toInfoPage.tsx';
 import { AutotekaInfoPage } from '@/pages/lots/show/ui/BottomInfoPages/autotekaInfoPage.tsx';
 import type { Lot } from '@/entities/lot';
+import { useApp } from '@/app/providers/app/useApp';
 
 export const LotTabs = ({ lot, editable }: { lot: Lot, editable: boolean }) => {
+  const { isMobile } = useApp();
   const { start: scrollBottomTimeout } = useTimeout(() => window.scrollTo({
     top: document.body.scrollHeight,
     behavior: 'smooth'
@@ -27,6 +29,7 @@ export const LotTabs = ({ lot, editable }: { lot: Lot, editable: boolean }) => {
             value={tab.value}
             leftSection={tab.icon}
             fz={20}
+            w={isMobile ? '100%' : '25%'}
             onClick={() => scrollBottomTimeout()}
           >
             {tab.label}

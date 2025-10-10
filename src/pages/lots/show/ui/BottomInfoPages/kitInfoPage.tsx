@@ -22,11 +22,11 @@ export const KitInfoPage = ({ vehicle_options, remarketing_options }: KitInfoPag
       }
       return (
         <Grid.Col span={{ sm: 12, md: 6 }} key={i}>
-          <Flex align="flex-start" justify="center" direction="row">
-            <ThemeIcon color="green" size="lg" radius="xl">
+          <Flex align="center" justify="flex-start" direction="row">
+            <ThemeIcon color="green.8" size="lg" radius="lg">
               <IconCheck size={20} />
             </ThemeIcon>
-            <Text ml="sm">{e.trim()}</Text>
+            <Text ml="sm">{String(e.trim()).charAt(0).toUpperCase() + String(e.trim()).slice(1)}</Text>
           </Flex>
         </Grid.Col>
       );
