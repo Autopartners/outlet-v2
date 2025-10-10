@@ -68,7 +68,8 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
               </Text>
             </Flex>
           ) : (
-            (lot.stage === 'first_stage' || lot.stage === 'second_stage') && <MakeBidPopover {...{ lot, page, per_page, params }} />
+            (lot.stage === 'first_stage' || lot.stage === 'second_stage') &&
+            <MakeBidPopover {...{ lot, page, per_page, params }} />
           )}
           <Flex gap={10}>
             <Button variant="light" color="blue.7" w={150} onClick={() => nav(`/lots/${lot.id}`)}>

@@ -13,10 +13,11 @@ import { ViewTypeTable } from '@/pages/lots/index/ui/viewTypes/ViewTypeTable';
 import { useApp } from '@/app/providers/app/useApp';
 import { ViewTypeTableMobile } from '@/pages/lots/index/ui/viewTypes/ViewTypeTableMobile';
 import { LotsTableSkeletonMobileLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonMobileLoader';
+import Countdown from 'react-countdown';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
-  const { isMobile } = useApp()
+  const { isMobile } = useApp();
   const [activeView, setActiveView] = useState('table');
   const page = searchParams.get('page') || '1';
   const per_page = '12';
@@ -36,12 +37,18 @@ export const LotsList = () => {
   });
 
   if (isLoading || !lots) {
-    if (activeView === 'cards') { return <LotsListSkeletonLoader /> }
-    if (activeView === 'table' && !isMobile) { return <LotsTableSkeletonLoader /> }
-    return <LotsTableSkeletonMobileLoader />
+    if (activeView === 'cards') {
+      return <LotsListSkeletonLoader />;
+    }
+    if (activeView === 'table' && !isMobile) {
+      return <LotsTableSkeletonLoader />;
+    }
+    return <LotsTableSkeletonMobileLoader />;
   }
 
-  if (lots.length === 0) { return <NoAvailableLots mt={isMobile ? 300 : 140} /> }
+  if (lots.length === 0) {
+    return <NoAvailableLots mt={isMobile ? 300 : 140} />;
+  }
 
   return (
     <Container size="xl">
@@ -55,6 +62,27 @@ export const LotsList = () => {
           <Flex align="center" justify="flex-start" mt={5}>
             <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
             <Text fz={14}>Аукцион завершается <strong>{(new Date(lots[0]?.end_at)).toLocaleString()}</strong></Text>
+          </Flex>
+          <Flex align="center" justify="flex-start" mt={5}>
+            <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
+            <Text fz={14}>
+              До завершения: {' '}
+              <Countdown
+                date={lots[0]?.end_at}
+                renderer={({ days, hours, minutes, seconds, completed }) => {
+                  if (completed) {
+                    return <strong>завершён</strong>;
+                  }
+                  if (days > 0) {
+                    return <strong>{`${days}д ${hours}ч ${minutes}м`}</strong>;
+                  }
+
+                  return <strong>{hours.toString().padStart(2, '0')
+                    + ':' + minutes.toString().padStart(2, '0')
+                    + ':' + seconds.toString().padStart(2, '0')}</strong>;
+                }}
+              />
+            </Text>
           </Flex>
         </Flex>
       </Alert>
@@ -77,8 +105,8 @@ export const LotsList = () => {
         </ActionIcon>
       </Flex>
       {activeView === 'cards' && <ViewTypeCards {...{ lots, page, per_page, params }} />}
-      {activeView === 'table' && isMobile && <ViewTypeTableMobile {...{ lots, page, per_page, params }} /> }
-      {activeView === 'table' && !isMobile && <ViewTypeTable {...{ lots, page, per_page, params }} /> }
+      {activeView === 'table' && isMobile && <ViewTypeTableMobile {...{ lots, page, per_page, params }} />}
+      {activeView === 'table' && !isMobile && <ViewTypeTable {...{ lots, page, per_page, params }} />}
       <LotPages pages={pages} pos="bottom" />
     </Container>
   );
