@@ -3,9 +3,13 @@ import { IconClockX, IconHourglassHigh, IconHourglassLow } from '@tabler/icons-r
 import type { Lot } from '@/entities/lot';
 import Countdown from 'react-countdown';
 import { useApp } from '@/app/providers/app/useApp';
+import dayjs from 'dayjs';
+
 
 export const AuctionCountdown = ({ lots }: {lots: Lot[]}) => {
   const { isMobile } = useApp();
+  const started = lots[0].stage === 'preparing' && dayjs().isBefore(dayjs(lots[0].start_at));
+  const date = started ? lots[0].start_at : lots[0]?.end_at;
 
   return (
     <Alert variant="light" color="blue" radius="md" mt={50} px={40}>
@@ -30,10 +34,10 @@ export const AuctionCountdown = ({ lots }: {lots: Lot[]}) => {
         <Flex align="center" justify="flex-start" mt={5} gap={5}>
           <ThemeIcon variant="transparent" c="blue.7"><IconClockX size={20} /></ThemeIcon>
           <Text fz={14}>
-            До завершения:
+            {started ? 'До начала:' : 'До завершения:'}
             {isMobile ? <br /> : ' '}
             <Countdown
-              date={lots[0]?.end_at || ''}
+              date={date || ''}
               renderer={({ days, hours, minutes, seconds, completed }) => {
                 if (completed) { return <strong>завершён</strong>; }
                 if (days > 0) { return <strong>{`${days}д ${hours}ч ${minutes}м`}</strong>; }
