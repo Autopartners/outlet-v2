@@ -9,7 +9,7 @@ export const usePicture = ({ lotId }: {lotId: number | string | undefined}) => {
 
   const { mutate: mutatePicture, status: statusPicture } = useMutation({
     mutationFn: async (args: { picture_id: number, params: object }) => {
-      const { data } = await api.patch(`/erm/pictures/${args.picture_id}`, args.params);
+      const { data } = await api.patch(`/erm/pictures/${args.picture_id}`, { ...args.params, is_lot: true });
       return data;
     },
     onError: (error) => {
@@ -20,9 +20,7 @@ export const usePicture = ({ lotId }: {lotId: number | string | undefined}) => {
       client.setQueryData(['lot', String(lotId)], (oldLot: Lot) => {
         return {
           ...oldLot,
-          sales_pictures: (oldLot.sales_pictures || []).map(picture =>
-            picture.id === data.id ? data : picture
-          )
+          sales_pictures: data
         };
       });
       notification.green('Фото обновлено');

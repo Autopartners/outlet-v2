@@ -99,7 +99,14 @@ export default tseslint.config([
       }],
       'function-paren-newline': ['error', 'multiline-arguments'],
       'react/jsx-one-expression-per-line': ['error', { 'allow': 'single-child' }],
-      '@stylistic/operator-linebreak': ['error', 'after'],
+      '@stylistic/operator-linebreak': ['error', 'after',
+        {
+          'overrides': {
+            '?': 'before',
+            ':': 'before'
+          }
+        }
+      ]
     }
   }
 ]);
