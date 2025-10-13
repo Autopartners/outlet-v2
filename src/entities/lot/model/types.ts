@@ -64,7 +64,6 @@ export interface Lot {
   start_at: string;
   second_stage_at: string;
   third_stage_at: string;
-  sales_pictures_limited: Picture[];
   sales_pictures: Picture[];
   damages: Damage[];
   service_requests: ServiceRequest[];

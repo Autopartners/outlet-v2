@@ -24,9 +24,9 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
     <Card withBorder p={0} mx="auto" classNames={{ root: !isMobile ? 'cardHover' : undefined }}>
       {!mobileSimplified && (
         <ApCarousel
-          pictures={lot.sales_pictures_limited
+          pictures={lot.sales_pictures
             .sort((a, b) => Number(a.is_avatar) + Number(b.is_avatar))
-            .slice(0, maxPhotos || lot.sales_pictures_limited.length - 1)}
+            .slice(0, maxPhotos || lot.sales_pictures.length - 1)}
         />
       )}
       <Box p={10} ta="left" w="100%">
