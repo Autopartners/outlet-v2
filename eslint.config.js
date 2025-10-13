@@ -83,7 +83,23 @@ export default tseslint.config([
         ['error', { when: 'multiline' }], // каждый пропс на новой строке, если компонент занимает больше одной строки.
       'react/jsx-first-prop-new-line': ['error', 'multiline'], // если тег многострочный, первый пропс уходит на новую строку
       'react/jsx-indent-props': ['error', 2], // отступ для пропсов
-      'react/jsx-closing-bracket-location': ['error', 'line-aligned'] // Закрывающая скобка /> будет выровнена под первой строкой тега
+      'react/jsx-closing-bracket-location': ['error', 'line-aligned'], // Закрывающая скобка /> будет выровнена под первой строкой тега
+
+      // перенос правил из prettier
+      'semi': ['error', 'always'], // ; в конце строки
+      'brace-style': ['error', '1tbs', { 'allowSingleLine': true }], // one true brace style
+      'react/jsx-wrap-multilines': ['error', {
+        'declaration': 'parens-new-line',
+        'assignment': 'parens-new-line',
+        'return': 'parens-new-line',
+        'arrow': 'parens-new-line',
+        'condition': 'parens-new-line',
+        'logical': 'parens-new-line',
+        'prop': 'parens-new-line'
+      }],
+      'function-paren-newline': ['error', 'multiline-arguments'],
+      'react/jsx-one-expression-per-line': ['error', { 'allow': 'single-child' }],
+      '@stylistic/operator-linebreak': ['error', 'after'],
     }
   }
 ]);

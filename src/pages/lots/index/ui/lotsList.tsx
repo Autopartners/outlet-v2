@@ -37,18 +37,12 @@ export const LotsList = () => {
   });
 
   if (isLoading || !lots) {
-    if (activeView === 'cards') {
-      return <LotsListSkeletonLoader />;
-    }
-    if (activeView === 'table' && !isMobile) {
-      return <LotsTableSkeletonLoader />;
-    }
+    if (activeView === 'cards') { return <LotsListSkeletonLoader />; }
+    if (activeView === 'table' && !isMobile) { return <LotsTableSkeletonLoader />; }
     return <LotsTableSkeletonMobileLoader />;
   }
 
-  if (lots.length === 0) {
-    return <NoAvailableLots mt={isMobile ? 300 : 140} />;
-  }
+  if (lots.length === 0) { return <NoAvailableLots mt={isMobile ? 300 : 140} />; }
 
   return (
     <Container size="xl">
@@ -57,16 +51,23 @@ export const LotsList = () => {
         <Flex direction="column">
           <Flex align="center" justify="flex-start">
             <ThemeIcon variant="transparent" c="blue.7"><IconHourglassHigh size={20} /></ThemeIcon>
-            <Text fz={14}>Аукцион начинается <strong>{(new Date(lots[0]?.start_at)).toLocaleString()}</strong></Text>
-          </Flex>
-          <Flex align="center" justify="flex-start" mt={5}>
-            <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
-            <Text fz={14}>Аукцион завершается <strong>{(new Date(lots[0]?.end_at)).toLocaleString()}</strong></Text>
+            <Text fz={14}>
+              Аукцион начинается
+              <strong>{(new Date(lots[0]?.start_at)).toLocaleString()}</strong>
+            </Text>
           </Flex>
           <Flex align="center" justify="flex-start" mt={5}>
             <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
             <Text fz={14}>
-              До завершения: {' '}
+              Аукцион завершается
+              <strong>{(new Date(lots[0]?.end_at)).toLocaleString()}</strong>
+            </Text>
+          </Flex>
+          <Flex align="center" justify="flex-start" mt={5}>
+            <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
+            <Text fz={14}>
+              До завершения:
+              {' '}
               <Countdown
                 date={lots[0]?.end_at}
                 renderer={({ days, hours, minutes, seconds, completed }) => {
@@ -77,9 +78,13 @@ export const LotsList = () => {
                     return <strong>{`${days}д ${hours}ч ${minutes}м`}</strong>;
                   }
 
-                  return <strong>{hours.toString().padStart(2, '0')
-                    + ':' + minutes.toString().padStart(2, '0')
-                    + ':' + seconds.toString().padStart(2, '0')}</strong>;
+                  return (
+                    <strong>
+                      {hours.toString().padStart(2, '0') +
+                        ':' + minutes.toString().padStart(2, '0') +
+                        ':' + seconds.toString().padStart(2, '0')}
+                    </strong>
+                  );
                 }}
               />
             </Text>
