@@ -10,7 +10,7 @@ export const LotsFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isMobile } = useApp();
   const activeStar = searchParams.get('liked') === 'true';
-  const [showFilters, setShowFilters] = useState(!isMobile);
+  const [showFilters, setShowFilters] = useState(false);
 
   const updateParams = (value: string | null, key: string) => {
     if (value) {

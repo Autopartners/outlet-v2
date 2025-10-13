@@ -16,7 +16,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
   const nav = useNavigate();
 
   return (
-    <Table mt={50} highlightOnHover verticalSpacing="sm">
+    <Table mt={10} highlightOnHover verticalSpacing="sm">
       <Table.Thead>
         <Table.Tr fz={16}>
           <Table.Th>Код</Table.Th>
@@ -25,7 +25,6 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
           <Table.Th>Город</Table.Th>
           <Table.Th>Пробег</Table.Th>
           <Table.Th>Моя ставка</Table.Th>
-          <Table.Th>Действия</Table.Th>
         </Table.Tr>
       </Table.Thead>
 
@@ -59,17 +58,17 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
             </Table.Td>
 
             <Table.Td>
-              <Flex align="center" justify="start">
-                {lot.my_bid && <IconCurrencyRubel stroke={2} size={20} />}
-                <Text fz={20} fw="bold">
-                  {lot.my_bid?.toLocaleString('ru-RU')}
-                </Text>
-              </Flex>
-            </Table.Td>
-
-            <Table.Td>
-              <Flex align="center" gap={10}>
-                <MakeBidPopover {...{ lot, page, per_page, params }} />
+              <Flex align="center" gap={10} justify="space-between">
+                {lot.my_bid ? (
+                  <Flex align="center" justify="start">
+                    <IconCurrencyRubel stroke={2} size={20} />
+                    <Text fz={20} fw="bold">
+                      {lot.my_bid.toLocaleString('ru-RU')}
+                    </Text>
+                  </Flex>
+                ) : (
+                  <MakeBidPopover {...{ lot, page, per_page, params }} />
+                )}
                 <MakeFavourite {...{ lot, page, per_page, params }} />
               </Flex>
             </Table.Td>

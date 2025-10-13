@@ -31,15 +31,17 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
       )}
       <Box p={10} ta="left" w="100%">
         <Flex justify="space-between" align="flex-start" gap={10}>
-          <Text fw="bold" fz={20} maw={290}>
-            {mobileSimplified
-              ? lot.definition_name
-              : lot.definition_short_name.trim() || lot.definition_name.split(' ').slice(0, 2).join(' ')}
-            , {lot.vehicle_year_of_production} г.
+          <Text fw="bold" fz={18} w="80%">
+            {lot.definition_name}
+            ,
+            {' '}
+            {lot.vehicle_year_of_production}
+            {' '}
+            г.
           </Text>
-          <Card shadow="xs" withBorder p={5} w="fit-content">
-            <Text style={!mobileSimplified ? { whiteSpace: 'pre' } : {}} fz={14} fw="bold" ta="center">
-              {mobileSimplified ? lot.code.replace('-', '\n') : lot.code}
+          <Card shadow="xs" withBorder p={5} w="20%">
+            <Text fz={14} fw="bold" ta="center">
+              {lot.code.replace('-', '\n')}
             </Text>
           </Card>
         </Flex>
@@ -48,7 +50,9 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             <IconBuildingSkyscraper size={20} />
           </ThemeIcon>
           <Text fz={14}>
-            Город <strong>{lot.city_of_remarketing_name}</strong>
+            Город
+            {' '}
+            <strong>{lot.city_of_remarketing_name}</strong>
           </Text>
         </Flex>
         <Flex align="center" mt={5}>
@@ -56,15 +60,23 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             <IconRoad size={20} />
           </ThemeIcon>
           <Text fz={14}>
-            Пробег <strong>{Number(lot.return_km).toLocaleString('ru-RU')} км</strong>
+            Пробег
+            {' '}
+            <strong>
+              {Number(lot.return_km).toLocaleString('ru-RU')}
+              {' '}
+              км
+            </strong>
           </Text>
         </Flex>
-        <Flex mt={20} h={50} align="center" justify="space-between">
+        <Flex mt={10} h={50} align="center" justify="space-between">
           {lot.my_bid ? (
             <Flex direction="column">
               <Text fz={14}>Ваша ставка</Text>
               <Text fz={20} fw="bold" c="blue.7">
-                {lot.my_bid.toLocaleString('ru-RU')} ₽
+                {lot.my_bid.toLocaleString('ru-RU')}
+                {' '}
+                ₽
               </Text>
             </Flex>
           ) : (

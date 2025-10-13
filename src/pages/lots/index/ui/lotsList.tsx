@@ -1,11 +1,9 @@
-import { Container, Flex, ThemeIcon, Text, Alert, ActionIcon } from '@mantine/core';
+import { Container, Flex } from '@mantine/core';
 import { useLots } from '@/shared/api/useLots.ts';
 import { useSearchParams } from 'react-router-dom';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
 import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';
-import { IconHourglassHigh, IconHourglassLow, IconList } from '@tabler/icons-react';
 import { useState } from 'react';
-import { IconLayoutGridFilled } from '@tabler/icons-react';
 import { LotsTableSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonLoader.tsx';
 import { NoAvailableLots } from '@/shared/ui/Banners/NoAvailableLots';
 import { ViewTypeCards } from '@/pages/lots/index/ui/viewTypes/ViewTypeCards';
@@ -13,12 +11,13 @@ import { ViewTypeTable } from '@/pages/lots/index/ui/viewTypes/ViewTypeTable';
 import { useApp } from '@/app/providers/app/useApp';
 import { ViewTypeTableMobile } from '@/pages/lots/index/ui/viewTypes/ViewTypeTableMobile';
 import { LotsTableSkeletonMobileLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonMobileLoader';
-import Countdown from 'react-countdown';
+import { AuctionCountdown } from '@/pages/lots/index/ui/AuctionCountdown';
+import { ViewTypeButtons } from '@/pages/lots/index/ui/viewTypes/ViewTypeButtons';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
   const { isMobile } = useApp();
-  const [activeView, setActiveView] = useState('table');
+  const [activeView, setActiveView] = useState<'table' | 'cards'>('table');
   const page = searchParams.get('page') || '1';
   const per_page = '12';
   const params = {
@@ -46,68 +45,9 @@ export const LotsList = () => {
 
   return (
     <Container size="xl">
-      <LotPages pages={pages} pos="top" />
-      <Alert variant="light" color="blue" radius="md" mt={50}>
-        <Flex direction="column">
-          <Flex align="center" justify="flex-start">
-            <ThemeIcon variant="transparent" c="blue.7"><IconHourglassHigh size={20} /></ThemeIcon>
-            <Text fz={14}>
-              Аукцион начинается
-              <strong>{(new Date(lots[0]?.start_at)).toLocaleString()}</strong>
-            </Text>
-          </Flex>
-          <Flex align="center" justify="flex-start" mt={5}>
-            <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
-            <Text fz={14}>
-              Аукцион завершается
-              <strong>{(new Date(lots[0]?.end_at)).toLocaleString()}</strong>
-            </Text>
-          </Flex>
-          <Flex align="center" justify="flex-start" mt={5}>
-            <ThemeIcon variant="transparent" c="blue.7"><IconHourglassLow size={20} /></ThemeIcon>
-            <Text fz={14}>
-              До завершения:
-              {' '}
-              <Countdown
-                date={lots[0]?.end_at}
-                renderer={({ days, hours, minutes, seconds, completed }) => {
-                  if (completed) {
-                    return <strong>завершён</strong>;
-                  }
-                  if (days > 0) {
-                    return <strong>{`${days}д ${hours}ч ${minutes}м`}</strong>;
-                  }
-
-                  return (
-                    <strong>
-                      {hours.toString().padStart(2, '0') +
-                        ':' + minutes.toString().padStart(2, '0') +
-                        ':' + seconds.toString().padStart(2, '0')}
-                    </strong>
-                  );
-                }}
-              />
-            </Text>
-          </Flex>
-        </Flex>
-      </Alert>
-      <Flex justify="flex-end" gap={5} mt={10}>
-        <ActionIcon
-          onClick={() => setActiveView('table')}
-          variant={activeView === 'table' ? 'filled' : 'subtle'}
-          size="xl"
-          c={activeView === 'table' ? 'white' : 'dark'}
-        >
-          <IconList size={32} />
-        </ActionIcon>
-        <ActionIcon
-          onClick={() => setActiveView('cards')}
-          variant={activeView === 'cards' ? 'filled' : 'subtle'}
-          size="xl"
-          c={activeView === 'cards' ? 'white' : 'dark'}
-        >
-          <IconLayoutGridFilled size={32} />
-        </ActionIcon>
+      <Flex align="flex-end" justify="space-between" gap={10}>
+        <AuctionCountdown lots={lots} />
+        <ViewTypeButtons {...{ activeView, setActiveView }} />
       </Flex>
       {activeView === 'cards' && <ViewTypeCards {...{ lots, page, per_page, params }} />}
       {activeView === 'table' && isMobile && <ViewTypeTableMobile {...{ lots, page, per_page, params }} />}
