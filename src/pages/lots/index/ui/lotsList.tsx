@@ -13,10 +13,12 @@ import { ViewTypeTableMobile } from '@/pages/lots/index/ui/viewTypes/ViewTypeTab
 import { LotsTableSkeletonMobileLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonMobileLoader';
 import { AuctionCountdown } from '@/pages/lots/index/ui/AuctionCountdown';
 import { ViewTypeButtons } from '@/pages/lots/index/ui/viewTypes/ViewTypeButtons';
+import { useMe } from '@/app/providers/me/useMe';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
   const { isMobile } = useApp();
+  const { isAdmin, isRemarketing } = useMe();
   const [activeView, setActiveView] = useState<'table' | 'cards'>('table');
   const page = searchParams.get('page') || '1';
   const per_page = '12';
@@ -41,7 +43,22 @@ export const LotsList = () => {
     return <LotsTableSkeletonMobileLoader />;
   }
 
-  if (lots.length === 0) { return <NoAvailableLots mt={isMobile ? 300 : 140} />; }
+  let filteredLots = lots;
+
+  if (!isAdmin && !isRemarketing) {
+    filteredLots = lots.filter(lot => lot.stage !== 'preparing');
+  }
+
+  if (filteredLots.length === 0 && lots.length > 0) {
+    return (
+      <Container size="xl" mt={isMobile ? 300 : 140}>
+        <AuctionCountdown lots={lots}/>
+        <NoAvailableLots mt={20} />
+      </Container>
+    );
+  }
+
+  if (filteredLots.length === 0) { return <NoAvailableLots mt={isMobile ? 300 : 140} />; }
 
   return (
     <Container size="xl">
@@ -49,9 +66,9 @@ export const LotsList = () => {
         <AuctionCountdown lots={lots} />
         <ViewTypeButtons {...{ activeView, setActiveView }} />
       </Flex>
-      {activeView === 'cards' && <ViewTypeCards {...{ lots, page, per_page, params }} />}
-      {activeView === 'table' && isMobile && <ViewTypeTableMobile {...{ lots, page, per_page, params }} />}
-      {activeView === 'table' && !isMobile && <ViewTypeTable {...{ lots, page, per_page, params }} />}
+      {activeView === 'cards' && <ViewTypeCards {...{ filteredLots, page, per_page, params }} />}
+      {activeView === 'table' && isMobile && <ViewTypeTableMobile {...{ filteredLots, page, per_page, params }} />}
+      {activeView === 'table' && !isMobile && <ViewTypeTable {...{ filteredLots, page, per_page, params }} />}
       <LotPages pages={pages} pos="bottom" />
     </Container>
   );

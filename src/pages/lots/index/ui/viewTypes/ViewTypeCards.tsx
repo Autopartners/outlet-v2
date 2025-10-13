@@ -3,15 +3,15 @@ import { Box, SimpleGrid } from '@mantine/core';
 import { LotCard } from '@/pages/lots/index/ui/lotCard';
 
 interface ViewTypeCardsProps {
-  lots: Lot[],
+  filteredLots: Lot[],
   page: string,
   per_page: string,
   params: object,
 }
 
-export const ViewTypeCards = ({ lots, page, per_page, params }:ViewTypeCardsProps) => (
+export const ViewTypeCards = ({ filteredLots, page, per_page, params }:ViewTypeCardsProps) => (
   <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }}>
-    {lots.map((lot: Lot) => (
+    {filteredLots.map((lot: Lot) => (
       <Box key={lot.id}>
         <LotCard
           lot={lot}
@@ -23,4 +23,4 @@ export const ViewTypeCards = ({ lots, page, per_page, params }:ViewTypeCardsProp
       </Box>
     ))}
   </SimpleGrid>
-)
+);

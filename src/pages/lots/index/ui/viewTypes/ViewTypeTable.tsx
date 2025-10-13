@@ -6,13 +6,13 @@ import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBid/MakeBidPopover
 import { MakeFavourite } from '@/shared/ui/LotOperations/MakeFavourite';
 
 interface ViewTypeTableProps {
-  lots: Lot[],
+  filteredLots: Lot[],
   page: string,
   per_page: string,
   params: object,
 }
 
-export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTableProps) => {
+export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewTypeTableProps) => {
   const nav = useNavigate();
 
   return (
@@ -29,7 +29,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
       </Table.Thead>
 
       <Table.Tbody>
-        {lots.map((lot: Lot) => (
+        {filteredLots.map((lot: Lot) => (
           <Table.Tr key={lot.id}>
             <Table.Td>
               <Text fz={14} fw="bold">

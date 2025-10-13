@@ -3,15 +3,15 @@ import { Box, SimpleGrid } from '@mantine/core';
 import { LotCard } from '@/pages/lots/index/ui/lotCard';
 
 interface ViewTypeTableMobileProps {
-  lots: Lot[],
+  filteredLots: Lot[],
   page: string,
   per_page: string,
   params: object,
 }
 
-export const ViewTypeTableMobile = ({ lots, page, per_page, params }:ViewTypeTableMobileProps) => (
+export const ViewTypeTableMobile = ({ filteredLots, page, per_page, params }:ViewTypeTableMobileProps) => (
   <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }}>
-    {lots.map((lot: Lot) => (
+    {filteredLots.map((lot: Lot) => (
       <Box key={lot.id}>
         <LotCard
           lot={lot}
@@ -24,4 +24,4 @@ export const ViewTypeTableMobile = ({ lots, page, per_page, params }:ViewTypeTab
       </Box>
     ))}
   </SimpleGrid>
-)
+);
