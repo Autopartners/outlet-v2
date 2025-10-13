@@ -50,7 +50,7 @@ export const useLike = ({ id, page, per_page, params, status }: UseLikeParams) =
   const { mutate: mutateLike, status: statusLike } = useMutation({
     mutationFn: async () => {
       const { data } = await api.post('outlet/lots/make_favourite', { status, id });
-      return data
+      return data;
     },
     onSuccess: data => {
       client.setQueryData(['lots', page, per_page, params], (old: LotsCache) => {
@@ -59,15 +59,14 @@ export const useLike = ({ id, page, per_page, params, status }: UseLikeParams) =
         return {
           ...old,
           result: old.result.map((item: Lot) =>
-            item.id === id ? { ...item, like_status: data.like_status } : item
-          )
+            item.id === id ? { ...item, like_status: data.like_status } : item)
         };
       });
     }
-  })
+  });
 
-  return { mutateLike, statusLike }
-}
+  return { mutateLike, statusLike };
+};
 
 export const usePatchLot = () => {
   const client = useQueryClient();
@@ -75,12 +74,12 @@ export const usePatchLot = () => {
   const { mutate: mutateLot, status: statusLot } = useMutation({
     mutationFn: async (args: { lot_id: number | string, params: object }) => {
       const { data } = await api.patch(`erm/lots/${args.lot_id}`, { ...args.params, method: 'outlet_show' });
-      return data
+      return data;
     },
     onSuccess: data => {
       client.setQueryData(['lot', String(data.id)], data);
     }
-  })
+  });
 
-  return { mutateLot, statusLot }
-}
+  return { mutateLot, statusLot };
+};
