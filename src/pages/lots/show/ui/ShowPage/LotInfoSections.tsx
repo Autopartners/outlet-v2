@@ -24,7 +24,7 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
               Характеристики автомобиля
             </Text>
           </Flex>
-          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} px={10} mt={20} spacing={16}>
+          <SimpleGrid cols={{ base: 1, sm: 3, md: 3 }} px={10} mt={20} spacing={16}>
             <Stack>
               {renderVehicleInfo({ head: 'Марка', info: lot.vehicle_brand_name })}
               {renderVehicleInfo({ head: 'КПП', info: lot.gearbox_name })}
@@ -34,12 +34,7 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
               {renderVehicleInfo({ head: 'Тип топлива', info: lot.fuel_type_name })}
             </Stack>
             <Stack>
-              {renderVehicleInfo({ head: 'Г. В.', info: lot.vehicle_year_of_production + ' г.' })}
               {renderVehicleInfo({ head: 'Кузов', info: lot.body_type_name })}
-            </Stack>
-            <Stack>
-              {renderVehicleInfo({ head: 'Пробег', info: Number(lot.return_km).toLocaleString('ru-RU') + ' км' })}
-              {renderVehicleInfo({ head: 'Город', info: lot.city_of_remarketing_name })}
             </Stack>
           </SimpleGrid>
         </Card>
@@ -93,5 +88,5 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
         </Card>
       </Grid.Col>
     </Grid>
-  )
-}
+  );
+};
