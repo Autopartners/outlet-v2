@@ -18,7 +18,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
   const nav = useNavigate();
   const { isMobile } = useApp();
   const [state, setState] = useState(user);
-  const [stateName, stateLastName, stateMiddleName] = state.name.split(' ');
+  const [stateLastName, stateName, stateMiddleName] = state.name.split(' ');
   const [name, setName] = useState(stateName || '');
   const [lastName, setLastName] = useState(stateLastName || '');
   const [middleName, setMiddleName] = useState(stateMiddleName || '');
