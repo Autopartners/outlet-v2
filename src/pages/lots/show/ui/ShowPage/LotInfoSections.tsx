@@ -5,17 +5,27 @@ import type { Lot } from '@/entities/lot';
 export const LotInfoSections = ({ lot }: {lot: Lot}) => {
   const renderVehicleInfo = ({ head, info }: { head: string, info: string }) => (
     <Stack gap={0}>
-      <Text fz={14} c="gray.7">
+      <Text fz={16} c="gray.7">
         {head}
       </Text>
       <Text fz={18}>{info}</Text>
     </Stack>
   );
 
+  const renderVehicleFeatureInfo = ({ head, info }: { head: string, info: string }) => (
+    <Flex gap={10} align="center">
+      <Text fz={16} c="gray.7">
+        {head}
+        :
+      </Text>
+      <Text fz={18}>{info}</Text>
+    </Flex>
+  );
+
   return (
     <Grid mt={10}>
       <Grid.Col span={{ base: 12, md: 7 }}>
-        <Card>
+        <Card h="100%">
           <Flex gap={5} align="center">
             <ThemeIcon color="red.9" variant="transparent">
               <IconAdjustmentsHorizontal />
@@ -25,23 +35,23 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
             </Text>
           </Flex>
           <SimpleGrid cols={{ base: 1, sm: 3, md: 3 }} px={10} mt={20} spacing={16}>
-            <Stack>
-              {renderVehicleInfo({ head: 'Марка', info: lot.vehicle_brand_name })}
-              {renderVehicleInfo({ head: 'КПП', info: lot.gearbox_name })}
+            <Stack gap={5}>
+              {renderVehicleFeatureInfo({ head: 'Марка', info: lot.vehicle_brand_name })}
+              {renderVehicleFeatureInfo({ head: 'КПП', info: lot.gearbox_name })}
             </Stack>
-            <Stack>
-              {renderVehicleInfo({ head: 'Модель', info: lot.vehicle_model_name })}
-              {renderVehicleInfo({ head: 'Тип топлива', info: lot.fuel_type_name })}
+            <Stack gap={5}>
+              {renderVehicleFeatureInfo({ head: 'Тип топлива', info: lot.fuel_type_name })}
+              {renderVehicleFeatureInfo({ head: 'Кузов', info: lot.body_type_name })}
             </Stack>
-            <Stack>
-              {renderVehicleInfo({ head: 'Кузов', info: lot.body_type_name })}
+            <Stack gap={5}>
+              {renderVehicleFeatureInfo({ head: 'Модель', info: lot.vehicle_model_name })}
             </Stack>
           </SimpleGrid>
         </Card>
       </Grid.Col>
 
       <Grid.Col span={{ base: 12, md: 2 }}>
-        <Card>
+        <Card h="100%">
           <Flex gap={5} align="center">
             <ThemeIcon color="blue.9" variant="transparent">
               <IconShield />
