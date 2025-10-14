@@ -1,13 +1,11 @@
 import { SimpleGrid, Skeleton } from '@mantine/core';
-import { useApp } from '@/app/providers/app/useApp';
 
 export const HomeSkeletonLoader = ({ ...props }) => {
-  const { isMobile } = useApp()
-
   return (
-    <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '70%'} mx="auto" {...props}>
-      <Skeleton w="100%" h={490} radius="md"/>
-      <Skeleton w="100%" h={490} radius="md"/>
-      <Skeleton w="100%" h={490} radius="md"/>
-    </SimpleGrid>);
-}
+    <SimpleGrid spacing={50} w="fit-content" mt={20} cols={{ base: 1, sm: 3 }} mx="auto" {...props}>
+      <Skeleton h={470} w={415} maw="90%" mx="auto" radius="md"/>
+      <Skeleton h={470} w={415} maw="90%" mx="auto" radius="md"/>
+      <Skeleton h={470} w={415} maw="90%" mx="auto" radius="md"/>
+    </SimpleGrid>
+  );
+};

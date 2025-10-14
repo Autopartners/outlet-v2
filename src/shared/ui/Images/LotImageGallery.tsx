@@ -66,6 +66,7 @@ export const LotImageGallery = (
           radius="xl"
           size={isMobile ? 'xs' : 'lg'}
           style={{
+            borderWidth: isMobile ? 2 : 1,
             position: 'absolute',
             top: '50%',
             left: 10,
@@ -85,6 +86,7 @@ export const LotImageGallery = (
           radius="xl"
           size={isMobile ? 'xs' : 'lg'}
           style={{
+            borderWidth: isMobile ? 2 : 1,
             position: 'absolute',
             top: '50%',
             right: 10,

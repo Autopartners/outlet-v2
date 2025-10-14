@@ -1,6 +1,6 @@
-import { Grid, Flex, ThemeIcon, Text, Card } from '@mantine/core';
+import { Box, Flex, Text, Card, Divider, Stack } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { IconCheck } from '@tabler/icons-react';
+import { CustomBanner } from '@/shared/ui/Banners/CustomBanner';
 
 interface KitInfoPageProps {
   vehicle_options: string,
@@ -15,29 +15,27 @@ export const KitInfoPage = ({ vehicle_options, remarketing_options }: KitInfoPag
   }, [remarketing_options, vehicle_options]);
 
   const list = opt
-    .split(',')
-    .map((e, i) => {
+    .split(/[,;|\n]+/)
+    .map((e) => {
       if (!e.trim()) {
         return null;
       }
       return (
-        <Grid.Col span={{ sm: 12, md: 6 }} key={i}>
-          <Flex align="center" justify="flex-start" direction="row">
-            <ThemeIcon color="green.8" size="lg" radius="lg">
-              <IconCheck size={20} />
-            </ThemeIcon>
-            <Text ml="sm">{String(e.trim()).charAt(0).toUpperCase() + String(e.trim()).slice(1)}</Text>
-          </Flex>
-        </Grid.Col>
+        <Box>
+          <Text ml="sm">{String(e.trim()).charAt(0).toUpperCase() + String(e.trim()).slice(1)}</Text>
+          <Divider mt={15} />
+        </Box>
       );
     });
 
+  if (!vehicle_options) { return <CustomBanner label="Комплектация не указана" />; }
+
   return (
     <Flex justify="center">
-      <Card w="80%" withBorder>
-        <Grid>
+      <Card withBorder>
+        <Stack>
           {list}
-        </Grid>
+        </Stack>
       </Card>
     </Flex>
   );

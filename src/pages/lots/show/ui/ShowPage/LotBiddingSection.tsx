@@ -1,7 +1,6 @@
 import { Box, Card, Flex, Grid, Stack, Tooltip, Text } from '@mantine/core';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { MakeBidInput } from '@/shared/ui/LotOperations/MakeBid/MakeBidInput.tsx';
-import { IconMoodSad } from '@tabler/icons-react';
 import type { Lot } from '@/entities/lot';
 
 const stageStrings = {
@@ -20,12 +19,12 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
 
   return (
     <Grid.Col span={{ base: 12, md: 5 }}>
-      <Card radius="lg" bg="blue.9">
-        <Tooltip label="Тут скоро будет инструкция">
-          <Text ta="center" fz={isMobile ? 18 : 25} c="white">
-            {stageStrings[lot.stage as keyof typeof stageStrings]}
-          </Text>
-        </Tooltip>
+      <Card radius="lg" bg="blue.9" p={10}>
+        {/* <Tooltip label="Тут скоро будет инструкция">*/}
+        <Text ta="center" fz={isMobile ? 18 : 25} c="white">
+          {stageStrings[lot.stage as keyof typeof stageStrings]}
+        </Text>
+        {/* </Tooltip>*/}
       </Card>
       <Box mt={20}>
         <Card radius="lg">
@@ -35,25 +34,22 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
                 <Flex justify="space-between" align="flex-end">
                   <Text fz={20}>Текущая ставка</Text>
                   <Text fz={25} fw="bold" c="red.9">
-                    {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0} ₽
+                    {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0}
+                    {' '}
+                    ₽
                   </Text>
                 </Flex>
               </Tooltip>
             )}
-            {lot.my_bid ? (
+            {lot.my_bid && (
               <Flex justify="space-between" align="flex-end">
                 <Text fz={20}>Ваша ставка</Text>
                 <Text fz={25} fw="bold" c="blue.9">
-                  {lot.my_bid.toLocaleString('ru-RU')} ₽
+                  {lot.my_bid.toLocaleString('ru-RU')}
+                  {' '}
+                  ₽
                 </Text>
               </Flex>
-            ) : (
-              (isStarted || isEnd) && (
-                <Flex gap={10} align="flex-end">
-                  <Text fz={20}>Вы не сделали ставку</Text>
-                  <IconMoodSad stroke={1.5} size={30} />
-                </Flex>
-              )
             )}
             {isEnd ? (
               <Card bg="red.1" radius="lg" p={10}>
@@ -78,5 +74,5 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
         </Card>
       </Box>
     </Grid.Col>
-  )
-}
+  );
+};

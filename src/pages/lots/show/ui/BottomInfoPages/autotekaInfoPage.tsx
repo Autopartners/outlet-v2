@@ -1,8 +1,9 @@
 import { useMe } from '@/app/providers/me/useMe';
 import type { Lot, AutotekaReport } from '@/entities/lot';
-import { Flex, Card, Button, Alert, Stack, Text } from '@mantine/core';
+import { Flex, Card, Button, Stack } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { useAutotekaReport } from '@/pages/lots/show/api/useAutotekaReport.ts';
+import { CustomBanner } from '@/shared/ui/Banners/CustomBanner';
 
 interface AutotekaInfoPageProps {
   lot: Lot;
@@ -19,35 +20,33 @@ export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
 
   const { autotekaReportMutation } = useAutotekaReport({ lotId: id, lotVin, lotRegNumber });
 
+  if (!autotekaReport) { return <CustomBanner label="Отчёт по автотеке отсутствует" />; }
+
   return (
     <Flex justify="center">
       <Card w="80%" withBorder>
         <Stack gap="lg" align="center">
-          {editable &&
-            <Alert title="Предупреждение!" color="red">Не нажимайте кнопку "Создать
-              отчет" без
-              надобности.
-              Списывает отчеты в
-              автотеке!
-            </Alert>
-          }
+          {editable && (
+            <CustomBanner
+              label='Не нажимайте кнопку "Создать отчет" без надобности. Списывает отчеты в автотеке!'
+              title="Предупреждение!"
+              color="red"
+            />
+          )}
           <Flex gap="lg">
-            {editable &&
+            {editable && (
               <Button
                 loading={autotekaReportMutation.isPending}
                 color="green"
                 onClick={() => autotekaReportMutation.mutate()}
                 disabled={!!autotekaReport || !isAdmin}
-              >Создать
-                отчет</Button>
-            }
-            {autotekaReport ? (
-              <Button component="a" href={autotekaReport?.web_link} target="_blank">
-                Посмотреть отчет
+              >
+                Создать отчет
               </Button>
-            ) : <Alert w="fit-content" radius="md" color="gray">
-              <Text ta="center" px={20}>Отчёт по автотеке отсутствует</Text>
-            </Alert>}
+            )}
+            <Button component="a" href={autotekaReport?.web_link} target="_blank">
+                Посмотреть отчет
+            </Button>
           </Flex>
         </Stack>
       </Card>

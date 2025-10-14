@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/shared/lib/api.ts';
 import { useParams } from 'react-router-dom';
 import type { Lot, ServiceRequest } from '@/entities/lot';
+import { CustomBanner } from '@/shared/ui/Banners/CustomBanner';
 
 dayjs.locale('ru');
 
@@ -48,8 +49,7 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
         return {
           ...prev,
           service_requests: prev.service_requests.map(sr =>
-            sr.id === data.id ? data : sr
-          )
+            sr.id === data.id ? data : sr)
         };
       });
       notification.green('Обновлено!');
@@ -73,13 +73,19 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
     return res;
   }, {});
 
+  if (service_requests.length === 0) { return <CustomBanner label="ТО не найдено" />; }
+
   const srs = Object.entries(byYears).map(([year, requests], i) => {
     const requestsThisYear = requests.map((request, j) => (
       !editable ? (
         <Timeline.Item key={j} title={<Text fw={700} c="blue">{dayjs(request.date_at).format('D MMMM')}</Text>}>
           <Flex direction="column" gap="xs">
             <Text>{request.auction_notes}</Text>
-            <Text fw={700} size="xs">{Number(request?.smart_km).toLocaleString('ru-RU') || 1000} км</Text>
+            <Text fw={700} fz={14}>
+              {Number(request?.smart_km).toLocaleString('ru-RU') || 1000}
+              {' '}
+              км
+            </Text>
           </Flex>
         </Timeline.Item>
       ) : (
@@ -87,7 +93,11 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
           <Flex direction="row" gap="lg">
             <Stack w="10vw">
               <Text fw={700} c="blue">{dayjs(request.date_at).format('D MMMM')}</Text>
-              <Text fw={700} size="sm">{Number(request?.smart_km).toLocaleString('ru-RU') || 1000} км</Text>
+              <Text fw={700} size="sm">
+                {Number(request?.smart_km).toLocaleString('ru-RU') || 1000}
+                {' '}
+                км
+              </Text>
             </Stack>
             <Stack w="100vw">
               <Card bg="blue.1" radius="lg">
@@ -131,7 +141,9 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
                     value: value[request.id],
                     field: 'auction_notes'
                   })}
-                >Сохранить</Button>
+                >
+                  Сохранить
+                </Button>
                 <Button
                   radius="md"
                   leftSection={mutation.isPending && <Loader size="sm" />}
@@ -177,7 +189,7 @@ export const ToInfoPage = ({ service_requests, editable }: ToInfoPageProps) => {
 
   return (
     <Flex justify="center">
-      <Card w={isMobile ? '100%' : '80%'} withBorder p="lg" radius="md">
+      <Card w="100%" withBorder px={isMobile ? 20 : 70} py='lg' radius="md">
         <Stack gap="md">{srs.reverse()}</Stack>
       </Card>
     </Flex>

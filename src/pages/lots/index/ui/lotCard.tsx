@@ -1,4 +1,4 @@
-import { Box, Button, Card, Flex, Text, ThemeIcon } from '@mantine/core';
+import { Box, Card, Flex, Text, ThemeIcon } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { useNavigate } from 'react-router-dom';
 import { IconBuildingSkyscraper, IconRoad } from '@tabler/icons-react';
@@ -21,7 +21,27 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
   const { isMobile } = useApp();
 
   return (
-    <Card withBorder p={0} mx="auto" classNames={{ root: !isMobile ? 'cardHover' : undefined }}>
+    <Card
+      onClick={(e) => {
+        const target = e.target as HTMLElement;
+
+        if (
+          target.closest('.not-navigate') ||
+          target.closest('input') ||
+          target.closest('button') ||
+          window.getSelection()?.toString().length
+        ) { return; }
+
+        nav(`/lots/${lot.id}`);
+      }}
+      style={{ cursor: 'pointer' }}
+      withBorder
+      p={0}
+      mx="auto"
+      maw={isMobile ? '90vw' : 415}
+      w={isMobile ? '100%' : 415}
+      classNames={{ root: !isMobile ? 'cardHover' : undefined }}
+    >
       {!mobileSimplified && (
         <ApCarousel pictures={lot.sales_pictures.slice(0, maxPhotos || lot.sales_pictures.length - 1)} />
       )}
@@ -41,29 +61,25 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             </Text>
           </Card>
         </Flex>
-        <Flex align="center" mt={5}>
-          <ThemeIcon variant="transparent" c="blue.7">
-            <IconBuildingSkyscraper size={20} />
-          </ThemeIcon>
-          <Text fz={14}>
-            Город
-            {' '}
-            <strong>{lot.city_of_remarketing_name}</strong>
-          </Text>
-        </Flex>
-        <Flex align="center" mt={5}>
-          <ThemeIcon variant="transparent" c="blue.7">
-            <IconRoad size={20} />
-          </ThemeIcon>
-          <Text fz={14}>
-            Пробег
-            {' '}
-            <strong>
+        <Flex gap={10}>
+          <Flex align="center" mt={5}>
+            <ThemeIcon variant="transparent" c="blue.7">
+              <IconBuildingSkyscraper size={20} />
+            </ThemeIcon>
+            <Text fz={15}>
+              {lot.city_of_remarketing_name}
+            </Text>
+          </Flex>
+          <Flex align="center" mt={5}>
+            <ThemeIcon variant="transparent" c="blue.7">
+              <IconRoad size={20} />
+            </ThemeIcon>
+            <Text fz={15}>
               {Number(lot.return_km).toLocaleString('ru-RU')}
               {' '}
               км
-            </strong>
-          </Text>
+            </Text>
+          </Flex>
         </Flex>
         <Flex mt={10} h={50} align="center" justify="space-between">
           {lot.my_bid ? (
@@ -79,12 +95,7 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             (lot.stage === 'first_stage' || lot.stage === 'second_stage') &&
             <MakeBidPopover {...{ lot, page, per_page, params }} />
           )}
-          <Flex gap={10}>
-            <Button variant="light" color="blue.7" w={150} onClick={() => nav(`/lots/${lot.id}`)}>
-              Подробнее
-            </Button>
-            <MakeFavourite {...{ lot, page, per_page, params }} />
-          </Flex>
+          <MakeFavourite {...{ lot, page, per_page, params }} />
         </Flex>
       </Box>
     </Card>

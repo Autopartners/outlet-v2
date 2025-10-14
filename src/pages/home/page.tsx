@@ -7,7 +7,7 @@ import { LotCard } from '@/pages/lots/index/ui/lotCard.tsx';
 import type { Lot } from '@/entities/lot';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { ConfirmBanner } from '@/shared/ui/Banners/ConfirmBanner.tsx';
-import { NoAvailableLots } from '@/shared/ui/Banners/NoAvailableLots';
+import { CustomBanner } from '@/shared/ui/Banners/CustomBanner';
 import { OutletDescriptionCards } from '@/pages/home/ui/OutletDescriptionCards';
 import { HomeSkeletonLoader } from '@/pages/home/ui/HomeSkeletonLoader';
 
@@ -24,9 +24,16 @@ export const HomePage = () => {
 
   return (
     <Container p={0} fluid>
-      <Box pos="relative" h={350}>
+      <Box pos="relative" h={250}>
         <Image src="/road.png" w="100%" h="100%" fit="cover" style={{ zIndex: 1, objectPosition: '0 65%' }} />
-        <Box w="100%" pos="absolute" top="50%" left="50%" style={{ transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 2 }}>
+        <Box
+          w="100%"
+          pos="absolute"
+          top="50%"
+          left="50%"
+          px={10}
+          style={{ transform: 'translate(-50%, -50%)', textAlign: 'center', zIndex: 2 }}
+        >
           <Text c="white" fz={isMobile ? 30 : 40} mb="md">
             Добро пожаловать на аукцион CarsOutlet
           </Text>
@@ -43,14 +50,14 @@ export const HomePage = () => {
             <HomeSkeletonLoader />
           ) : (
             lots.length > 0 ? (
-              <SimpleGrid spacing={30} mt={20} cols={{ lg: 3, sm: 1 }} w={isMobile ? '90%' : '70%'} mx="auto">
+              <SimpleGrid spacing={50} w="fit-content" mt={20} cols={{ base: 1, sm: 3 }} mx="auto">
                 {lots.map((lot: Lot) => (
                   <Box key={lot.id}>
                     <LotCard lot={lot} maxPhotos={10} {...{ page, per_page, params }} />
                   </Box>
                 ))}
               </SimpleGrid>
-            ) : <NoAvailableLots mt={30} />
+            ) : <CustomBanner label="Нет доступных лотов" mt={30} />
           )}
           {!isLoading && lots.length > 0 && (
             <Button leftSection={<IconEye />} color="blue.6" mt={20} size="lg" onClick={() => nav('/lots')}>

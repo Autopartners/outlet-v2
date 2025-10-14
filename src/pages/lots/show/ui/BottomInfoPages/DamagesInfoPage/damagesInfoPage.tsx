@@ -1,4 +1,4 @@
-import { ActionIcon, Alert, Badge, Card, Flex, Grid, Text } from '@mantine/core';
+import { ActionIcon, Badge, Card, Flex, Grid, Text } from '@mantine/core';
 import { useState } from 'react';
 import Schema from '@/pages/lots/show/ui/BottomInfoPages/DamagesInfoPage/schema.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
@@ -6,6 +6,7 @@ import { api, ermurl } from '@/shared/lib/api.ts';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import { LotImageGallery } from '@/shared/ui/Images/LotImageGallery.tsx';
 import type { Damage } from '@/entities/lot/model/types.ts';
+import { CustomBanner } from '@/shared/ui/Banners/CustomBanner';
 
 interface damagesInfoPageParams {
   damages: Damage[];
@@ -70,11 +71,11 @@ export const DamagesInfoPage = ({ damages, editable }: damagesInfoPageParams) =>
             </Badge>
             <Text>{name}</Text>
           </Flex>
-          {editable &&
+          {editable && (
             <ActionIcon variant="subtle" onClick={() => hide(d.id, i, !d.hide_on_auction)}>
               {d.hide_on_auction ? <IconEyeOff /> : <IconEye />}
             </ActionIcon>
-          }
+          )}
         </Flex>
       </Card>
     );
@@ -82,14 +83,14 @@ export const DamagesInfoPage = ({ damages, editable }: damagesInfoPageParams) =>
 
   const actions = { selected, setSelected, hovered, setHovered };
 
-  if (!stateDamages[selected]) { return <Alert bg="gray.3"><Text fz={20} my={20} ta="center">Нет повреждений</Text></Alert> }
+  if (!stateDamages[selected]) { return <CustomBanner label="Нет повреждений" />; }
 
   return (
     <Flex justify="center">
-      <Card w={isMobile ? '100%' : '80%'} withBorder p="lg" bg="white">
+      <Card w="100%" withBorder p="lg" bg="white">
         <Grid>
           <Grid.Col span={{ base: 12, sm: 8 }}>
-            <Card w="100%" withBorder shadow="md">
+            <Card w="100%" withBorder shadow="none">
               <LotImageGallery
                 items={stateDamages[selected].pictures.map((p) => ({
                   original: ermurl + p.url,
@@ -101,7 +102,7 @@ export const DamagesInfoPage = ({ damages, editable }: damagesInfoPageParams) =>
           <Grid.Col span={{ base: 12, sm: 4 }}>
             <Flex direction="column" maw="100%" mt={isMobile ? 'md' : 0} align="center">
               <Schema {...actions} damages={stateDamages.filter(d => editable || !d.hide_on_auction)} />
-              <Flex direction="column">{list}</Flex>
+              <Flex direction="column" mt={10}>{list}</Flex>
             </Flex>
           </Grid.Col>
         </Grid>

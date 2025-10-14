@@ -9,10 +9,10 @@ export const LotsListSkeletonLoader = () => {
       <SimpleGrid mt={isAuctionConfirmed ? 150 : 20} mx="auto" spacing={30} cols={{ lg: 3, sm: 1 }}>
         {Array.from({ length: 12 }).map((_, index) => (
           <Box key={index}>
-            <Skeleton h={550} w={410} maw="90vw" radius="md" />
+            <Skeleton h={470} w={415} maw="90vw" radius="md" />
           </Box>
         ))}
       </SimpleGrid>
     </Container>
-  )
-}
+  );
+};

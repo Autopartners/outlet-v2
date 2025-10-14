@@ -19,16 +19,16 @@ export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewType
     <Table mt={10} highlightOnHover verticalSpacing="sm">
       <Table.Thead>
         <Table.Tr fz={16}>
-          <Table.Th>Код</Table.Th>
-          <Table.Th>Описание</Table.Th>
-          <Table.Th>Год</Table.Th>
-          <Table.Th>Город</Table.Th>
-          <Table.Th>Пробег</Table.Th>
-          <Table.Th>Моя ставка</Table.Th>
+          <Table.Th ta="center">Код</Table.Th>
+          <Table.Th ta="center">Описание</Table.Th>
+          <Table.Th ta="center">Год</Table.Th>
+          <Table.Th ta="center">Город</Table.Th>
+          <Table.Th ta="center">Пробег</Table.Th>
+          <Table.Th ta="left">Моя ставка</Table.Th>
         </Table.Tr>
       </Table.Thead>
 
-      <Table.Tbody>
+      <Table.Tbody ta="center">
         {filteredLots.map((lot: Lot) => (
           <Table.Tr key={lot.id}>
             <Table.Td>
@@ -58,17 +58,18 @@ export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewType
             </Table.Td>
 
             <Table.Td>
-              <Flex align="center" gap={10} justify="space-between">
-                {lot.my_bid ? (
-                  <Flex align="center" justify="start">
-                    <IconCurrencyRubel stroke={2} size={20} />
-                    <Text fz={20} fw="bold">
-                      {lot.my_bid.toLocaleString('ru-RU')}
-                    </Text>
-                  </Flex>
-                ) : (
-                  <MakeBidPopover {...{ lot, page, per_page, params }} />
-                )}
+              <Flex align="center" justify="space-between">
+                <Flex justify="space-between" gap={10}>
+                  {lot.my_bid && (
+                    <Flex align="center" justify="start" w="130">
+                      <IconCurrencyRubel stroke={2} size={20} />
+                      <Text fz={20} fw="bold">
+                        {lot.my_bid.toLocaleString('ru-RU')}
+                      </Text>
+                    </Flex>
+                  )}
+                  <MakeBidPopover small={!!lot.my_bid} {...{ lot, page, per_page, params }} />
+                </Flex>
                 <MakeFavourite {...{ lot, page, per_page, params }} />
               </Flex>
             </Table.Td>

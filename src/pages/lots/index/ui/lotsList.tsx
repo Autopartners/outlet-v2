@@ -5,7 +5,7 @@ import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
 import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';
 import { useState } from 'react';
 import { LotsTableSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonLoader.tsx';
-import { NoAvailableLots } from '@/shared/ui/Banners/NoAvailableLots';
+import { CustomBanner } from '@/shared/ui/Banners/CustomBanner';
 import { ViewTypeCards } from '@/pages/lots/index/ui/viewTypes/ViewTypeCards';
 import { ViewTypeTable } from '@/pages/lots/index/ui/viewTypes/ViewTypeTable';
 import { useApp } from '@/app/providers/app/useApp';
@@ -14,12 +14,13 @@ import { LotsTableSkeletonMobileLoader } from '@/pages/lots/index/ui/skeletons/l
 import { AuctionCountdown } from '@/pages/lots/index/ui/AuctionCountdown';
 import { ViewTypeButtons } from '@/pages/lots/index/ui/viewTypes/ViewTypeButtons';
 import { useMe } from '@/app/providers/me/useMe';
+import type { Lot } from '@/entities/lot';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
   const { isMobile } = useApp();
-  const { isAdmin, isRemarketing } = useMe();
-  const [activeView, setActiveView] = useState<'table' | 'cards'>('table');
+  const { isAdmin, isRemarketing, me } = useMe();
+  const [activeView, setActiveView] = useState<'table_view' | 'cards_view' | null>(null);
   const page = searchParams.get('page') || '1';
   const per_page = '12';
   const params = {
@@ -38,27 +39,25 @@ export const LotsList = () => {
   });
 
   if (isLoading || !lots) {
-    if (activeView === 'cards') { return <LotsListSkeletonLoader />; }
-    if (activeView === 'table' && !isMobile) { return <LotsTableSkeletonLoader />; }
+    if (me.outlet_user_setting.view_type === 'cards_view') { return <LotsListSkeletonLoader />; }
+    if (me.outlet_user_setting.view_type === 'table_view' && !isMobile) { return <LotsTableSkeletonLoader />; }
     return <LotsTableSkeletonMobileLoader />;
   }
 
   let filteredLots = lots;
 
   if (!isAdmin && !isRemarketing) {
-    filteredLots = lots.filter(lot => lot.stage !== 'preparing');
+    filteredLots = lots.filter((lot: Lot) => lot.stage !== 'preparing');
   }
 
-  if (filteredLots.length === 0 && lots.length > 0) {
+  if (filteredLots.length === 0) {
     return (
       <Container size="xl" mt={isMobile ? 300 : 140}>
-        <AuctionCountdown lots={lots}/>
-        <NoAvailableLots mt={20} />
+        {lots.length > 0 && <AuctionCountdown lots={lots} />}
+        <CustomBanner label="Нет доступных лотов, попробуйте изменить фильтры" mt={20} />
       </Container>
     );
   }
-
-  if (filteredLots.length === 0) { return <NoAvailableLots mt={isMobile ? 300 : 140} />; }
 
   return (
     <Container size="xl">
@@ -66,9 +65,9 @@ export const LotsList = () => {
         <AuctionCountdown lots={lots} />
         <ViewTypeButtons {...{ activeView, setActiveView }} />
       </Flex>
-      {activeView === 'cards' && <ViewTypeCards {...{ filteredLots, page, per_page, params }} />}
-      {activeView === 'table' && isMobile && <ViewTypeTableMobile {...{ filteredLots, page, per_page, params }} />}
-      {activeView === 'table' && !isMobile && <ViewTypeTable {...{ filteredLots, page, per_page, params }} />}
+      {activeView === 'cards_view' && <ViewTypeCards {...{ filteredLots, page, per_page, params }} />}
+      {activeView === 'table_view' && isMobile && <ViewTypeTableMobile {...{ filteredLots, page, per_page, params }} />}
+      {activeView === 'table_view' && !isMobile && <ViewTypeTable {...{ filteredLots, page, per_page, params }} />}
       <LotPages pages={pages} pos="bottom" />
     </Container>
   );

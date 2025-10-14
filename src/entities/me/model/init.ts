@@ -10,6 +10,18 @@ export const initialMe: Me = {
     buyer: '',
     buyer_base: ''
   },
+  outlet_user_setting: {
+    filters: {
+      liked: null,
+      q: {
+        vehicle_vehicle_model_id_eq: null,
+        vehicle_vehicle_brand_id_eq: null,
+        vehicle_city_of_remarketing_id_eq: null
+      }
+    },
+    filters_enabled: null,
+    view_type: null
+  },
   name: '',
   email0: '',
   phone0: '',

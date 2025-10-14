@@ -12,7 +12,7 @@ export const AuctionCountdown = ({ lots }: {lots: Lot[]}) => {
   const date = started ? lots[0].start_at : lots[0]?.end_at;
 
   return (
-    <Alert variant="light" color="blue" radius="md" mt={50} px={40}>
+    <Alert variant="light" color="blue" radius="md" mt={50} px={10}>
       <Flex direction="column">
         <Flex align="center" justify="flex-start" gap={5}>
           <ThemeIcon variant="transparent" c="blue.7"><IconHourglassHigh size={20} /></ThemeIcon>

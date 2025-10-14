@@ -9,11 +9,14 @@ export const LotsTableSkeletonLoader = () => {
       <SimpleGrid mt={isAuctionConfirmed ? 150 : 20}>
         <Stack>
           {Array.from({ length: 12 }).map((_, index) => (
-            <Flex key={index} gap={10}>
-              <Skeleton h={70} w={200} />
-              <Skeleton h={70} w={500} />
-              <Skeleton h={70} w={200} />
-              <Skeleton h={70} w={300} />
+            <Flex key={index} gap={5}>
+              <Skeleton h={70} w={113} />
+              <Skeleton h={70} w={540} />
+              <Skeleton h={70} w={71} />
+              <Skeleton h={70} w={185} />
+              <Skeleton h={70} w={185} />
+              <Skeleton h={70} w={98} />
+              <Skeleton h={70} w={269} />
             </Flex>
           ))}
         </Stack>
