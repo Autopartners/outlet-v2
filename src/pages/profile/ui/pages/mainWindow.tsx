@@ -18,6 +18,10 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
   const nav = useNavigate();
   const { isMobile } = useApp();
   const [state, setState] = useState(user);
+  const [stateName, stateLastName, stateMiddleName] = state.name.split(' ');
+  const [name, setName] = useState(stateName || '');
+  const [lastName, setLastName] = useState(stateLastName || '');
+  const [middleName, setMiddleName] = useState(stateMiddleName || '');
   const [changed, setChanged] = useState({});
   const { notification } = useApp();
 
@@ -34,16 +38,18 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
   };
 
   const submit = async () => {
-    const { name, email0, phone0 } = state;
+    const { email0, phone0 } = state;
+    const sendName = [lastName, name, middleName].join(' ').trim();
     try {
       const { data } = await api.patch(`common/users/${user.id}`, {
         user: {
-          name,
+          name: sendName,
           email0,
           phone0
         }
       });
       setState({ ...state, ...data });
+      setUser({ ...state, ...data });
       setChanged({});
       notification.green('Сохранено!');
     } catch {
@@ -53,6 +59,9 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
 
   const cancel = () => {
     setState(user);
+    setName(stateName || '');
+    setMiddleName(stateMiddleName || '');
+    setLastName(stateLastName || '');
     setChanged({});
   };
 
@@ -77,7 +86,33 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
       </Text>
       <Flex direction="column" gap={5}>
         <TextInput name="username" value={state.username} label="Имя пользователя" disabled />
-        <TextInput name="name" value={state.name} label="Имя" onChange={handleChange} />
+        <TextInput
+          name="last_name"
+          value={lastName}
+          label="Фамилия"
+          onChange={e => {
+            setLastName(e.target.value);
+            setChanged({ ...changed, [e.target.name]: stateLastName !== e.target.value });
+          }}
+        />
+        <TextInput
+          name="name"
+          value={name}
+          label="Имя"
+          onChange={e => {
+            setName(e.target.value);
+            setChanged({ ...changed, [e.target.name]: stateName !== e.target.value });
+          }}
+        />
+        <TextInput
+          name="middle_name"
+          value={middleName}
+          label="Отчество"
+          onChange={e => {
+            setMiddleName(e.target.value);
+            setChanged({ ...changed, [e.target.name]: stateMiddleName !== e.target.value });
+          }}
+        />
         <Flex
           gap="md"
           align={isMobile ? 'flex-start' : 'flex-end'}
