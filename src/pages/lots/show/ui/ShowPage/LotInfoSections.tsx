@@ -82,7 +82,7 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
               <ThemeIcon variant="light" size="md" color="blue.9">
                 <IconPhone size={20} />
               </ThemeIcon>
-              <Anchor fz={16} href="tel:88003336300" c="black">
+              <Anchor fz={14} href="tel:88003336300" c="black">
                 8 (800) 333-63-00
               </Anchor>
             </Flex>
@@ -90,7 +90,7 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
               <ThemeIcon variant="light" size="md" color="red.9">
                 <IconMail size={20} />
               </ThemeIcon>
-              <Anchor fz={16} href="mailto:remarketing@ap-ru.com" c="black">
+              <Anchor fz={13} fw="500" href="mailto:remarketing@ap-ru.com" c="black">
                 remarketing@ap-ru.com
               </Anchor>
             </Flex>
