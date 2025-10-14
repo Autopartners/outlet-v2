@@ -3,14 +3,6 @@ import { IconAdjustmentsHorizontal, IconMail, IconMessage, IconPhone, IconShield
 import type { Lot } from '@/entities/lot';
 
 export const LotInfoSections = ({ lot }: {lot: Lot}) => {
-  const renderVehicleInfo = ({ head, info }: { head: string, info: string }) => (
-    <Stack gap={0}>
-      <Text fz={16} c="gray.7">
-        {head}
-      </Text>
-      <Text fz={18}>{info}</Text>
-    </Stack>
-  );
 
   const renderVehicleFeatureInfo = ({ head, info }: { head: string, info: string }) => (
     <Flex gap={10} align="center">
@@ -50,7 +42,7 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
         </Card>
       </Grid.Col>
 
-      <Grid.Col span={{ base: 12, md: 2 }}>
+      <Grid.Col span={{ base: 12, md: 3 }}>
         <Card h="100%">
           <Flex gap={5} align="center">
             <ThemeIcon color="blue.9" variant="transparent">
@@ -60,14 +52,14 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
               Документы
             </Text>
           </Flex>
-          <Stack mt={20} pl={10}>
-            {renderVehicleInfo({ head: 'VIN-номер', info: lot.vin })}
-            {renderVehicleInfo({ head: 'Гос. номер', info: lot.vehicle_plate_no })}
+          <Stack mt={20} pl={10} gap={5}>
+            {renderVehicleFeatureInfo({ head: 'VIN-номер', info: lot.vin })}
+            {renderVehicleFeatureInfo({ head: 'Гос. номер', info: lot.vehicle_plate_no })}
           </Stack>
         </Card>
       </Grid.Col>
 
-      <Grid.Col span={{ base: 12, md: 3 }}>
+      <Grid.Col span={{ base: 12, md: 2 }}>
         <Card h="100%">
           <Flex gap={5} align="center">
             <ThemeIcon color="blue.9" variant="transparent">
@@ -77,7 +69,7 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
               Связаться с нами
             </Text>
           </Flex>
-          <Stack mt={30} gap={20}>
+          <Stack mt={20} gap={10}>
             <Flex gap={10} px={10} align="center">
               <ThemeIcon variant="light" size="lg" color="blue.9">
                 <IconPhone />
