@@ -87,7 +87,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
           <TextInput
             name="phone0"
             value={state.phone0}
-            label={state.phone_confirmed ? 'Телефон' : 'Телефон (не подтвержден)'}
+            label={state.phone_confirmed ? 'Мобильный телефон' : 'Мобильный телефон (не подтвержден)'}
             onChange={handleChange}
             w={isMobile ? '100%' : '40%'}
           />

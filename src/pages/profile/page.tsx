@@ -33,7 +33,7 @@ export const ProfilePage = () => {
               to="/profile/main"
               fullWidth={isMobile}
             >
-              Основные
+              Основное
             </Button>
             <Button
               size="md"

@@ -67,7 +67,7 @@ export const CompanyWindow = ({ user, setUser, isUserFetching }: CompanyWindowPr
       </Text>
       <Flex direction="column" gap={5}>
         <TextInput name="company_name" value={state?.company_name} label="Компания" onChange={handleChange} />
-        <TextInput name="address" value={state?.address} label="Адрес" onChange={handleChange} />
+        <TextInput name="address" value={state?.address} label="Юридический адрес" onChange={handleChange} />
         <TextInput name="inn" value={state?.inn} label="ИНН" onChange={handleChange} />
         <TextInput name="signature" value={state?.signature} label="Подписант" onChange={handleChange} />
         <TextInput
