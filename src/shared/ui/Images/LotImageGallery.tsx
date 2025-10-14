@@ -17,7 +17,8 @@ export const LotImageGallery = (
   {
     items, galleryRef, renderCustomControls,
     heightMobile = '30vh', heightDesktop = '40vh'
-  }: LotImageGalleryProps) => {
+  }: LotImageGalleryProps
+) => {
   const { isMobile } = useApp();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const imageHeight = isMobile ? (isFullscreen ? 700 : heightMobile) : isFullscreen ? 900 : heightDesktop;
@@ -28,7 +29,7 @@ export const LotImageGallery = (
       items={items || []}
       showPlayButton={false}
       showFullscreenButton={true}
-      showNav={!isMobile}
+      showNav
       showIndex={true}
       thumbnailPosition="bottom"
       slideDuration={0}
@@ -60,10 +61,10 @@ export const LotImageGallery = (
       )}
       renderLeftNav={(onClick, disabled) => (
         <Button
-          variant="light"
-          color="blue"
+          variant={isMobile ? 'outline' : 'light'}
+          color={isMobile ? 'white' : 'blue'}
           radius="xl"
-          size="lg"
+          size={isMobile ? 'xs' : 'lg'}
           style={{
             position: 'absolute',
             top: '50%',
@@ -74,15 +75,15 @@ export const LotImageGallery = (
           onClick={onClick}
           disabled={disabled}
         >
-          <IconChevronLeft size={32} />
+          <IconChevronLeft size={isMobile ? 18 : 32} />
         </Button>
       )}
       renderRightNav={(onClick, disabled) => (
         <Button
-          variant="light"
-          color="blue"
+          variant={isMobile ? 'outline' : 'light'}
+          color={isMobile ? 'white' : 'blue'}
           radius="xl"
-          size="lg"
+          size={isMobile ? 'xs' : 'lg'}
           style={{
             position: 'absolute',
             top: '50%',
@@ -93,7 +94,7 @@ export const LotImageGallery = (
           onClick={onClick}
           disabled={disabled}
         >
-          <IconChevronRight size={32} />
+          <IconChevronRight size={isMobile ? 18 : 32} />
         </Button>
       )}
     />
