@@ -73,7 +73,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
   return (
     <>
       <Text ta="center" fz={28} fw={500}>
-        Основные
+        Основное
       </Text>
       <Flex direction="column" gap={5}>
         <TextInput name="username" value={state.username} label="Имя пользователя" disabled />
