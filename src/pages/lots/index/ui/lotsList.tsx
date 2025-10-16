@@ -17,6 +17,15 @@ import { useMe } from '@/app/providers/me/useMe';
 import type { Lot } from '@/entities/lot';
 import { LotsFilters } from '@/pages/lots/index/ui/lotsFilters';
 
+const LoadingView = () => {
+  const { me } = useMe();
+  const { isMobile } = useApp();
+
+  if (me.outlet_user_setting.view_type === 'cards_view') { return <LotsListSkeletonLoader />; }
+  if (me.outlet_user_setting.view_type === 'table_view' && !isMobile) { return <LotsTableSkeletonLoader />; }
+  return <LotsTableSkeletonMobileLoader />;
+};
+
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
   const { isMobile } = useApp();
@@ -26,7 +35,7 @@ export const LotsList = () => {
   const per_page = '12';
   const params = {
     started: 'true',
-    liked: searchParams.get('liked'),
+    liked: searchParams.get('liked') || 'false',
     q: {
       vehicle_vehicle_model_id_eq: searchParams.get('vehicle_model_id'),
       vehicle_vehicle_brand_id_eq: searchParams.get('vehicle_brand_id'),
@@ -38,20 +47,14 @@ export const LotsList = () => {
     per_page,
     params
   });
-
-  if (isLoading || !lots) {
-    if (me.outlet_user_setting.view_type === 'cards_view') { return <LotsListSkeletonLoader />; }
-    if (me.outlet_user_setting.view_type === 'table_view' && !isMobile) { return <LotsTableSkeletonLoader />; }
-    return <LotsTableSkeletonMobileLoader />;
-  }
-
+  const showLoading = isLoading || !lots;
   let filteredLots = lots;
 
-  if (!isAdmin && !isRemarketing) {
+  if (!showLoading && !isAdmin && !isRemarketing) {
     filteredLots = lots.filter((lot: Lot) => lot.stage !== 'preparing');
   }
 
-  if (filteredLots.length === 0) {
+  if (!showLoading && filteredLots.length === 0) {
     return (
       <Container size="xl" mt={isMobile ? 300 : 140}>
         {lots.length > 0 && <AuctionCountdown lots={lots} />}
@@ -63,15 +66,19 @@ export const LotsList = () => {
   return (
     <Container size="xl">
       <Flex align="flex-end" justify="space-between" gap={5}>
-        <AuctionCountdown lots={lots} />
+        {lots && <AuctionCountdown lots={lots} />}
         <Flex gap={{ base: 5, sm: 30 }} align="flex-end">
-          <LotsFilters />
-          <ViewTypeButtons {...{ activeView, setActiveView }} />
+          <LotsFilters {...{ showLoading }} />
+          {!showLoading && <ViewTypeButtons {...{ activeView, setActiveView }} />}
         </Flex>
       </Flex>
-      {activeView === 'cards_view' && <ViewTypeCards {...{ filteredLots, page, per_page, params }} />}
-      {activeView === 'table_view' && isMobile && <ViewTypeTableMobile {...{ filteredLots, page, per_page, params }} />}
-      {activeView === 'table_view' && !isMobile && <ViewTypeTable {...{ filteredLots, page, per_page, params }} />}
+      {showLoading ? <LoadingView /> : (
+        <>
+          {activeView === 'cards_view' && <ViewTypeCards {...{ filteredLots, page, per_page, params }} />}
+          {activeView === 'table_view' && isMobile && <ViewTypeTableMobile {...{ filteredLots, page, per_page, params }} />}
+          {activeView === 'table_view' && !isMobile && <ViewTypeTable {...{ filteredLots, page, per_page, params }} />}
+        </>
+      )}
       <LotPages pages={pages} pos="bottom" />
     </Container>
   );

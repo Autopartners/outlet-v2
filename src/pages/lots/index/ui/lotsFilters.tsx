@@ -8,7 +8,7 @@ import { IconFilter, IconStar, IconStarFilled, IconX } from '@tabler/icons-react
 import { useMe } from '@/app/providers/me/useMe';
 import { useOutletSettings } from '@/pages/lots/index/api/useOutletSettings';
 
-export const LotsFilters = () => {
+export const LotsFilters = ({ showLoading }: { showLoading: boolean }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isMobile } = useApp();
   const { me } = useMe();
@@ -141,6 +141,8 @@ export const LotsFilters = () => {
     if (value.trim() === '') { return false; }
     return true;
   });
+
+  if (showLoading) { return; }
 
   return (
     <ActionIcon

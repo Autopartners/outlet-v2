@@ -5,7 +5,7 @@ export const LotsTableSkeletonLoader = () => {
   const { isAuctionConfirmed } = useMe();
 
   return (
-    <Container size="xl">
+    <Container size="xl" mb={40}>
       <SimpleGrid mt={isAuctionConfirmed ? 150 : 20}>
         <Stack>
           {Array.from({ length: 12 }).map((_, index) => (
