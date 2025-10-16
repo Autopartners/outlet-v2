@@ -1,23 +1,22 @@
 import { Tabs, Space } from '@mantine/core';
 import { IconClipboard, IconCarCrash, IconCarGarage, IconBook } from '@tabler/icons-react';
-import { useTimeout } from '@mantine/hooks';
 import { KitInfoPage } from '@/pages/lots/show/ui/BottomInfoPages/kitInfoPage.tsx';
 import { DamagesInfoPage } from '@/pages/lots/show/ui/BottomInfoPages/DamagesInfoPage/damagesInfoPage.tsx';
 import { ToInfoPage } from '@/pages/lots/show/ui/BottomInfoPages/toInfoPage.tsx';
 import { AutotekaInfoPage } from '@/pages/lots/show/ui/BottomInfoPages/autotekaInfoPage.tsx';
 import type { Lot } from '@/entities/lot';
 import { useApp } from '@/app/providers/app/useApp';
+import { useScrollIntoView } from '@mantine/hooks';
 
 export const LotTabs = ({ lot, editable }: { lot: Lot, editable: boolean }) => {
   const { isMobile } = useApp();
-  const { start: scrollBottomTimeout } = useTimeout(() => window.scrollTo({
-    top: document.body.scrollHeight,
-    behavior: 'smooth'
-  }), 200);
+  const { scrollIntoView, targetRef } = useScrollIntoView({
+    offset: isMobile ? -40 : 80,
+  });
 
   return (
     <Tabs color="blue.7" defaultValue="kit" py={20} radius="lg">
-      <Tabs.List grow>
+      <Tabs.List grow ref={targetRef}>
         {[
           { icon: <IconClipboard color="black" />, value: 'kit', label: 'Комплектация' },
           { icon: <IconCarCrash color="black" />, value: 'damages', label: 'Повреждения' },
@@ -30,7 +29,7 @@ export const LotTabs = ({ lot, editable }: { lot: Lot, editable: boolean }) => {
             leftSection={tab.icon}
             fz={20}
             w={isMobile ? '100%' : '25%'}
-            onClick={() => scrollBottomTimeout()}
+            onClick={() => scrollIntoView()}
           >
             {tab.label}
           </Tabs.Tab>

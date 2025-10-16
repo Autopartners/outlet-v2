@@ -8,6 +8,7 @@ import { useApp } from '@/app/providers/app/useApp.ts';
 import { AuthButtons } from '@/widgets/Navbar/ui/AuthButtons';
 import { IconCar, IconHome, IconBaselineDensityMedium, IconSquareRotated, IconInfoCircle } from '@tabler/icons-react';
 import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
+import { Footer } from '@/widgets/Footer/Footer';
 
 export function Navbar() {
   const nav = useNavigate();
@@ -84,6 +85,7 @@ export function Navbar() {
         pb={isMobile ? `calc(${rem(70)}` : 0}
       >
         <AppRouter />
+        <Footer />
       </AppShell.Main>
       <AppShell.Footer>
         <Group justify="space-around" p="md" hiddenFrom="md" fw={500}>

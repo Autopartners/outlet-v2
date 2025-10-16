@@ -1,4 +1,4 @@
-import { Button, Flex, Table, Text } from '@mantine/core';
+import { Flex, Table, Text } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { IconCurrencyRubel } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
@@ -24,25 +24,38 @@ export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewType
           <Table.Th ta="center">Год</Table.Th>
           <Table.Th ta="center">Город</Table.Th>
           <Table.Th ta="center">Пробег</Table.Th>
-          <Table.Th ta="left">Моя ставка</Table.Th>
+          <Table.Th ta="center">Моя ставка</Table.Th>
         </Table.Tr>
       </Table.Thead>
 
       <Table.Tbody ta="center">
         {filteredLots.map((lot: Lot) => (
-          <Table.Tr key={lot.id}>
+          <Table.Tr
+            key={lot.id}
+            style={{ cursor: 'pointer' }}
+            onClick={(e) => {
+              const target = e.target as HTMLElement;
+
+              if (
+                target.closest('.not-navigate') ||
+                target.closest('input') ||
+                target.closest('button') ||
+                window.getSelection()?.toString().length
+              ) { return; }
+
+              nav(`/lots/${lot.id}`);
+            }}
+          >
             <Table.Td>
               <Text fz={14} fw="bold">
                 {lot.code}
               </Text>
             </Table.Td>
 
-            <Table.Td>
-              <Button w="100%" onClick={() => nav(`${lot.id}`)} variant="light" color="blue.9">
-                <Text fz={16} fw="bold">
-                  {lot.definition_name}
-                </Text>
-              </Button>
+            <Table.Td ta="left">
+              <Text fz={16} fw="bold" c="blue.7">
+                {lot.definition_name}
+              </Text>
             </Table.Td>
 
             <Table.Td>

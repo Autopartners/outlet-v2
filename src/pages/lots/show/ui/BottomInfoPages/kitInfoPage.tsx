@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Card, Divider, Stack } from '@mantine/core';
+import { Box, Text, Card, Divider, Stack } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { CustomBanner } from '@/shared/ui/Banners/CustomBanner';
 
@@ -31,12 +31,10 @@ export const KitInfoPage = ({ vehicle_options, remarketing_options }: KitInfoPag
   if (!vehicle_options) { return <CustomBanner label="Комплектация не указана" />; }
 
   return (
-    <Flex justify="center">
-      <Card withBorder>
-        <Stack>
-          {list}
-        </Stack>
-      </Card>
-    </Flex>
+    <Card withBorder w="100%">
+      <Stack>
+        {list}
+      </Stack>
+    </Card>
   );
 };

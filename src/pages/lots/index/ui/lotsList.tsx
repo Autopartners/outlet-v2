@@ -15,12 +15,13 @@ import { AuctionCountdown } from '@/pages/lots/index/ui/AuctionCountdown';
 import { ViewTypeButtons } from '@/pages/lots/index/ui/viewTypes/ViewTypeButtons';
 import { useMe } from '@/app/providers/me/useMe';
 import type { Lot } from '@/entities/lot';
+import { LotsFilters } from '@/pages/lots/index/ui/lotsFilters';
 
 export const LotsList = () => {
   const [searchParams] = useSearchParams();
   const { isMobile } = useApp();
   const { isAdmin, isRemarketing, me } = useMe();
-  const [activeView, setActiveView] = useState<'table_view' | 'cards_view' | null>(null);
+  const [activeView, setActiveView] = useState<'table_view' | 'cards_view'>(me.outlet_user_setting.view_type || 'table_view');
   const page = searchParams.get('page') || '1';
   const per_page = '12';
   const params = {
@@ -61,9 +62,12 @@ export const LotsList = () => {
 
   return (
     <Container size="xl">
-      <Flex align="flex-end" justify="space-between" gap={10}>
+      <Flex align="flex-end" justify="space-between" gap={5}>
         <AuctionCountdown lots={lots} />
-        <ViewTypeButtons {...{ activeView, setActiveView }} />
+        <Flex gap={{ base: 5, sm: 30 }} align="flex-end">
+          <LotsFilters />
+          <ViewTypeButtons {...{ activeView, setActiveView }} />
+        </Flex>
       </Flex>
       {activeView === 'cards_view' && <ViewTypeCards {...{ filteredLots, page, per_page, params }} />}
       {activeView === 'table_view' && isMobile && <ViewTypeTableMobile {...{ filteredLots, page, per_page, params }} />}

@@ -1,5 +1,4 @@
 import { useMe } from '@/app/providers/me/useMe.ts';
-import { LotsFilters } from '@/pages/lots/index/ui/lotsFilters.tsx';
 import { LotsList } from '@/pages/lots/index/ui/lotsList.tsx';
 import { Container, Flex } from '@mantine/core';
 import { useApp } from '@/app/providers/app/useApp';
@@ -21,10 +20,5 @@ export const LotsPage = () => {
     );
   }
 
-  return (
-    <>
-      <LotsFilters />
-      <LotsList />
-    </>
-  );
+  return <LotsList />;
 };

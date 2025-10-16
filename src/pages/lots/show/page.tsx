@@ -1,7 +1,6 @@
 import { Container, Grid, Card } from '@mantine/core';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLot } from '@/shared/api/useLots.ts';
-import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader.tsx';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { LotHeader } from '@/pages/lots/show/ui/ShowPage/LotHeader.tsx';
@@ -12,6 +11,8 @@ import { LotInfoSections } from '@/pages/lots/show/ui/ShowPage/LotInfoSections.t
 import { useGalleryItems } from '@/pages/lots/show/ui/useGalleryItems.tsx';
 import { LoadError } from '@/shared/ui/Banners/LoadError.tsx';
 import { LotEditSubmodel } from '@/pages/lots/show/ui/EditPage/LotEditSubmodel.tsx';
+import { LotShowSkeleton } from '@/pages/lots/show/ui/LotShowSkeleton';
+import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
 
 export const LotPage = ({ mode = 'view' }: { mode?: 'view' | 'edit' }) => {
   const { id } = useParams();
@@ -21,7 +22,14 @@ export const LotPage = ({ mode = 'view' }: { mode?: 'view' | 'edit' }) => {
   const nav = useNavigate();
   const { items, ref, custom } = useGalleryItems({ mode, lot });
 
-  if (isLoading) { return <CustomLoader label="Загружаем информацию о лоте..." />; }
+  if (isLoading) {
+    return (
+      <>
+        <LotShowSkeleton />
+        <CustomLoader label="Загружаем информацию о лоте"/>
+      </>
+    );
+  }
   if (error) { return <LoadError error={error} mt={50} />; }
   if (!lot) { return null; }
 

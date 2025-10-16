@@ -1,7 +1,7 @@
 import { Box, Card, Flex, Text, ThemeIcon } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { useNavigate } from 'react-router-dom';
-import { IconBuildingSkyscraper, IconRoad } from '@tabler/icons-react';
+import { IconBuildingSkyscraper, IconCalendar, IconRoad } from '@tabler/icons-react';
 import { ApCarousel } from '@/shared/ui/Images/apCarousel.tsx';
 import { useApp } from '@/app/providers/app/useApp';
 import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBid/MakeBidPopover.tsx';
@@ -49,11 +49,6 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
         <Flex justify="space-between" align="flex-start" gap={10}>
           <Text fw="bold" fz={18} w="80%">
             {lot.definition_name}
-            ,
-            {' '}
-            {lot.vehicle_year_of_production}
-            {' '}
-            г.
           </Text>
           <Card shadow="xs" withBorder p={5} w="20%">
             <Text fz={14} fw="bold" ta="center">
@@ -61,13 +56,13 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             </Text>
           </Card>
         </Flex>
-        <Flex gap={10}>
+        <Flex gap={10} justify="space-between" w="80%">
           <Flex align="center" mt={5}>
             <ThemeIcon variant="transparent" c="blue.7">
-              <IconBuildingSkyscraper size={20} />
+              <IconCalendar size={20} />
             </ThemeIcon>
             <Text fz={15}>
-              {lot.city_of_remarketing_name}
+              {lot.vehicle_year_of_production}
             </Text>
           </Flex>
           <Flex align="center" mt={5}>
@@ -76,8 +71,14 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             </ThemeIcon>
             <Text fz={15}>
               {Number(lot.return_km).toLocaleString('ru-RU')}
-              {' '}
-              км
+            </Text>
+          </Flex>
+          <Flex align="center" mt={5}>
+            <ThemeIcon variant="transparent" c="blue.7">
+              <IconBuildingSkyscraper size={20} />
+            </ThemeIcon>
+            <Text fz={15}>
+              {lot.city_of_remarketing_name}
             </Text>
           </Flex>
         </Flex>

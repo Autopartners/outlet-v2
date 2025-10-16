@@ -78,19 +78,19 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
             </Text>
           </Flex>
           <Stack mt={10} gap={10}>
-            <Flex gap={10} px={10} align="center">
+            <Flex gap={10} px={5} align="center">
               <ThemeIcon variant="light" size="md" color="blue.9">
                 <IconPhone size={20} />
               </ThemeIcon>
-              <Anchor fz={14} href="tel:88003336300" c="black">
+              <Anchor fz={15} href="tel:88003336300" c="black">
                 8 (800) 333-63-00
               </Anchor>
             </Flex>
-            <Flex gap={10} px={10} align="center">
+            <Flex gap={10} pl={5} align="center">
               <ThemeIcon variant="light" size="md" color="red.9">
                 <IconMail size={20} />
               </ThemeIcon>
-              <Anchor fz={13} fw="500" href="mailto:remarketing@ap-ru.com" c="black">
+              <Anchor fz={15} href="mailto:remarketing@ap-ru.com" c="black">
                 remarketing@ap-ru.com
               </Anchor>
             </Flex>

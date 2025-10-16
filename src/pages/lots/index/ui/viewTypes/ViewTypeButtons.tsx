@@ -5,15 +5,15 @@ import { useMe } from '@/app/providers/me/useMe';
 import { useOutletSettings } from '@/pages/lots/index/api/useOutletSettings';
 
 interface ViewTypeButtonsProps {
-  activeView: 'table_view' | 'cards_view' | null,
-  setActiveView: (activeView: 'table_view' | 'cards_view' | null) => void
+  activeView: 'table_view' | 'cards_view',
+  setActiveView: (activeView: 'table_view' | 'cards_view') => void
 }
 
 export const ViewTypeButtons = ({ activeView, setActiveView }: ViewTypeButtonsProps) => {
   const { me: { outlet_user_setting } } = useMe();
   const { mutateOutletSettings } = useOutletSettings();
 
-  useEffect(() => setActiveView(outlet_user_setting.view_type), [outlet_user_setting, setActiveView]);
+  useEffect(() => setActiveView(outlet_user_setting.view_type || 'table_view'), [outlet_user_setting, setActiveView]);
 
   return (
     <Flex justify="flex-end" gap={5} mt={10}>

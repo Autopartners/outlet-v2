@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Card, Flex, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, Card, Flex, Tooltip } from '@mantine/core';
 import { useSearchParams } from 'react-router-dom';
 import { useBrands, useCities, useModels } from '@/pages/lots/index/api/useFilters.ts';
 import { FilterSelect } from '@/shared/ui/Filters/filterSelect.tsx';
@@ -135,16 +135,24 @@ export const LotsFilters = () => {
     );
   }
 
+  const hasParams = Array.from(searchParams.entries()).some(([, value]) => {
+    if (value === null) { return false; }
+    if (value === 'false') { return false; }
+    if (value.trim() === '') { return false; }
+    return true;
+  });
+
   return (
-    <Box
-      pos="fixed"
-      top={isMobile ? 40 : 100}
-      left="50%"
-      style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}
+    <ActionIcon
+      pos="relative"
+      radius="md"
+      onClick={() => mutateOutletSettings({ filters_enabled: true })}
+      size="xl"
+      color="blue.9"
+      variant="light"
     >
-      <ActionIcon radius="md" onClick={() => mutateOutletSettings({ filters_enabled: true })} size="xl" color="blue.9" variant="light">
-        <IconFilter />
-      </ActionIcon>
-    </Box>
+      {hasParams && <Badge variant="filled" color="blue.6" size='8' circle pos="absolute" right={2} top={2}></Badge>}
+      <IconFilter />
+    </ActionIcon>
   );
 };

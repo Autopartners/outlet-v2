@@ -20,7 +20,7 @@ export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
 
   const { autotekaReportMutation } = useAutotekaReport({ lotId: id, lotVin, lotRegNumber });
 
-  if (!autotekaReport) { return <CustomBanner label="Отчёт по автотеке отсутствует" />; }
+  if (!autotekaReport) { return <CustomBanner label="Отчет автотеки отсутствует" />; }
 
   return (
     <Flex justify="center">
