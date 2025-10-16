@@ -81,7 +81,8 @@ export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewType
                       </Text>
                     </Flex>
                   )}
-                  <MakeBidPopover small={!!lot.my_bid} {...{ lot, page, per_page, params }} />
+                  {(lot.stage === 'first_stage' || lot.stage === 'second_stage') &&
+                    <MakeBidPopover small={!!lot.my_bid} {...{ lot, page, per_page, params }} />}
                 </Flex>
                 <MakeFavourite {...{ lot, page, per_page, params }} />
               </Flex>

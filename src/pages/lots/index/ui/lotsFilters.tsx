@@ -135,8 +135,9 @@ export const LotsFilters = ({ showLoading }: { showLoading: boolean }) => {
     );
   }
 
-  const hasParams = Array.from(searchParams.entries()).some(([, value]) => {
+  const hasParams = Array.from(searchParams.entries()).some(([key, value]) => {
     if (value === null) { return false; }
+    if (key === 'page') { return false; }
     if (value === 'false') { return false; }
     if (value.trim() === '') { return false; }
     return true;

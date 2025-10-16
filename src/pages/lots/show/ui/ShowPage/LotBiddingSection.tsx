@@ -2,14 +2,7 @@ import { Box, Card, Flex, Grid, Stack, Tooltip, Text } from '@mantine/core';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { MakeBidInput } from '@/shared/ui/LotOperations/MakeBid/MakeBidInput.tsx';
 import type { Lot } from '@/entities/lot';
-
-const stageStrings = {
-  'preparing': 'Подготовка',
-  'first_stage': 'Этап 1',
-  'second_stage': 'Этап 2',
-  'third_stage': 'Этап 3',
-  'finished': 'Закончен'
-};
+import { stageStrings } from '@/shared/lib/constants';
 
 export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
   const { isMobile } = useApp();
@@ -20,11 +13,9 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
   return (
     <Grid.Col span={{ base: 12, md: 5 }}>
       <Card radius="lg" bg="blue.9" p={10}>
-        {/* <Tooltip label="Тут скоро будет инструкция">*/}
         <Text ta="center" fz={isMobile ? 18 : 25} c="white">
           {stageStrings[lot.stage as keyof typeof stageStrings]}
         </Text>
-        {/* </Tooltip>*/}
       </Card>
       <Box mt={20}>
         <Card radius="lg">
