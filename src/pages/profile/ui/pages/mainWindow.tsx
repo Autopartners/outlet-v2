@@ -113,7 +113,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
             name={input.name}
             value={input.value}
             label={input.label}
-            withAsterisk={!input.value}
+            withAsterisk={!input.value && input.name !== 'middle_name'}
             onChange={e => {
               const newVal = e.target.value.replace(/[^а-яА-ЯёЁ]/g, '');
               input.setState(newVal);
