@@ -131,11 +131,13 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
           />
 
           <Flex gap={10} align="center">
-            <MakeBidPopover
-              small={(!!lot.my_second_stage_amount && lot.stage === 'second_stage') ||
-              (!!lot.my_first_stage_amount && lot.stage === 'first_stage')}
-              {...{ lot, page, per_page, params }}
-            />
+            {['first_stage', 'second_stage'].includes(lot.stage) && (
+              <MakeBidPopover
+                small={(!!lot.my_second_stage_amount && lot.stage === 'second_stage') ||
+                (!!lot.my_first_stage_amount && lot.stage === 'first_stage')}
+                {...{ lot, page, per_page, params }}
+              />
+            )}
             <MakeFavourite {...{ lot, page, per_page, params }} />
           </Flex>
         </Flex>
