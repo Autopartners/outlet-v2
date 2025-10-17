@@ -9,19 +9,12 @@ type LotImageGalleryProps = {
   items: ReactImageGalleryItem[] | undefined;
   galleryRef?: RefObject<ImageGallery | null> | null;
   renderCustomControls?: () => ReactNode | undefined;
-  heightMobile?: string | number;
-  heightDesktop?: string | number;
 };
 
-export const LotImageGallery = (
-  {
-    items, galleryRef, renderCustomControls,
-    heightMobile = '30vh', heightDesktop = '40vh'
-  }: LotImageGalleryProps
-) => {
+export const LotImageGallery = ({ items, galleryRef, renderCustomControls }: LotImageGalleryProps) => {
   const { isMobile } = useApp();
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const imageHeight = isMobile ? (isFullscreen ? 700 : heightMobile) : isFullscreen ? 900 : heightDesktop;
+  const imageHeight = isMobile ? (isFullscreen ? 700 : '100%') : (isFullscreen ? 900 : '40vh');
 
   return (
     <ImageGallery
@@ -39,8 +32,8 @@ export const LotImageGallery = (
       renderCustomControls={renderCustomControls}
       renderItem={(item) => (
         <Image
-          radius="lg"
-          w="fit-content"
+          radius={isMobile ? 'none' : 'lg'}
+          w={{ sm: 'fit-content' }}
           mx="auto"
           mt={isMobile ? 0 : 10}
           h={imageHeight}
