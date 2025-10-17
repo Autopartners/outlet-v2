@@ -91,7 +91,7 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             <Box>
               {lot.my_first_stage_amount ? (
                 <Flex align="center" gap={10}>
-                  <Badge variant="light">1 ЭТАП ваша ставка:</Badge>
+                  <Badge variant="light" color="black">1 ЭТАП ваша ставка:</Badge>
                   <Text fz={20} fw="bold" c="blue.7">
                     {lot.my_first_stage_amount.toLocaleString('ru-RU')}
                     {' '}
@@ -106,7 +106,7 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             <Box>
               {lot.my_second_stage_amount ? (
                 <Flex align="center" gap={10}>
-                  <Badge variant="light">2 ЭТАП ваша ставка:</Badge>
+                  <Badge variant="light" color="black">2 ЭТАП ваша ставка:</Badge>
                   <Text fz={20} fw="bold" c="blue.7">
                     {lot.my_second_stage_amount.toLocaleString('ru-RU')}
                     {' '}
