@@ -1,4 +1,4 @@
-import { Container, Flex } from '@mantine/core';
+import { Box, Flex } from '@mantine/core';
 import { useLots } from '@/shared/api/useLots.ts';
 import { useSearchParams } from 'react-router-dom';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
@@ -111,7 +111,7 @@ export const LotsList = () => {
   }
 
   return (
-    <Container size="xl">
+    <Box w={{ sm: 1500, base: 'fit-content' }} mx="auto">
       <LotsListHead {...{ lots, showFilters, setShowFilters, activeView, setActiveView }} />
       <>
         {activeView === 'cards_view' && <ViewTypeCards {...{ lots, page, per_page, params }} />}
@@ -119,6 +119,6 @@ export const LotsList = () => {
         {activeView === 'table_view' && !isMobile && <ViewTypeTable {...{ lots, page, per_page, params }} />}
       </>
       <LotPages pages={pages} pos="bottom" />
-    </Container>
+    </Box>
   );
 };

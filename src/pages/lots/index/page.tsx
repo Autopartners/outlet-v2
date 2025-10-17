@@ -1,8 +1,7 @@
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { LotsList } from '@/pages/lots/index/ui/lotsList.tsx';
-import { Container, Flex } from '@mantine/core';
+import { Box, Flex } from '@mantine/core';
 import { useApp } from '@/app/providers/app/useApp';
-import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';
 import { ConfirmBanner } from '@/shared/ui/Banners/ConfirmBanner.tsx';
 
 export const LotsPage = () => {
@@ -11,12 +10,11 @@ export const LotsPage = () => {
 
   if (!isAuctionConfirmed) {
     return (
-      <Container p={0} mt={isMobile ? 0 : 50} fluid>
+      <Box mt={isMobile ? 0 : 50}>
         <Flex justify="center" align="center" direction="column">
           <ConfirmBanner />
-          <LotsListSkeletonLoader />
         </Flex>
-      </Container>
+      </Box>
     );
   }
 

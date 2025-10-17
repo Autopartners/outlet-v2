@@ -9,6 +9,38 @@ import { MakeFavourite } from '@/shared/ui/LotOperations/MakeFavourite';
 import { stageStrings } from '@/shared/lib/constants';
 import { useMe } from '@/app/providers/me/useMe';
 
+const StageBid = ({ stageNumber, amount }: { stageNumber: number, amount: number }) => {
+  const { isMobile } = useApp();
+  if (!amount) { return null; }
+
+  return (
+    <Flex direction="column" gap={4}>
+      {isMobile ? (
+        <Badge variant="light" px={5}>
+          {stageNumber}
+          {' '}
+          Этап
+        </Badge>
+      ) : (
+        <Text fz={14}>
+          Моя ставка
+          {' '}
+          <Badge variant="light" px={5}>
+            {stageNumber}
+            {' '}
+            Этап
+          </Badge>
+        </Text>
+      )}
+      <Text fz={{ base: 18, sm: 20 }} fw="bold" c="blue.7">
+        {amount.toLocaleString('ru-RU')}
+        {' '}
+        ₽
+      </Text>
+    </Flex>
+  );
+};
+
 interface LotCardProps {
   lot: Lot;
   maxPhotos?: number;
@@ -41,8 +73,8 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
       withBorder
       p={0}
       mx="auto"
-      maw={isMobile ? '90vw' : 415}
-      w={isMobile ? '100%' : 415}
+      maw={isMobile ? '90vw' : 475}
+      w={isMobile ? '100%' : 475}
       classNames={{ root: !isMobile ? 'cardHover' : undefined }}
     >
       {!mobileSimplified && (
@@ -56,11 +88,11 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
           </Text>
           <Card shadow="xs" withBorder p={5} w="20%">
             <Text fz={14} fw="bold" ta="center">
-              {lot.code.replace('-', '\n')}
+              {isMobile ? lot.code.replace('-', '\n') : lot.code}
             </Text>
           </Card>
         </Flex>
-        <Flex gap={10} justify="space-between" w="80%">
+        <Flex gap={{ base: 10, sm: 20 }} w="80%">
           <Flex align="center" mt={5}>
             <ThemeIcon variant="transparent" c="blue.7">
               <IconCalendar size={20} />
@@ -86,40 +118,26 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             </Text>
           </Flex>
         </Flex>
-        <Flex mt={15} h={55} justify="space-between" align="flex-end">
-          <Flex direction="column">
-            <Box>
-              {lot.my_first_stage_amount ? (
-                <Flex align="center" gap={10}>
-                  <Badge variant="light" color="black">1 ЭТАП ваша ставка:</Badge>
-                  <Text fz={20} fw="bold" c="blue.7">
-                    {lot.my_first_stage_amount.toLocaleString('ru-RU')}
-                    {' '}
-                ₽
-                  </Text>
-                </Flex>
-              ) : (
-                (lot.stage === 'first_stage') &&
-            <MakeBidPopover {...{ lot, page, per_page, params }} />
-              )}
-            </Box>
-            <Box>
-              {lot.my_second_stage_amount ? (
-                <Flex align="center" gap={10}>
-                  <Badge variant="light" color="black">2 ЭТАП ваша ставка:</Badge>
-                  <Text fz={20} fw="bold" c="blue.7">
-                    {lot.my_second_stage_amount.toLocaleString('ru-RU')}
-                    {' '}
-                ₽
-                  </Text>
-                </Flex>
-              ) : (
-                (lot.stage === 'second_stage') &&
-            <MakeBidPopover {...{ lot, page, per_page, params }} />
-              )}
-            </Box>
+
+        <Flex mt={10} align="center" justify="space-between">
+          <StageBid
+            stageNumber={1}
+            amount={lot.my_first_stage_amount}
+          />
+
+          <StageBid
+            stageNumber={2}
+            amount={lot.my_second_stage_amount}
+          />
+
+          <Flex gap={10} align="center">
+            <MakeBidPopover
+              small={(!!lot.my_second_stage_amount && lot.stage === 'second_stage') ||
+              (!!lot.my_first_stage_amount && lot.stage === 'first_stage')}
+              {...{ lot, page, per_page, params }}
+            />
+            <MakeFavourite {...{ lot, page, per_page, params }} />
           </Flex>
-          <MakeFavourite {...{ lot, page, per_page, params }} />
         </Flex>
       </Box>
     </Card>
