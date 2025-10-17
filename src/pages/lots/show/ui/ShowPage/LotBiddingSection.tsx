@@ -38,7 +38,7 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
             )}
             <Box>
               {lot.my_first_stage_amount && (
-                <Flex justify="space-between" align="center">
+                <Flex justify="space-between" align={isMobile ? 'flex-start' : 'center'} direction={isMobile ? 'column' : 'row'}>
                   <Flex align="center" gap={10}>
                     <Text fz={18}>Моя ставка</Text>
                     <Badge variant="light">1 этап</Badge>
@@ -53,7 +53,7 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
             </Box>
             <Box>
               {lot.my_second_stage_amount && (
-                <Flex justify="space-between" align="center">
+                <Flex justify="space-between" align={isMobile ? 'flex-start' : 'center'} direction={isMobile ? 'column' : 'row'}>
                   <Flex align="center" gap={10}>
                     <Text fz={18}>Моя ставка</Text>
                     <Badge variant="light">2 этап</Badge>
