@@ -1,4 +1,4 @@
-import { Box, Card, Flex, Text, ThemeIcon } from '@mantine/core';
+import { Badge, Box, Card, Flex, Text, ThemeIcon } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { useNavigate } from 'react-router-dom';
 import { IconBuildingSkyscraper, IconCalendar, IconRoad } from '@tabler/icons-react';
@@ -86,20 +86,39 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             </Text>
           </Flex>
         </Flex>
-        <Flex mt={10} h={50} align="center" justify="space-between">
-          {lot.my_bid ? (
-            <Flex direction="column">
-              <Text fz={14}>Ваша ставка</Text>
-              <Text fz={20} fw="bold" c="blue.7">
-                {lot.my_bid.toLocaleString('ru-RU')}
-                {' '}
+        <Flex mt={15} h={55} justify="space-between" align="flex-end">
+          <Flex direction="column">
+            <Box>
+              {lot.my_first_stage_amount ? (
+                <Flex align="center" gap={10}>
+                  <Badge variant="light">1 ЭТАП ваша ставка:</Badge>
+                  <Text fz={20} fw="bold" c="blue.7">
+                    {lot.my_first_stage_amount.toLocaleString('ru-RU')}
+                    {' '}
                 ₽
-              </Text>
-            </Flex>
-          ) : (
-            (lot.stage === 'first_stage' || lot.stage === 'second_stage') &&
+                  </Text>
+                </Flex>
+              ) : (
+                (lot.stage === 'first_stage') &&
             <MakeBidPopover {...{ lot, page, per_page, params }} />
-          )}
+              )}
+            </Box>
+            <Box>
+              {lot.my_second_stage_amount ? (
+                <Flex align="center" gap={10}>
+                  <Badge variant="light">2 ЭТАП ваша ставка:</Badge>
+                  <Text fz={20} fw="bold" c="blue.7">
+                    {lot.my_second_stage_amount.toLocaleString('ru-RU')}
+                    {' '}
+                ₽
+                  </Text>
+                </Flex>
+              ) : (
+                (lot.stage === 'second_stage') &&
+            <MakeBidPopover {...{ lot, page, per_page, params }} />
+              )}
+            </Box>
+          </Flex>
           <MakeFavourite {...{ lot, page, per_page, params }} />
         </Flex>
       </Box>
