@@ -24,7 +24,7 @@ export const MakeBidPopover = ({ lot, page, per_page, params, color, small }: Ma
             <IconEdit />
           </ActionIcon>
         ) : (
-          <Button mr={10} variant={color ? 'filled' : 'default'} color={color} onClick={() => setOpened(!opened)}>
+          <Button variant={color ? 'filled' : 'default'} color={color} onClick={() => setOpened(!opened)}>
             Сделать ставку
           </Button>
         )}

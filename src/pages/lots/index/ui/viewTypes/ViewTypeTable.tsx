@@ -24,7 +24,16 @@ export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewType
           <Table.Th ta="center">Год</Table.Th>
           <Table.Th ta="center">Город</Table.Th>
           <Table.Th ta="center">Пробег</Table.Th>
-          <Table.Th ta="center">Моя ставка</Table.Th>
+          <Table.Th ta="center">
+            Моя ставка
+            <br/>
+            1 ЭТАП
+          </Table.Th>
+          <Table.Th ta="center">
+            Моя ставка
+            <br/>
+            2 ЭТАП
+          </Table.Th>
         </Table.Tr>
       </Table.Thead>
 
@@ -71,21 +80,37 @@ export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewType
             </Table.Td>
 
             <Table.Td>
-              <Flex align="center" justify="space-between">
-                <Flex justify="space-between" gap={10}>
-                  {lot.my_bid && (
-                    <Flex align="center" justify="start" w="130">
-                      <IconCurrencyRubel stroke={2} size={20} />
-                      <Text fz={20} fw="bold">
-                        {lot.my_bid.toLocaleString('ru-RU')}
-                      </Text>
-                    </Flex>
-                  )}
-                  {(lot.stage === 'first_stage' || lot.stage === 'second_stage') &&
-                    <MakeBidPopover small={!!lot.my_bid} {...{ lot, page, per_page, params }} />}
-                </Flex>
-                <MakeFavourite {...{ lot, page, per_page, params }} />
+              <Flex justify="center" align="flex-end">
+                {lot.my_first_stage_amount && (
+                  <Flex align="center" justify="center" w="130">
+                    <IconCurrencyRubel stroke={2} size={20} />
+                    <Text fz={20} fw="bold">
+                      {lot.my_first_stage_amount.toLocaleString('ru-RU')}
+                    </Text>
+                  </Flex>
+                )
+                }
+                {(lot.stage === 'first_stage') &&
+                <MakeBidPopover small={!!lot.my_first_stage_amount} {...{ lot, page, per_page, params }} />}
               </Flex>
+            </Table.Td>
+
+            <Table.Td>
+              <Flex justify="center" align="flex-end">
+                {lot.my_second_stage_amount && (
+                  <Flex align="center" justify="center" w="130">
+                    <IconCurrencyRubel stroke={2} size={20} />
+                    <Text fz={20} fw="bold">
+                      {lot.my_second_stage_amount.toLocaleString('ru-RU')}
+                    </Text>
+                  </Flex>
+                )}
+                {lot.stage === 'second_stage' &&
+                    <MakeBidPopover small={!!lot.my_second_stage_amount} {...{ lot, page, per_page, params }} />}
+              </Flex>
+            </Table.Td>
+            <Table.Td>
+              <MakeFavourite {...{ lot, page, per_page, params }} />
             </Table.Td>
           </Table.Tr>
         ))}

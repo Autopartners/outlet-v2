@@ -70,6 +70,8 @@ export interface Lot {
   autoteka_reports: AutotekaReport[];
   vehicle_options: string;
   remarketing_options: string;
+  my_first_stage_amount: number;
+  my_second_stage_amount: number;
 }
 
 export interface ServiceRequest {
