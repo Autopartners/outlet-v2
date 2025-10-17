@@ -17,7 +17,8 @@ const mantineTheme = createTheme({
     MultiSelect: { defaultProps: { radius: 'md' } },
     Checkbox: { defaultProps: { radius: 'md' } },
     Combobox: { defaultProps: { radius: 'md' } },
-    Modal: { defaultProps: { radius: 'lg' } }
+    Modal: { defaultProps: { radius: 'lg' } },
+    FileInput: { defaultProps: { radius: 'md' } },
   }
 });
 

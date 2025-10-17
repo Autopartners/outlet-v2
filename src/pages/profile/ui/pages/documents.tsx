@@ -88,7 +88,8 @@ export const DocumentsWindow = ({ user, isUserFetching }: DocumentsWindowProps) 
                   юридического лица;
                 </List.Item>
                 <List.Item>Устав (в последней редакции, со всеми изменениями);</List.Item>
-                <List.Item>Решение/протокол об избрании или продлении полномочий единоличного исполнительного
+                <List.Item>
+Решение/протокол об избрании или продлении полномочий единоличного исполнительного
                   органа;
                 </List.Item>
                 <List.Item>Приказ о вступлении в должность генерального директора;</List.Item>
@@ -109,6 +110,7 @@ export const DocumentsWindow = ({ user, isUserFetching }: DocumentsWindowProps) 
                   color="green"
                   href="https://auth.ap-ru.com/api/v4/external/static_files/51"
                   target="_blank"
+                  my={15}
                 >
                   Скачать бланк
                 </Button>

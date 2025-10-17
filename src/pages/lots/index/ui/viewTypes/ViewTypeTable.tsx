@@ -1,19 +1,33 @@
-import { Flex, Table, Text } from '@mantine/core';
+import { Badge, Flex, Table, Text } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { IconCurrencyRubel } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBid/MakeBidPopover.tsx';
 import { MakeFavourite } from '@/shared/ui/LotOperations/MakeFavourite';
+import { useMe } from '@/app/providers/me/useMe';
+import { stageStrings } from '@/shared/lib/constants';
 
 interface ViewTypeTableProps {
-  filteredLots: Lot[],
+  lots: Lot[],
   page: string,
   per_page: string,
   params: object,
 }
 
-export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewTypeTableProps) => {
+const MyBidTh = ({ stage }: { stage:string }) => {
+  return (
+    <Table.Th>
+      <Flex direction="column" gap={2} align="center">
+        <Badge variant="light">{stage}</Badge>
+        Моя ставка
+      </Flex>
+    </Table.Th>
+  );
+};
+
+export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTableProps) => {
   const nav = useNavigate();
+  const { isAdmin, isRemarketing } = useMe();
 
   return (
     <Table mt={10} highlightOnHover verticalSpacing="sm">
@@ -24,21 +38,13 @@ export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewType
           <Table.Th ta="center">Год</Table.Th>
           <Table.Th ta="center">Город</Table.Th>
           <Table.Th ta="center">Пробег</Table.Th>
-          <Table.Th ta="center">
-            Моя ставка
-            <br/>
-            1 ЭТАП
-          </Table.Th>
-          <Table.Th ta="center">
-            Моя ставка
-            <br/>
-            2 ЭТАП
-          </Table.Th>
+          <MyBidTh stage="1 Этап" />
+          <MyBidTh stage="2 Этап" />
         </Table.Tr>
       </Table.Thead>
 
       <Table.Tbody ta="center">
-        {filteredLots.map((lot: Lot) => (
+        {lots.map((lot: Lot) => (
           <Table.Tr
             key={lot.id}
             style={{ cursor: 'pointer' }}
@@ -64,6 +70,7 @@ export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewType
             <Table.Td ta="left">
               <Text fz={16} fw="bold" c="blue.7">
                 {lot.definition_name}
+                {(isAdmin || isRemarketing) && ` (${stageStrings[lot.stage]})`}
               </Text>
             </Table.Td>
 
@@ -109,6 +116,7 @@ export const ViewTypeTable = ({ filteredLots, page, per_page, params }: ViewType
                     <MakeBidPopover small={!!lot.my_second_stage_amount} {...{ lot, page, per_page, params }} />}
               </Flex>
             </Table.Td>
+
             <Table.Td>
               <MakeFavourite {...{ lot, page, per_page, params }} />
             </Table.Td>

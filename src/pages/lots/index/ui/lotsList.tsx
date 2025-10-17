@@ -3,7 +3,7 @@ import { useLots } from '@/shared/api/useLots.ts';
 import { useSearchParams } from 'react-router-dom';
 import { LotPages } from '@/pages/lots/index/ui/lotPages.tsx';
 import { LotsListSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsListSkeletonLoader.tsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LotsTableSkeletonLoader } from '@/pages/lots/index/ui/skeletons/lotsTableSkeletonLoader.tsx';
 import { CustomBanner } from '@/shared/ui/Banners/CustomBanner';
 import { ViewTypeCards } from '@/pages/lots/index/ui/viewTypes/ViewTypeCards';
@@ -26,59 +26,98 @@ const LoadingView = () => {
   return <LotsTableSkeletonMobileLoader />;
 };
 
+interface LotsListHeadProps {
+  lots: Lot[],
+  showFilters: boolean,
+  setShowFilters: (showFilters: boolean) => void,
+  activeView: 'table_view' | 'cards_view',
+  setActiveView: (activeView: 'table_view' | 'cards_view') => void,
+}
+
+const LotsListHead = ({ lots, showFilters, setShowFilters, activeView, setActiveView }:LotsListHeadProps) => {
+  return (
+    <Flex align="flex-end" justify="space-between" gap={5}>
+      <AuctionCountdown lots={lots} />
+      <Flex gap={{ base: 10, sm: 30 }} align="flex-end">
+        <LotsFilters hasLots isLoading={false} {...{ showFilters, setShowFilters }} />
+        <ViewTypeButtons {...{ activeView, setActiveView }} />
+      </Flex>
+    </Flex>
+  );
+};
+
 export const LotsList = () => {
-  const [searchParams] = useSearchParams();
   const { isMobile } = useApp();
   const { isAdmin, isRemarketing, me } = useMe();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [activeView, setActiveView] = useState<'table_view' | 'cards_view'>(me.outlet_user_setting.view_type || 'table_view');
+  const [showFilters, setShowFilters] = useState<boolean>(me.outlet_user_setting.filters_enabled || false);
+
   const page = searchParams.get('page') || '1';
   const per_page = '12';
+
+  const {
+    liked,
+    q: {
+      vehicle_city_of_remarketing_id_eq: city_id,
+      vehicle_vehicle_brand_id_eq: brand_id,
+      vehicle_vehicle_model_id_eq: model_id
+    } = {}
+  } = me.outlet_user_setting.filters || {};
+
   const params = {
     started: 'true',
-    liked: searchParams.get('liked') || 'false',
+    liked: liked || searchParams.get('liked') || 'false',
     q: {
-      vehicle_vehicle_model_id_eq: searchParams.get('vehicle_model_id'),
-      vehicle_vehicle_brand_id_eq: searchParams.get('vehicle_brand_id'),
-      vehicle_city_of_remarketing_id_eq: searchParams.get('city_id')
+      vehicle_vehicle_model_id_eq: model_id || searchParams.get('vehicle_model_id'),
+      vehicle_vehicle_brand_id_eq: brand_id || searchParams.get('vehicle_brand_id'),
+      vehicle_city_of_remarketing_id_eq: city_id || searchParams.get('city_id')
     }
   };
-  const { lots, isLoading, pages } = useLots({
+
+  useEffect(() => {
+    if (params.liked) { searchParams.set('liked', String(params.liked)); }
+    if (params.q.vehicle_city_of_remarketing_id_eq) { searchParams.set('city_id', params.q.vehicle_city_of_remarketing_id_eq); }
+    if (params.q.vehicle_vehicle_brand_id_eq) { searchParams.set('vehicle_brand_id', params.q.vehicle_vehicle_brand_id_eq); }
+    if (params.q.vehicle_vehicle_model_id_eq) { searchParams.set('vehicle_model_id', params.q.vehicle_vehicle_model_id_eq); }
+    setSearchParams(searchParams);
+  }, []);
+
+  const { lots: allLots, isLoading, pages } = useLots({
     page,
     per_page,
     params
   });
-  const showLoading = isLoading || !lots;
-  let filteredLots = lots;
 
-  if (!showLoading && !isAdmin && !isRemarketing) {
-    filteredLots = lots.filter((lot: Lot) => lot.stage !== 'preparing');
+  if (isLoading) {
+    return (
+      <>
+        <LotsFilters hasLots={false} {...{ isLoading, showFilters, setShowFilters }} />
+        <LoadingView />
+      </>
+    );
   }
 
-  if (!showLoading && filteredLots.length === 0) {
+  const lots = (isAdmin || isRemarketing) ? allLots : allLots.filter((lot: Lot) => lot.stage !== 'preparing');
+
+  if (lots.length === 0) {
     return (
-      <Container size="xl" mt={isMobile ? 300 : 140}>
-        {lots.length > 0 && <AuctionCountdown lots={lots} />}
-        <CustomBanner label="Нет доступных лотов, попробуйте изменить фильтры" mt={20} />
-      </Container>
+      <>
+        <LotsFilters hasLots={false} {...{ isLoading, showFilters, setShowFilters }} />
+        <CustomBanner label="Нет доступных лотов, попробуйте изменить фильтры" mt={140} />
+      </>
     );
   }
 
   return (
     <Container size="xl">
-      <Flex align="flex-end" justify="space-between" gap={5}>
-        {lots && <AuctionCountdown lots={lots} />}
-        <Flex gap={{ base: 5, sm: 30 }} align="flex-end">
-          <LotsFilters {...{ showLoading }} />
-          {!showLoading && <ViewTypeButtons {...{ activeView, setActiveView }} />}
-        </Flex>
-      </Flex>
-      {showLoading ? <LoadingView /> : (
-        <>
-          {activeView === 'cards_view' && <ViewTypeCards {...{ filteredLots, page, per_page, params }} />}
-          {activeView === 'table_view' && isMobile && <ViewTypeTableMobile {...{ filteredLots, page, per_page, params }} />}
-          {activeView === 'table_view' && !isMobile && <ViewTypeTable {...{ filteredLots, page, per_page, params }} />}
-        </>
-      )}
+      <LotsListHead {...{ lots, showFilters, setShowFilters, activeView, setActiveView }} />
+      <>
+        {activeView === 'cards_view' && <ViewTypeCards {...{ lots, page, per_page, params }} />}
+        {activeView === 'table_view' && isMobile && <ViewTypeTableMobile {...{ lots, page, per_page, params }} />}
+        {activeView === 'table_view' && !isMobile && <ViewTypeTable {...{ lots, page, per_page, params }} />}
+      </>
       <LotPages pages={pages} pos="bottom" />
     </Container>
   );

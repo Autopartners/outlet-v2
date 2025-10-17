@@ -1,5 +1,3 @@
-import { Box } from '@mantine/core';
-
 export const WonWindow = () => {
-  return <Box />;
+  return 'Вы ничего не выиграли, очень жаль';
 };

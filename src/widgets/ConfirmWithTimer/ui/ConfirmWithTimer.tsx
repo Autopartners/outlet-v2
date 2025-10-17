@@ -57,8 +57,10 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
     setCode('');
     try {
       setLoading(true);
-      const { data } = await api.patch(`/external/users/${user.id}/confirm`,
-        { user: { type: type, key: e, source: 'outlet' } });
+      const { data } = await api.patch(
+        `/external/users/${user.id}/confirm`,
+        { user: { type: type, key: e, source: 'outlet' } }
+      );
       notification.green('Успех');
       setUser({ ...user, ...data });
     } catch {
@@ -71,56 +73,68 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
 
   const codeRequest = async () => {
     try {
-      const { data } = await api.patch(`/external/users/${user.id}/confirmation_request`,
-        { user: { type, source: 'outlet' } });
+      const { data } = await api.patch(
+        `/external/users/${user.id}/confirmation_request`,
+        { user: { type, source: 'outlet' } }
+      );
       setUser({ ...user, ...data });
     } catch {
       notification.red('Ошибка!');
     }
   };
 
-  const confirmed =
-    <Box w={200}>
-      <Flex gap="xs">
+  const confirmed = (
+    <Box w={{ base: '100%', sm: 200 }} mb={7}>
+      <Flex gap="xs" align="center" justify={{ base: 'center', sm: 'flex-start' }}>
         <IconCircleCheck color="green" />
         <Text
-          c="green"
+          c="green.9"
           fw={500}
           size="sm"
         >
           {`${label} подтвержден`}
         </Text>
       </Flex>
-    </Box>;
+    </Box>
+  );
 
-  const form =
+  const form = (
     <Flex
       gap={isMobile ? 'xs' : 'xl'}
-      align={isMobile ? 'flex-start' : 'center'}
+      align="center"
       direction={isMobile ? 'column' : 'row'}
+      mx={{ base: 'auto', sm: 0 }}
     >
-      {loading ?
-        <Flex w={180} justify="center" align="center">
-          <Loader type="dots" size="md" />
-        </Flex> : (
-          user[`${type}_confirmation_sent_at`] &&
-          <Box w={180}>
-            <PinInput inputMode="numeric" onChange={codeInput} value={code} />
-          </Box>
+      {loading
+        ? (
+          <Flex w={180} justify="center" align="center">
+            <Loader type="dots" size="md" />
+          </Flex>
+        ) : (
+          user[`${type}_confirmation_sent_at`] && (
+            <Box w={180}>
+              <PinInput inputMode="numeric" onChange={codeInput} value={code} />
+            </Box>
+          )
         )
       }
-      {((!user[`${type}_confirmation_sent_at`] || (passed > 60)) &&
-        <Button color="cyan" w={230} fz="xs" size="sm" onClick={codeRequest}>Запросить код
-          подтверждения</Button>)
+      {((!user[`${type}_confirmation_sent_at`] || (passed > 60)) && (
+        <Button color="cyan" w={230} fz="xs" size="sm" onClick={codeRequest}>
+          Запросить код подтверждения
+        </Button>
+      ))
       }
-      {passed > 0 && passed < 60 &&
+      {passed > 0 && passed < 60 && (
         <Box w={230}>
-          <Text ta={isMobile ? 'left' : 'start'} style={{ fontSize: 12 }}>
-            запросить повторно через: {60 - passed}
+          <Text ta={{ base: 'center', sm: 'left' }} style={{ fontSize: 12 }}>
+            Запросить повторно через:
+            {' '}
+            {60 - passed}
           </Text>
         </Box>
-      }
-    </Flex>;
+      )}
+    </Flex>
+  );
 
   return (
     <>

@@ -6,6 +6,8 @@ import { ApCarousel } from '@/shared/ui/Images/apCarousel.tsx';
 import { useApp } from '@/app/providers/app/useApp';
 import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBid/MakeBidPopover.tsx';
 import { MakeFavourite } from '@/shared/ui/LotOperations/MakeFavourite';
+import { stageStrings } from '@/shared/lib/constants';
+import { useMe } from '@/app/providers/me/useMe';
 
 interface LotCardProps {
   lot: Lot;
@@ -19,6 +21,7 @@ interface LotCardProps {
 export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplified = false }: LotCardProps) => {
   const nav = useNavigate();
   const { isMobile } = useApp();
+  const { isAdmin, isRemarketing } = useMe();
 
   return (
     <Card
@@ -49,6 +52,7 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
         <Flex justify="space-between" align="flex-start" gap={10}>
           <Text fw="bold" fz={18} w="80%">
             {lot.definition_name}
+            {(isAdmin || isRemarketing) && ` (${stageStrings[lot.stage]})`}
           </Text>
           <Card shadow="xs" withBorder p={5} w="20%">
             <Text fz={14} fw="bold" ta="center">

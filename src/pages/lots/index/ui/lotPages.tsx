@@ -1,6 +1,7 @@
 import { Center, Pagination } from '@mantine/core';
 import { useSearchParams } from 'react-router-dom';
 import { useApp } from '@/app/providers/app/useApp.ts';
+import { topScroll } from '@/shared/lib/ScrollToTop';
 
 interface LotPagesProps {
   pages: number;
@@ -14,6 +15,7 @@ export const LotPages = ({ pages, pos }: LotPagesProps) => {
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const handlePageChange = (page: number) => {
+    topScroll();
     if (page === 1) {
       searchParams.delete('page');
     } else {

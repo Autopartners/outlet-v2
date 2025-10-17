@@ -1,4 +1,4 @@
-import { AppShell, Image, Group, Button, rem, Menu, Flex, ActionIcon } from '@mantine/core';
+import { AppShell, Image, Group, Button, rem, Menu, Flex, ActionIcon, Box } from '@mantine/core';
 import { NavLink, useLocation } from 'react-router';
 import { AppRouter } from '@/app/routers/appRouter.tsx';
 import { useNavigate } from 'react-router-dom';
@@ -84,7 +84,9 @@ export function Navbar() {
         pt={!withoutHeaderPage ? `calc(${rem(70)}` : 0}
         pb={isMobile ? `calc(${rem(70)}` : 0}
       >
-        <AppRouter />
+        <Box mih="75vh">
+          <AppRouter />
+        </Box>
         <Footer />
       </AppShell.Main>
       <AppShell.Footer>

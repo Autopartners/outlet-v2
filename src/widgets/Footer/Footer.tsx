@@ -46,7 +46,7 @@ export const Footer = () => {
           </Text>
           <Text fz={14}>ООО «АВТО ПАРТНЕРС», 129090, Россия, Москва, Олимпийский проспект, 14</Text>
           <Anchor c="black" td="underline" target="_blank" fz={14} href="https://ap-ru.com/cookie">
-            Политика использования файлов cookies
+            Политика использования файлов Cookies
           </Anchor>
         </Flex>
       </Box>

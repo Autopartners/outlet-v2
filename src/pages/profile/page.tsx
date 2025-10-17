@@ -1,4 +1,4 @@
-import { Container, Card, Flex, Button, Box } from '@mantine/core';
+import { Card, Flex, Button, Box } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { ProfileRouter } from '@/app/routers/profileRouter';
 import { useLocation } from 'react-router';
@@ -11,19 +11,19 @@ export const ProfilePage = () => {
   const { isMobile } = useApp();
 
   return (
-    <Container p={0} mt={isMobile ? 20 : 50} fluid>
+    <Box mt={isMobile ? 20 : 50} mb={50}>
       <Flex
         gap="md"
         justify="center"
         direction={isMobile ? 'column' : 'row'}
         align={isMobile ? 'center' : 'stretch'}
-        mih="80vh"
       >
         <Card
           w={isMobile ? '90vw' : '15vw'}
           shadow="md"
           radius="lg"
           withBorder
+          h="fit-content"
         >
           <Flex direction="column" gap={10}>
             <Button
@@ -69,12 +69,13 @@ export const ProfilePage = () => {
           shadow="md"
           radius="lg"
           withBorder
+          mih={{ base: '55vh', sm: '75vh' }}
         >
           <Box w={isMobile ? '100%' : '70%'} mx="auto">
             <ProfileRouter user={me} setUser={setMe} isUserFetching={loading} />
           </Box>
         </Card>
       </Flex>
-    </Container>
+    </Box>
   );
 };

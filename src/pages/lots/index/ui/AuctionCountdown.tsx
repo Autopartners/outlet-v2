@@ -9,7 +9,7 @@ export const AuctionCountdown = ({ lots }: { lots: Lot[] }) => {
   const { isMobile } = useApp();
 
   return (
-    <Alert variant="light" color="blue" radius="md" mt={20} px={{ base: 10, sm: 30 }}>
+    <Alert variant="light" color="blue" radius="md" mt={20} px={{ base: 0, sm: 30 }}>
       <Flex direction={{ base: 'column', sm: 'row' }} gap={{ base: 0, sm: 20 }}>
         <Flex align="center" justify="flex-start" gap={5}>
           <ThemeIcon variant="transparent" c="blue.7"><IconHourglassHigh size={20} /></ThemeIcon>

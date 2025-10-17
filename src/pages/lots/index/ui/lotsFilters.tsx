@@ -1,47 +1,26 @@
-import { ActionIcon, Badge, Card, Flex, Tooltip } from '@mantine/core';
+import { ActionIcon, type ActionIconProps, Badge, Card, Flex, Tooltip } from '@mantine/core';
 import { useSearchParams } from 'react-router-dom';
 import { useBrands, useCities, useModels } from '@/pages/lots/index/api/useFilters.ts';
 import { FilterSelect } from '@/shared/ui/Filters/filterSelect.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
-import { useEffect, useState } from 'react';
 import { IconFilter, IconStar, IconStarFilled, IconX } from '@tabler/icons-react';
-import { useMe } from '@/app/providers/me/useMe';
 import { useOutletSettings } from '@/pages/lots/index/api/useOutletSettings';
 
-export const LotsFilters = ({ showLoading }: { showLoading: boolean }) => {
+interface LotsFiltersProps {
+  hasLots: boolean,
+  isLoading: boolean,
+  showFilters: boolean,
+  setShowFilters: (showFilters: boolean) => void,
+}
+
+export const LotsFilters = ({ hasLots, isLoading, showFilters, setShowFilters }: LotsFiltersProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isMobile } = useApp();
-  const { me } = useMe();
   const { mutateOutletSettings } = useOutletSettings();
   const activeStar = searchParams.get('liked') === 'true';
-  const [showFilters, setShowFilters] = useState<boolean|null>(null);
-
-  useEffect(() => {
-    const { filters_enabled, filters } = me.outlet_user_setting;
-    setShowFilters(filters_enabled);
-    if (!filters) { return; }
-
-    const { liked, q } = filters;
-    searchParams.set('liked', String(liked));
-    if (!q) { return; }
-
-    const {
-      vehicle_city_of_remarketing_id_eq: city_id,
-      vehicle_vehicle_brand_id_eq: brand_id,
-      vehicle_vehicle_model_id_eq: model_id
-    } = q;
-
-    searchParams.set('city_id', city_id || '');
-    searchParams.set('vehicle_brand_id', brand_id || '');
-    searchParams.set('vehicle_model_id', model_id || '');
-    setSearchParams(searchParams);
-  }, []);
-
-  useEffect(() => {
-    setShowFilters(me.outlet_user_setting.filters_enabled);
-  }, [me.outlet_user_setting]);
 
   const updateParams = (value: string | null, key: string) => {
+    searchParams.set('page', '1');
     if (value) {
       searchParams.set(key, value);
       if (key === 'vehicle_brand_id') {
@@ -85,7 +64,10 @@ export const LotsFilters = ({ showLoading }: { showLoading: boolean }) => {
         style={{ transform: 'translate(-50%, -50%)', zIndex: 100 }}
       >
         <ActionIcon
-          onClick={() => mutateOutletSettings({ filters_enabled: false })}
+          onClick={() => {
+            setShowFilters(false);
+            mutateOutletSettings({ filters_enabled: false });
+          }}
           pos="absolute"
           right={10}
           top={5}
@@ -135,6 +117,10 @@ export const LotsFilters = ({ showLoading }: { showLoading: boolean }) => {
     );
   }
 
+  // On loading show only opened filters
+  if (isLoading) { return; }
+
+  // Check has params for show badge on button
   const hasParams = Array.from(searchParams.entries()).some(([key, value]) => {
     if (value === null) { return false; }
     if (key === 'page') { return false; }
@@ -143,13 +129,24 @@ export const LotsFilters = ({ showLoading }: { showLoading: boolean }) => {
     return true;
   });
 
-  if (showLoading) { return; }
+  // Filter button position depending on the presence of lots
+  const actionProps = hasLots ? {
+    pos: 'relative'
+  } : {
+    pos: 'fixed',
+    left: '50%',
+    top: 100,
+    style: { transform: 'translate(-50%, -50%)', zIndex: 100 }
+  };
 
   return (
     <ActionIcon
-      pos="relative"
+      {...actionProps as ActionIconProps}
       radius="md"
-      onClick={() => mutateOutletSettings({ filters_enabled: true })}
+      onClick={() => {
+        setShowFilters(true);
+        mutateOutletSettings({ filters_enabled: true });
+      }}
       size="xl"
       color="blue.9"
       variant="light"

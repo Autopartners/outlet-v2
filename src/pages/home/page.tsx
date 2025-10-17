@@ -1,4 +1,4 @@
-import { Image, Container, Text, Box, Divider, Button, SimpleGrid } from '@mantine/core';
+import { Image, Text, Box, Divider, Button, SimpleGrid } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { IconEye, } from '@tabler/icons-react';
 import { useApp } from '@/app/providers/app/useApp.ts';
@@ -23,7 +23,7 @@ export const HomePage = () => {
   const { lots, isLoading } = useLots({ page, per_page, params });
 
   return (
-    <Container p={0} fluid>
+    <>
       <Box pos="relative" h={250}>
         <Image src="/road.png" w="100%" h="100%" fit="cover" style={{ zIndex: 1, objectPosition: '0 65%' }} />
         <Box
@@ -72,6 +72,6 @@ export const HomePage = () => {
         </Box>
       )}
       <OutletDescriptionCards />
-    </Container>
+    </>
   );
 };
