@@ -1,4 +1,4 @@
-import { Box, Card, Flex, Grid, Stack, Tooltip, Text } from '@mantine/core';
+import { Box, Card, Flex, Grid, Stack, Tooltip, Text, Badge } from '@mantine/core';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { MakeBidInput } from '@/shared/ui/LotOperations/MakeBid/MakeBidInput.tsx';
 import type { Lot } from '@/entities/lot';
@@ -32,16 +32,36 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
                 </Flex>
               </Tooltip>
             )}
-            {lot.my_bid && (
-              <Flex justify="space-between" align="flex-end">
-                <Text fz={20}>Ваша ставка</Text>
-                <Text fz={25} fw="bold" c="blue.9">
-                  {lot.my_bid.toLocaleString('ru-RU')}
-                  {' '}
+            <Box>
+              {lot.my_first_stage_amount && (
+                <Flex justify="space-between" align="center">
+                  <Flex align="center" gap={10}>
+                    <Text fz={18}>Моя ставка</Text>
+                    <Badge>1 этап</Badge>
+                  </Flex>
+                  <Text fz={25} fw="bold" c="blue.9">
+                    {lot.my_first_stage_amount.toLocaleString('ru-RU')}
+                    {' '}
                   ₽
-                </Text>
-              </Flex>
-            )}
+                  </Text>
+                </Flex>
+              )}
+            </Box>
+            <Box>
+              {lot.my_second_stage_amount && (
+                <Flex justify="space-between" align="center">
+                  <Flex align="center" gap={10}>
+                    <Text fz={18}>Моя ставка</Text>
+                    <Badge>2 этап</Badge>
+                  </Flex>
+                  <Text fz={25} fw="bold" c="blue.9">
+                    {lot.my_second_stage_amount.toLocaleString('ru-RU')}
+                    {' '}
+                  ₽
+                  </Text>
+                </Flex>
+              )}
+            </Box>
             {isEnd ? (
               <Card bg="red.1" radius="lg" p={10}>
                 <Text c="red.9" ta="center" fw="bold" fz={20}>
