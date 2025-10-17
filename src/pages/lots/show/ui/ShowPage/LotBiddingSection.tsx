@@ -26,7 +26,7 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
             </Card>
             {lot.stage === 'second_stage' && (
               <Tooltip label="Максимально предложенная сумма из первого этапа">
-                <Flex justify="space-between" align="flex-end">
+                <Flex justify="space-between" align={isMobile ? 'flex-start' : 'center'} direction={isMobile ? 'column' : 'row'}>
                   <Text fz={20}>Текущая ставка</Text>
                   <Text fz={25} fw="bold" c="red.9">
                     {lot.second_stage_minimal_price?.toLocaleString('ru-RU') || 0}
