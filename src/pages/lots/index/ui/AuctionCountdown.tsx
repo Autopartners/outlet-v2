@@ -1,8 +1,8 @@
 import { Alert, Divider, Flex, Text, ThemeIcon } from '@mantine/core';
-import { IconHourglassHigh, IconHourglassLow, IconPercentage33 } from '@tabler/icons-react';
+import { IconHourglassHigh, IconHourglassLow } from '@tabler/icons-react';
 import type { Lot } from '@/entities/lot';
 import { useApp } from '@/app/providers/app/useApp';
-import { stageStrings } from '@/shared/lib/constants';
+import { stageIcons, stageStrings } from '@/shared/lib/constants';
 
 
 export const AuctionCountdown = ({ lots }: { lots: Lot[] }) => {
@@ -30,7 +30,7 @@ export const AuctionCountdown = ({ lots }: { lots: Lot[] }) => {
         </Flex>
         <Divider mt={10} color="blue.3" />
         <Flex align="center" justify="flex-start" mt={{ base: 10, sm: 0 }} gap={5}>
-          <ThemeIcon variant="transparent" c="blue.7"><IconPercentage33 size={20} /></ThemeIcon>
+          <ThemeIcon variant="transparent" c="blue.7">{stageIcons[lots[0].stage]}</ThemeIcon>
           <Text fz={14}>
             <strong>{stageStrings[lots[0].stage]}</strong>
           </Text>
