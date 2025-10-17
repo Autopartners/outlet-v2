@@ -5,6 +5,7 @@ import { FilterSelect } from '@/shared/ui/Filters/filterSelect.tsx';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { IconFilter, IconStar, IconStarFilled, IconX } from '@tabler/icons-react';
 import { useOutletSettings } from '@/pages/lots/index/api/useOutletSettings';
+import { useClickOutside } from '@mantine/hooks';
 
 interface LotsFiltersProps {
   hasLots: boolean,
@@ -16,6 +17,10 @@ interface LotsFiltersProps {
 export const LotsFilters = ({ hasLots, isLoading, showFilters, setShowFilters }: LotsFiltersProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isMobile } = useApp();
+  const ref = useClickOutside(() => {
+    setShowFilters(false);
+    mutateOutletSettings({ filters_enabled: false });
+  });
   const { mutateOutletSettings } = useOutletSettings();
   const activeStar = searchParams.get('liked') === 'true';
 
@@ -57,6 +62,7 @@ export const LotsFilters = ({ hasLots, isLoading, showFilters, setShowFilters }:
   if (showFilters) {
     return (
       <Card
+        ref={ref}
         withBorder
         pos="fixed"
         top={140}
