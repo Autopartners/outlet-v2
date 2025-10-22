@@ -1,4 +1,4 @@
-import { Badge, Flex, Table, Text } from '@mantine/core';
+import { Badge, Flex, Table, Text, Tooltip } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { IconCurrencyRubel } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
@@ -38,6 +38,9 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
           <Table.Th ta="center">Год</Table.Th>
           <Table.Th ta="center">Город</Table.Th>
           <Table.Th ta="center">Пробег</Table.Th>
+          <Tooltip label="Максимально предложенная сумма из первого этапа">
+            <Table.Th ta="center">Текущая ставка</Table.Th>
+          </Tooltip>
           <MyBidTh stage="1 Этап" />
           <MyBidTh stage="2 Этап" />
         </Table.Tr>
@@ -84,6 +87,10 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
 
             <Table.Td>
               <Text>{Number(lot.return_km).toLocaleString('ru-RU')}</Text>
+            </Table.Td>
+
+            <Table.Td>
+              <Text>{Number(lot.second_stage_minimal_price).toLocaleString('ru-RU')}</Text>
             </Table.Td>
 
             <Table.Td>
