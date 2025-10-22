@@ -22,17 +22,18 @@ const StageBid = ({ stageNumber, amount }: { stageNumber: number, amount: number
           Этап
         </Badge>
       ) : (
-        <Text fz={14}>
-          Моя ставка
-          {' '}
+        <>
           <Badge variant="light" px={5}>
             {stageNumber}
             {' '}
             Этап
           </Badge>
-        </Text>
+          <Text fz={15}>
+          Моя ставка
+          </Text>
+        </>
       )}
-      <Text fz={{ base: 18, sm: 20 }} fw="bold" c="blue.7">
+      <Text fz={{ base: 14, sm: 16 }} fw="bold" c="blue.7">
         {amount.toLocaleString('ru-RU')}
         {' '}
         ₽
@@ -84,7 +85,13 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
         <Flex justify="space-between" align="flex-start" gap={10}>
           <Text fw="bold" fz={18} w="80%">
             {lot.definition_name}
-            {(isAdmin || isRemarketing) && ` (${stageStrings[lot.stage]})`}
+            {(isAdmin || isRemarketing) && (
+              <Text fw="bold" fz={18} c="blue.7" span>
+                {' ('}
+                {stageStrings[lot.stage]}
+                )
+              </Text>
+            )}
           </Text>
           <Card shadow="xs" withBorder p={5} w="20%">
             <Text fz={14} fw="bold" ta="center">
@@ -119,7 +126,18 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
           </Flex>
         </Flex>
 
-        <Flex mt={10} align="center" justify="space-between">
+        <Flex mt={10} align="flex-end" justify="space-between">
+          { lot.stage !== 'first_stage' && (
+            <Flex direction="column" gap={4}>
+              <Text fz={15}>Текущая ставка</Text>
+              <Text fz={{ base: 14, sm: 16 }} fw="bold" c="red.9">
+                {Number(lot.second_stage_minimal_price).toLocaleString('ru-RU')}
+                {' '}
+              ₽
+              </Text>
+            </Flex>
+          )}
+
           <StageBid
             stageNumber={1}
             amount={lot.my_first_stage_amount}

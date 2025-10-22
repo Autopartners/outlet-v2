@@ -38,9 +38,11 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
           <Table.Th ta="center">Год</Table.Th>
           <Table.Th ta="center">Город</Table.Th>
           <Table.Th ta="center">Пробег</Table.Th>
-          <Tooltip label="Максимально предложенная сумма из первого этапа">
-            <Table.Th ta="center">Текущая ставка</Table.Th>
-          </Tooltip>
+          {lots[0].stage !== 'first_stage' && (
+            <Tooltip label="Максимально предложенная сумма из первого этапа">
+              <Table.Th ta="center">Текущая ставка</Table.Th>
+            </Tooltip>
+          )}
           <MyBidTh stage="1 Этап" />
           <MyBidTh stage="2 Этап" />
         </Table.Tr>
@@ -89,9 +91,11 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
               <Text>{Number(lot.return_km).toLocaleString('ru-RU')}</Text>
             </Table.Td>
 
-            <Table.Td>
-              <Text>{Number(lot.second_stage_minimal_price).toLocaleString('ru-RU')}</Text>
-            </Table.Td>
+            {lots[0].stage !== 'first_stage' && (
+              <Table.Td>
+                <Text>{Number(lot.second_stage_minimal_price).toLocaleString('ru-RU')}</Text>
+              </Table.Td>
+            )}
 
             <Table.Td>
               <Flex justify="center" align="flex-end">
