@@ -32,7 +32,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
   return (
     <Table mt={10} highlightOnHover verticalSpacing="sm">
       <Table.Thead>
-        <Table.Tr fz={16}>
+        <Table.Tr fz={16} style={{ verticalAlign: 'bottom' }}>
           <Table.Th ta="center">Код</Table.Th>
           <Table.Th ta="center">Описание</Table.Th>
           <Table.Th ta="center">Год</Table.Th>
