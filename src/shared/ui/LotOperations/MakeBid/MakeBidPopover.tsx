@@ -43,7 +43,7 @@ export const MakeBidPopover = ({ lot, page, per_page, params, color, small }: Ma
           </Tooltip>
         )}
         <Stack gap={10} className="not-navigate">
-          <MakeBidInput lot={lot} bidMutationParams={{ page, per_page, params }} size="sm" />
+          <MakeBidInput lot={lot} bidMutationParams={{ page, per_page, params }} opened={opened} setOpened={setOpened} size="sm" />
         </Stack>
       </Popover.Dropdown>
     </Popover>
