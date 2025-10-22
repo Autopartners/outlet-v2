@@ -14,7 +14,7 @@ export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
   const lotVin = lot?.vin;
   const lotRegNumber = lot?.vehicle_plate_no;
   const { id } = useParams();
-  const { isAdmin } = useMe();
+  const { isAdmin, isRemarketing } = useMe();
   const filtered = lot?.autoteka_reports.filter((report: AutotekaReport) => report.status === 'success');
   const autotekaReport = filtered?.[filtered.length - 1];
 
@@ -39,12 +39,17 @@ export const AutotekaInfoPage = ({ lot, editable }: AutotekaInfoPageProps) => {
                 loading={autotekaReportMutation.isPending}
                 color="green"
                 onClick={() => autotekaReportMutation.mutate()}
-                disabled={!!autotekaReport || !isAdmin}
+                disabled={!!autotekaReport || (!isAdmin && !isRemarketing)}
               >
                 Создать отчет
               </Button>
             )}
-            <Button component="a" href={autotekaReport?.web_link} target="_blank">
+            <Button
+              component="a"
+              href={autotekaReport?.web_link}
+              target="_blank"
+              disabled={!autotekaReport}
+            >
                 Посмотреть отчет
             </Button>
           </Flex>
