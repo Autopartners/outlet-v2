@@ -33,7 +33,7 @@ const StageBid = ({ stageNumber, amount }: { stageNumber: number, amount: number
           </Text>
         </>
       )}
-      <Text fz={{ base: 14, sm: 16 }} fw="bold" c="blue.7">
+      <Text fz={{ base: 12, sm: 16 }} fw="bold" c="blue.7">
         {amount.toLocaleString('ru-RU')}
         {' '}
         ₽
@@ -129,8 +129,8 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
         <Flex mt={10} align="flex-end" justify="space-between">
           { lot.stage !== 'first_stage' && (
             <Flex direction="column" gap={4}>
-              <Text fz={15}>Текущая ставка</Text>
-              <Text fz={{ base: 14, sm: 16 }} fw="bold" c="red.9">
+              <Text fz={{ base: 12, sm: 15 }}>Текущая ставка</Text>
+              <Text fz={{ base: 12, sm: 16 }} fw="bold" c="red.9">
                 {Number(lot.second_stage_minimal_price).toLocaleString('ru-RU')}
                 {' '}
               ₽
