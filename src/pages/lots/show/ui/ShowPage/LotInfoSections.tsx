@@ -61,7 +61,7 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
             </Text>
           </Flex>
           <Stack mt={10} pl={10} gap={5}>
-            {renderVehicleFeatureInfo({ head: 'VIN-номер', info: lot.vin, line: true })}
+            {renderVehicleFeatureInfo({ head: 'VIN', info: lot.vin, line: true })}
             {renderVehicleFeatureInfo({ head: 'Гос. номер', info: lot.vehicle_plate_no, line: true })}
           </Stack>
         </Card>
