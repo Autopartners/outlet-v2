@@ -1,6 +1,6 @@
 import { type ReactNode, type RefObject, useState } from 'react';
 import ImageGallery, { type ReactImageGalleryItem } from 'react-image-gallery';
-import { Box, Button, Flex, Image, ThemeIcon } from '@mantine/core';
+import { Box, Button, Flex, Image, ThemeIcon, useMantineTheme } from '@mantine/core';
 import { IconCameraStar, IconChevronLeft, IconChevronRight, IconEyeOff } from '@tabler/icons-react';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import 'react-image-gallery/styles/css/image-gallery.css';
@@ -13,6 +13,7 @@ type LotImageGalleryProps = {
 
 export const LotImageGallery = ({ items, galleryRef, renderCustomControls }: LotImageGalleryProps) => {
   const { isMobile } = useApp();
+  const theme = useMantineTheme();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const imageHeight = isMobile ? (isFullscreen ? 700 : '100%') : (isFullscreen ? 900 : '40vh');
 
@@ -54,11 +55,12 @@ export const LotImageGallery = ({ items, galleryRef, renderCustomControls }: Lot
       )}
       renderLeftNav={(onClick, disabled) => (
         <Button
-          variant={isMobile ? 'outline' : 'light'}
-          color={isMobile ? 'white' : 'blue'}
+          variant="filled"
+          color={theme.colors.gray[2]}
           radius="xl"
-          size={isMobile ? 'xs' : 'lg'}
           style={{
+            width: 64,
+            height: 64,
             borderWidth: isMobile ? 2 : 1,
             position: 'absolute',
             top: '50%',
@@ -69,16 +71,19 @@ export const LotImageGallery = ({ items, galleryRef, renderCustomControls }: Lot
           onClick={onClick}
           disabled={disabled}
         >
-          <IconChevronLeft size={isMobile ? 18 : 32} />
+          <ThemeIcon variant="filled" bg="transparent" c="black">
+            <IconChevronLeft size={isMobile ? 18 : 32} />
+          </ThemeIcon>
         </Button>
       )}
       renderRightNav={(onClick, disabled) => (
         <Button
-          variant={isMobile ? 'outline' : 'light'}
-          color={isMobile ? 'white' : 'blue'}
+          variant="filled"
+          color={theme.colors.gray[2]}
           radius="xl"
-          size={isMobile ? 'xs' : 'lg'}
           style={{
+            width: 64,
+            height: 64,
             borderWidth: isMobile ? 2 : 1,
             position: 'absolute',
             top: '50%',
@@ -89,7 +94,9 @@ export const LotImageGallery = ({ items, galleryRef, renderCustomControls }: Lot
           onClick={onClick}
           disabled={disabled}
         >
-          <IconChevronRight size={isMobile ? 18 : 32} />
+          <ThemeIcon variant="filled" bg="transparent" c="black">
+            <IconChevronRight size={isMobile ? 18 : 32} />
+          </ThemeIcon>
         </Button>
       )}
     />
