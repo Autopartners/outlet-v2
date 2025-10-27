@@ -1,4 +1,4 @@
-import { Badge, Flex, Table, Text, Tooltip } from '@mantine/core';
+import { Badge, Flex, Table, Text, ThemeIcon, Tooltip } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
 import { IconCurrencyRubel } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
@@ -38,7 +38,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
           <Table.Th ta="center">Год</Table.Th>
           <Table.Th ta="center">Город</Table.Th>
           <Table.Th ta="center">Пробег</Table.Th>
-          {lots[0].stage !== 'first_stage' && (
+          {lots[0].stage !== 'first_stage' && lots[0].stage !== 'preparing' && (
             <Tooltip label="Максимально предложенная сумма из первого этапа">
               <Table.Th ta="center">Текущая ставка</Table.Th>
             </Tooltip>
@@ -91,9 +91,21 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
               <Text>{Number(lot.return_km).toLocaleString('ru-RU')}</Text>
             </Table.Td>
 
-            {lots[0].stage !== 'first_stage' && (
+            {lots[0].stage !== 'first_stage' && lots[0].stage !== 'preparing' && (
               <Table.Td>
-                <Text>{Number(lot.second_stage_minimal_price).toLocaleString('ru-RU')}</Text>
+                <Flex justify="center" align="flex-end">
+                  {lot.second_stage_minimal_price && (
+                    <Flex align="center" justify="center">
+                      <ThemeIcon c="red.9" variant="light" bg="transparent">
+                        <IconCurrencyRubel stroke={2} size={20} />
+                      </ThemeIcon>
+                      <Text fz={20} fw="bold" c="red.9">
+                        {lot.second_stage_minimal_price.toLocaleString('ru-RU')}
+                      </Text>
+                    </Flex>
+                  )
+                  }
+                </Flex>
               </Table.Td>
             )}
 
