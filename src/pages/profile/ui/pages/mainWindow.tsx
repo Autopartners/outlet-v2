@@ -1,7 +1,7 @@
 import { Button, Flex, InputBase, Text, TextInput } from '@mantine/core';
 import { api } from '@/shared/lib/api.ts';
 import { useNavigate } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useApp } from '@/app/providers/app/useApp';
 import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
 import { ConfirmWithTimer } from '@/widgets/ConfirmWithTimer/ui/ConfirmWithTimer';
@@ -32,23 +32,19 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
   const { me } = useMe();
   const { notification } = useApp();
 
-  useEffect(() => {
-    setState(user);
-  }, [user]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-    setChanged({
-      ...changed,
+    setState(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setChanged(prev => ({
+      ...prev,
       [e.target.name]: user[e.target.name] !== e.target.value
-    });
+    }));
   };
-  const handleChangePhone = (e: string) => {
-    setState({ ...state, phone0: e });
-    setChanged({
+  const handleChangePhone = (val: string) => {
+    setState(prev => ({ ...prev, phone0: val }));
+    setChanged(changed => ({
       ...changed,
-      phone0: user.phone0 !== e
-    });
+      phone0: user.phone0 !== val
+    }));
   };
 
   const submit = async () => {
@@ -62,8 +58,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
           phone0
         }
       });
-      setState({ ...state, ...data });
-      setUser({ ...state, ...data });
+      setUser({ ...user, ...data });
       setChanged({});
       notification.green('Сохранено!');
     } catch {
@@ -117,7 +112,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
             onChange={e => {
               const newVal = e.target.value.replace(/[^а-яА-ЯёЁ]/g, '');
               input.setState(newVal);
-              setChanged({ ...changed, [e.target.name]: input.state !== newVal });
+              setChanged(prev => ({ ...prev, [e.target.name]: input.state !== newVal }));
             }}
           />
         ))}
@@ -144,7 +139,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
             name="phone0"
             value={state.phone0}
             label={state.phone_confirmed ? 'Мобильный телефон' : 'Мобильный телефон (не подтвержден)'}
-            onAccept={(e) => handleChangePhone(e)}
+            onAccept={(val) => handleChangePhone(val)}
             onBlur={() => phoneCheck(state.phone0, setPhoneError, me.id)}
             withAsterisk={!state.phone0}
             error={phoneError}
