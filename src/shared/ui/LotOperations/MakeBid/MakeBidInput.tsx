@@ -7,8 +7,8 @@ interface MakeBidInputProps {
   lot: Lot,
   bidMutationParams: useBidParams,
   size: MantineSize
-  opened: boolean,
-  setOpened: (opened: boolean) => void,
+  opened?: boolean,
+  setOpened?: (opened: boolean) => void,
 }
 
 export const MakeBidInput = ({ lot, bidMutationParams, size, opened, setOpened }:MakeBidInputProps) => {
@@ -41,7 +41,9 @@ export const MakeBidInput = ({ lot, bidMutationParams, size, opened, setOpened }
           if (e.key === 'Enter') {
             bidMutation.mutate({ value: bid, lot_id: lot.id });
             setBid('');
-            setOpened(!opened);
+            if (setOpened) {
+              setOpened(!opened);
+            }
           }
         }}
       />
@@ -49,7 +51,9 @@ export const MakeBidInput = ({ lot, bidMutationParams, size, opened, setOpened }
         onClick={() => {
           bidMutation.mutate({ value: bid, lot_id: lot.id });
           setBid('');
-          setOpened(!opened);
+          if (setOpened) {
+            setOpened(!opened);
+          }
         }}
         color="green.7"
         size={size}
