@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "ca.ap-ru.com",
+  "homepage": "carsoutlet.ru",
   "scripts": {
     "start": "vite",
     "build": "vite build",
