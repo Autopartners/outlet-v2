@@ -12,7 +12,7 @@ const phoneCheck = async (value: string, setErr: (errors: string) => void, user_
   if (isNumber) {
     const { data } = await api.get(
       'external/users/phone_exist',
-      { params: { phone: number.getChars().replace('+', ''), from_user_id: user_id } },
+      { params: { phone0: number.getChars().replace('+', ''), from_user_id: user_id } },
     );
     if (data) { err.push('Пользователь с таким номером телефона уже зарегистрирован'); }
   } else {
