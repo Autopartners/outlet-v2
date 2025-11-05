@@ -47,8 +47,8 @@ export const CompanyWindow = ({ user, setUser, isUserFetching }: CompanyWindowPr
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as { name: keyof Company; value: string };
 
-    setState({ ...state, [name]: value });
-    setChanged({ ...changed, [name]: user?.company?.[name] !== value });
+    setState(prev => ({ ...prev, [name]: value }));
+    setChanged(prev => ({ ...prev, [name]: user?.company?.[name] !== value }));
   };
 
   const cancel = () => {
@@ -66,20 +66,56 @@ export const CompanyWindow = ({ user, setUser, isUserFetching }: CompanyWindowPr
         Компания
       </Text>
       <Flex direction="column" gap={5}>
-        <TextInput name="company_name" value={state?.company_name} label="Компания" onChange={handleChange} />
-        <TextInput name="address" value={state?.address} label="Юридический адрес" onChange={handleChange} />
-        <TextInput name="inn" value={state?.inn} label="ИНН" onChange={handleChange} />
-        <TextInput name="signature" value={state?.signature} label="Подписант" onChange={handleChange} />
+        <TextInput
+          name="company_name"
+          value={state?.company_name}
+          label="Компания"
+          onChange={handleChange}
+          withAsterisk={!state?.company_name.trim()}
+        />
+        <TextInput
+          name="address"
+          value={state?.address}
+          label="Юридический адрес"
+          onChange={handleChange}
+          withAsterisk={!state?.address.trim()}
+        />
+        <TextInput
+          name="inn"
+          value={state?.inn}
+          label="ИНН"
+          onChange={handleChange}
+          withAsterisk={!state?.inn.trim()}
+        />
+        <TextInput
+          name="signature"
+          value={state?.signature}
+          label="Подписант"
+          onChange={handleChange}
+          withAsterisk={!state?.signature.trim()}
+        />
         <TextInput
           name="buyer"
           value={state?.buyer}
           label="Покупатель (родительный падеж)"
           onChange={handleChange}
+          withAsterisk={!state?.buyer.trim()}
         />
-        <TextInput name="buyer_base" value={state?.buyer_base} label="На основании" onChange={handleChange} />
+        <TextInput
+          name="buyer_base"
+          value={state?.buyer_base}
+          label="На основании"
+          onChange={handleChange}
+          withAsterisk={!state?.buyer_base.trim()}
+        />
       </Flex>
       <Flex gap="sm">
-        {Object.values(changed).some((e) => e) && (
+        {Object.values(changed).some((e) => e) && state.company_name.trim() &&
+          state.address.trim() &&
+          state.inn.trim() &&
+          state.signature.trim() &&
+          state.buyer.trim() &&
+          state.buyer_base.trim() && (
           <>
             <Button w={150} mt="md" size="sm" color="green" onClick={submit} disabled={loading}>
               <Flex gap={5} align="center">
