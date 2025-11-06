@@ -58,6 +58,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
           phone0
         }
       });
+      setState(prev => ({ ...prev, ...data }));
       setUser({ ...user, ...data });
       setChanged({});
       notification.green('Сохранено!');
@@ -140,6 +141,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
             value={state.phone0}
             label={state.phone_confirmed ? 'Мобильный телефон' : 'Мобильный телефон (не подтвержден)'}
             onAccept={(val) => handleChangePhone(val)}
+            onChange={() => phoneCheck(state.phone0, setPhoneError, me.id)}
             onBlur={() => phoneCheck(state.phone0, setPhoneError, me.id)}
             withAsterisk={!state.phone0}
             error={phoneError}
