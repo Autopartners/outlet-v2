@@ -22,6 +22,7 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
   const [code, setCode] = useState<string>('');
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const last = user[`${type}_confirmation_sent_at`];
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   const countdown = useCallback(() => {
     if (!last) {
@@ -72,16 +73,19 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
   };
 
   const codeRequest = async () => {
+    setDisabled(true);
     try {
       const { data } = await api.patch(
         `/external/users/${user.id}/confirmation_request`,
         { user: { type, source: 'outlet' } }
       );
       setUser({ ...user, ...data });
+      setDisabled(false);
     } catch {
       notification.red('Ошибка!');
     }
   };
+
 
   const confirmed = (
     <Box w={{ base: '100%', sm: 200 }} mb={7}>
@@ -119,8 +123,8 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
         )
       }
       {((!user[`${type}_confirmation_sent_at`] || (passed > 60)) && (
-        <Button color="cyan" w={230} fz="xs" size="sm" onClick={codeRequest}>
-          Запросить код подтверждения
+        <Button color="cyan" w={230} disabled={disabled} fz="xs" size="sm" onClick={codeRequest}>
+          {disabled ? 'Подождите...' : 'Запросить код подтверждения'}
         </Button>
       ))
       }
