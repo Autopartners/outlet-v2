@@ -14,15 +14,14 @@ interface CompanyWindowProps {
 
 export const CompanyWindow = ({ user, setUser, isUserFetching }: CompanyWindowProps) => {
   const { notification } = useApp();
-  const defaultCompany = {
+  const [state, setState] = useState<Company>({
     company_name: '',
     address: '',
     inn: '',
     signature: '',
     buyer: '',
     buyer_base: ''
-  };
-  const [state, setState] = useState(defaultCompany);
+  });
   const [loading, setLoading] = useState(false);
   const [changed, setChanged] = useState({});
 
@@ -41,7 +40,14 @@ export const CompanyWindow = ({ user, setUser, isUserFetching }: CompanyWindowPr
   };
 
   useEffect(() => {
-    setState(user.company ?? defaultCompany);
+    setState({
+      company_name: user.company?.company_name ?? '',
+      address: user.company?.address ?? '',
+      inn: user.company?.inn ?? '',
+      signature: user.company?.signature ?? '',
+      buyer: user.company?.buyer ?? '',
+      buyer_base: user.company?.buyer_base ?? ''
+    });
   }, [user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +59,14 @@ export const CompanyWindow = ({ user, setUser, isUserFetching }: CompanyWindowPr
 
   const cancel = () => {
     setChanged({});
-    setState(user?.company || defaultCompany);
+    setState({
+      company_name: user.company?.company_name ?? '',
+      address: user.company?.address ?? '',
+      inn: user.company?.inn ?? '',
+      signature: user.company?.signature ?? '',
+      buyer: user.company?.buyer ?? '',
+      buyer_base: user.company?.buyer_base ?? ''
+    });
   };
 
   if (isUserFetching) {
