@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { api } from '@/shared/lib/api.ts';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { Box, Button, Flex, Loader, PinInput, Text, ThemeIcon } from '@mantine/core';
-import { IconCheck } from '@tabler/icons-react';
+import { IconCheck, IconX } from '@tabler/icons-react';
 import type { Me } from '@/entities/me';
 import { useMutation } from '@tanstack/react-query';
 
@@ -98,7 +98,7 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
           fw={500}
           size="sm"
         >
-          {`${label} подтвержден`}
+          {`${label} подтверждён`}
         </Text>
       </Flex>
     </Box>
@@ -110,6 +110,20 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
       align="flex-start"
       direction="column"
     >
+      <Box mb={7}>
+        <Flex gap="xs" align="center" justify={{ base: 'center', sm: 'flex-start' }}>
+          <ThemeIcon size="lg" variant="light" color="red.5">
+            <IconX />
+          </ThemeIcon>
+          <Text
+            c="red.5"
+            fw={500}
+            size="sm"
+          >
+            {`${label} не подтверждён`}
+          </Text>
+        </Flex>
+      </Box>
       {mutationSubmit.isPending
         ? (
           <Flex w={180} justify="center" align="center">

@@ -140,7 +140,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
               w={isMobile ? '100%' : '40%'}
               name="phone0"
               value={state.phone0}
-              label={state.phone_confirmed ? 'Мобильный телефон' : 'Мобильный телефон (не подтвержден)'}
+              label="Мобильный телефон"
               onAccept={(val) => handleChangePhone(val)}
               onChange={() => phoneCheck(state.phone0, setPhoneError, me.id)}
               onBlur={() => phoneCheck(state.phone0, setPhoneError, me.id)}
@@ -161,7 +161,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
               name="email0"
               value={state.email0}
               withAsterisk={!state.email0}
-              label={state.email_confirmed ? 'Email' : 'Email (не подтвержден)'}
+              label="Email"
               onChange={handleChange}
               w={isMobile ? '100%' : '40%'}
               onBlur={() => emailCheck(state.email0, setEmailError, me.id)}
