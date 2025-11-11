@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { api } from '@/shared/lib/api.ts';
 import { useApp } from '@/app/providers/app/useApp.ts';
-import { Box, Button, Flex, Loader, PinInput, Text } from '@mantine/core';
-import { IconCircleCheck } from '@tabler/icons-react';
+import { Box, Button, Flex, Loader, PinInput, Text, ThemeIcon } from '@mantine/core';
+import { IconCheck } from '@tabler/icons-react';
 import type { Me } from '@/entities/me';
 import { useMutation } from '@tanstack/react-query';
 
@@ -90,7 +90,9 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
   const confirmed = (
     <Box mb={7}>
       <Flex gap="xs" align="center" justify={{ base: 'center', sm: 'flex-start' }}>
-        <IconCircleCheck color="green" />
+        <ThemeIcon size="lg" variant="light" color="green.5">
+          <IconCheck />
+        </ThemeIcon>
         <Text
           c="green.9"
           fw={500}
