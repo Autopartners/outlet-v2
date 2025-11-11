@@ -88,7 +88,7 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
   });
 
   const confirmed = (
-    <Box w={{ base: '100%', sm: 200 }} mb={7}>
+    <Box mb={7}>
       <Flex gap="xs" align="center" justify={{ base: 'center', sm: 'flex-start' }}>
         <IconCircleCheck color="green" />
         <Text
@@ -107,7 +107,6 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
       gap="md"
       align="flex-start"
       direction="column"
-      mx={{ base: 'auto', sm: 0 }}
     >
       {mutationSubmit.isPending
         ? (
