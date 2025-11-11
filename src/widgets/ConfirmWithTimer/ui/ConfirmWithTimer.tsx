@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { useCallback } from 'react';
 import { api } from '@/shared/lib/api.ts';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { Box, Button, Flex, Loader, PinInput, Text } from '@mantine/core';
-import dayjs from 'dayjs';
 import { IconCircleCheck } from '@tabler/icons-react';
 import type { Me } from '@/entities/me';
+import { useMutation } from '@tanstack/react-query';
 
 interface ConfirmWithTimerProps {
   user: Me,
@@ -16,76 +15,77 @@ interface ConfirmWithTimerProps {
 
 export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTimerProps) => {
   const { notification } = useApp();
-  const [passed, setPassed] = useState(-1);
-  const [loading, setLoading] = useState(false);
-  const { isMobile } = useApp();
+  const [count, setCount] = useState(0);
+  const [isCounting, setIsCount] = useState(false);
+  const [alreadySent, setAlreadySent] = useState(false);
   const [code, setCode] = useState<string>('');
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-  const last = user[`${type}_confirmation_sent_at`];
-  const [disabled, setDisabled] = useState<boolean>(false);
 
-  const countdown = useCallback(() => {
-    if (!last) {
-      setPassed(-1);
-      return;
-    }
-
-    const diff = dayjs().diff(dayjs(last), 'second');
-    setPassed(diff);
-  }, [last]);
-
-  useEffect(() => {
-    if (timer.current) {
-      clearInterval(timer.current);
-    }
-    countdown();
-    timer.current = setInterval(countdown, 1000);
-    return () => {
-      if (timer.current) {
-        clearInterval(timer.current);
-      }
-    };
-  }, [countdown, user]);
+  const timerIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const codeInput = (e: string) => {
     setCode(e);
     if (e.length === 4) {
-      submit(e);
+      mutationSubmit.mutate(e);
     }
   };
 
-  const submit = async (e: string) => {
-    setCode('');
-    try {
-      setLoading(true);
+  useEffect(() => {
+    if (isCounting) {
+      timerIdRef.current = setInterval(() => {
+        setCount(prevCount => prevCount + 1);
+      }, 1000);
+    }
+    return () => {
+      if (timerIdRef.current) { clearInterval(timerIdRef.current); }
+      timerIdRef.current = null;
+    };
+  }, [isCounting]);
+
+  useEffect(() => {
+    if (isCounting && count === 60) {
+      setCount(0);
+      setIsCount(false);
+    }
+  }, [count, isCounting]);
+
+  const mutationSubmit = useMutation({
+    mutationFn: async (e: string) => {
+      setCode('');
       const { data } = await api.patch(
         `/external/users/${user.id}/confirm`,
         { user: { type: type, key: e, source: 'outlet' } }
       );
+      return data;
+    },
+    onSuccess: data => {
       notification.green('Успех');
       setUser({ ...user, ...data });
-    } catch {
+    },
+    onError: () => {
       notification.red('Неверный код!');
-      setUser({ ...user, [`${type}_confirmation_sent_at`]: null });
-    } finally {
-      setLoading(false);
     }
-  };
+  });
 
-  const codeRequest = async () => {
-    setDisabled(true);
-    try {
+  const mutateCodeRequest = useMutation({
+    mutationFn: async () => {
+      setAlreadySent(false);
       const { data } = await api.patch(
         `/external/users/${user.id}/confirmation_request`,
         { user: { type, source: 'outlet' } }
       );
-      setUser({ ...user, ...data });
-      setDisabled(false);
-    } catch {
+      return data;
+    },
+    onSuccess: data => {
+      if (data.status === 'code_already_sent') {
+        setAlreadySent(true);
+        setCount(60 - data.count);
+      } else { setCount(0); }
+      setIsCount(true);
+    },
+    onError: () => {
       notification.red('Ошибка!');
     }
-  };
-
+  });
 
   const confirmed = (
     <Box w={{ base: '100%', sm: 200 }} mb={7}>
@@ -104,36 +104,35 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
 
   const form = (
     <Flex
-      gap={isMobile ? 'xs' : 'xl'}
-      align="center"
-      direction={isMobile ? 'column' : 'row'}
+      gap="md"
+      align="flex-start"
+      direction="column"
       mx={{ base: 'auto', sm: 0 }}
     >
-      {loading
+      {mutationSubmit.isPending
         ? (
           <Flex w={180} justify="center" align="center">
             <Loader type="dots" size="md" />
           </Flex>
         ) : (
-          user[`${type}_confirmation_sent_at`] && (
-            <Box w={180}>
-              <PinInput inputMode="numeric" onChange={codeInput} value={code} />
-            </Box>
+          !user[`${type}_confirmed`] && (
+            <PinInput inputMode="numeric" size="md" onChange={codeInput} value={code} />
           )
         )
       }
-      {((!user[`${type}_confirmation_sent_at`] || (passed > 60)) && (
-        <Button color="cyan" w={230} disabled={disabled} fz="xs" size="sm" onClick={codeRequest}>
-          {disabled ? 'Подождите...' : 'Запросить код подтверждения'}
+      {(!(count > 0 && count < 60) && (
+        <Button color="blue" w={204} fz="xs" size="sm" onClick={() => mutateCodeRequest.mutate()}>
+          Запросить подтверждение
         </Button>
       ))
       }
-      {passed > 0 && passed < 60 && (
+      {alreadySent && <Text fz={12} w={235} mt={5}>Вы уже недавно запросили код, пожалуйста подождите</Text>}
+      {count > 0 && count < 60 && (
         <Box w={230}>
           <Text ta={{ base: 'center', sm: 'left' }} style={{ fontSize: 12 }}>
             Запросить повторно через:
             {' '}
-            {60 - passed}
+            {60 - count}
           </Text>
         </Box>
       )}

@@ -1,4 +1,4 @@
-import { Button, Flex, InputBase, Text, TextInput } from '@mantine/core';
+import { Button, Card, Flex, InputBase, Text, TextInput } from '@mantine/core';
 import { api } from '@/shared/lib/api.ts';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
@@ -96,7 +96,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
       <Text ta="center" fz={28} fw={500}>
         Основное
       </Text>
-      <Flex direction="column" gap={5}>
+      <Flex direction="column" gap={10}>
         <TextInput name="username" value={state.username} label="Логин" disabled />
 
         {/* FIO */}
@@ -119,53 +119,57 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
         ))}
 
         {/* Phone and Email */}
-        <Flex
-          gap="md"
-          align={isMobile ? 'flex-start' : 'flex-end'}
-          direction={isMobile ? 'column' : 'row'}
-          justify={{ base: 'space-between', sm: 'flex-start' }}
-        >
-          <InputBase
-            component={IMaskInput}
-            mask="+{7} (000) 000-00-00"
-            prepare={(str: string, masked: { value: string; }) => {
-              if (str === '8' && (masked.value === '+7' || masked.value === '')) { return ''; }
-              if (str === '7' && (masked.value === '+7' || masked.value === '')) { return ''; }
-              if (str === '' && masked.value === '') { return '7'; }
-              if (!/^\+?[\d\s\-()]+$/.test(str) && masked.value === '') { return '7'; }
-              if (!/^\+?[\d\s\-()]+$/.test(str)) { return ''; }
-              return str;
-            }}
-            w={isMobile ? '100%' : '40%'}
-            name="phone0"
-            value={state.phone0}
-            label={state.phone_confirmed ? 'Мобильный телефон' : 'Мобильный телефон (не подтвержден)'}
-            onAccept={(val) => handleChangePhone(val)}
-            onChange={() => phoneCheck(state.phone0, setPhoneError, me.id)}
-            onBlur={() => phoneCheck(state.phone0, setPhoneError, me.id)}
-            withAsterisk={!state.phone0}
-            error={phoneError}
-          />
-          {!phoneError && !isEdit && <ConfirmWithTimer type="phone" label="Телефон" user={state} setUser={setState} />}
-        </Flex>
-        <Flex
-          gap="md"
-          align={isMobile ? 'flex-start' : 'flex-end'}
-          direction={isMobile ? 'column' : 'row'}
-          justify={{ base: 'space-between', sm: 'flex-start' }}
-        >
-          <TextInput
-            name="email0"
-            value={state.email0}
-            withAsterisk={!state.email0}
-            label={state.email_confirmed ? 'Email' : 'Email (не подтвержден)'}
-            onChange={handleChange}
-            w={isMobile ? '100%' : '40%'}
-            onBlur={() => emailCheck(state.email0, setEmailError, me.id)}
-            error={emailError}
-          />
-          {!emailError && !isEdit && <ConfirmWithTimer type="email" label="Email" user={state} setUser={setState} />}
-        </Flex>
+        <Card radius="lg" shadow="md" withBorder>
+          <Flex
+            gap="md"
+            align="flex-start"
+            direction="column"
+            justify="flex-start"
+          >
+            <InputBase
+              component={IMaskInput}
+              mask="+{7} (000) 000-00-00"
+              prepare={(str: string, masked: { value: string; }) => {
+                if (str === '8' && (masked.value === '+7' || masked.value === '')) { return ''; }
+                if (str === '7' && (masked.value === '+7' || masked.value === '')) { return ''; }
+                if (str === '' && masked.value === '') { return '7'; }
+                if (!/^\+?[\d\s\-()]+$/.test(str) && masked.value === '') { return '7'; }
+                if (!/^\+?[\d\s\-()]+$/.test(str)) { return ''; }
+                return str;
+              }}
+              w={isMobile ? '100%' : '40%'}
+              name="phone0"
+              value={state.phone0}
+              label={state.phone_confirmed ? 'Мобильный телефон' : 'Мобильный телефон (не подтвержден)'}
+              onAccept={(val) => handleChangePhone(val)}
+              onChange={() => phoneCheck(state.phone0, setPhoneError, me.id)}
+              onBlur={() => phoneCheck(state.phone0, setPhoneError, me.id)}
+              withAsterisk={!state.phone0}
+              error={phoneError}
+            />
+            {!phoneError && !isEdit && <ConfirmWithTimer type="phone" label="Телефон" user={user} setUser={setUser} />}
+          </Flex>
+        </Card>
+        <Card radius="lg" shadow="md" withBorder>
+          <Flex
+            gap="md"
+            align="flex-start"
+            direction="column"
+            justify="flex-start"
+          >
+            <TextInput
+              name="email0"
+              value={state.email0}
+              withAsterisk={!state.email0}
+              label={state.email_confirmed ? 'Email' : 'Email (не подтвержден)'}
+              onChange={handleChange}
+              w={isMobile ? '100%' : '40%'}
+              onBlur={() => emailCheck(state.email0, setEmailError, me.id)}
+              error={emailError}
+            />
+            {!emailError && !isEdit && <ConfirmWithTimer type="email" label="Email" user={user} setUser={setUser} />}
+          </Flex>
+        </Card>
       </Flex>
 
       {/* Buttons */}
