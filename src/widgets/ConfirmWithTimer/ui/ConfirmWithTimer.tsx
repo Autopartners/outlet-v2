@@ -42,7 +42,7 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
   }, [isCounting]);
 
   useEffect(() => {
-    if (isCounting && count === 60) {
+    if (isCounting && count === 120) {
       setCount(0);
       setIsCount(false);
     }
@@ -78,7 +78,7 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
     onSuccess: data => {
       if (data.status === 'code_already_sent') {
         setAlreadySent(true);
-        setCount(60 - data.count);
+        setCount(120 - data.count);
       } else { setCount(0); }
       setIsCount(true);
     },
@@ -135,19 +135,19 @@ export const ConfirmWithTimer = ({ type, label, user, setUser }: ConfirmWithTime
           )
         )
       }
-      {(!(count > 0 && count < 60) && (
+      {(!(count > 0 && count < 120) && (
         <Button color="blue" w={204} fz="xs" size="sm" onClick={() => mutateCodeRequest.mutate()}>
           Запросить подтверждение
         </Button>
       ))
       }
       {alreadySent && <Text fz={12} w={235} mt={5}>Вы уже недавно запросили код, пожалуйста подождите</Text>}
-      {count > 0 && count < 60 && (
+      {count > 0 && count < 120 && (
         <Box w={230}>
           <Text ta={{ base: 'center', sm: 'left' }} style={{ fontSize: 12 }}>
             Запросить повторно через:
             {' '}
-            {60 - count}
+            {120 - count}
           </Text>
         </Box>
       )}
