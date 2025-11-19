@@ -18,7 +18,7 @@ export const MakeBidInput = ({ lot, bidMutationParams, size, opened, setOpened }
 
   useEffect(() => {
     if (opened && inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus({ preventScroll: true });
     }
   }, [opened]);
 
