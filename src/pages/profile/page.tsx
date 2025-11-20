@@ -44,15 +44,15 @@ export const ProfilePage = () => {
             >
               Компания
             </Button>
-            <Button
-              size="md"
-              variant={pathname === '/profile/won' ? 'light' : 'subtle'}
-              component={Link}
-              to="/profile/won"
-              fullWidth={isMobile}
-            >
-              Выигранные
-            </Button>
+            {/* <Button*/}
+            {/*  size="md"*/}
+            {/*  variant={pathname === '/profile/won' ? 'light' : 'subtle'}*/}
+            {/*  component={Link}*/}
+            {/*  to="/profile/won"*/}
+            {/*  fullWidth={isMobile}*/}
+            {/* >*/}
+            {/*  Выигранные*/}
+            {/* </Button>*/}
             <Button
               size="md"
               variant={pathname === '/profile/documents' ? 'light' : 'subtle'}

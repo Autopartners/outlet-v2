@@ -119,7 +119,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
         ))}
 
         {/* Phone and Email */}
-        <Card radius="lg" shadow="md" withBorder>
+        <Card radius="lg" withBorder>
           <Flex
             gap="md"
             align="flex-start"
@@ -150,7 +150,7 @@ export const MainWindow = ({ user, setUser, isUserFetching }: MainWindowProps) =
             {!phoneError && !isEdit && <ConfirmWithTimer type="phone" label="Телефон" user={user} setUser={setUser} />}
           </Flex>
         </Card>
-        <Card radius="lg" shadow="md" withBorder>
+        <Card radius="lg" withBorder>
           <Flex
             gap="md"
             align="flex-start"
