@@ -6,6 +6,7 @@ import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBid/MakeBidPopover
 import { MakeFavourite } from '@/shared/ui/LotOperations/MakeFavourite';
 import { useMe } from '@/app/providers/me/useMe';
 import { stageStrings } from '@/shared/lib/constants';
+import { useLocation } from 'react-router-dom';
 
 interface ViewTypeTableProps {
   lots: Lot[],
@@ -28,6 +29,8 @@ const MyBidTh = ({ stage }: { stage:string }) => {
 export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTableProps) => {
   const nav = useNavigate();
   const { isAdmin, isRemarketing } = useMe();
+  const { pathname } = useLocation();
+  const isHistoryPage = pathname.includes('history');
 
   return (
     <Table mt={10} highlightOnHover verticalSpacing="sm">
@@ -94,13 +97,13 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
             {lots[0].stage !== 'first_stage' && lots[0].stage !== 'preparing' && (
               <Table.Td>
                 <Flex justify="center" align="flex-end">
-                  {lot.second_stage_minimal_price && (
+                  {((lot.see_second_stage && lot.stage === 'second_stage') || (lot.see_second_stage && isHistoryPage)) && (
                     <Flex align="center" justify="center">
                       <ThemeIcon c="red.9" variant="light" bg="transparent">
                         <IconCurrencyRubel stroke={2} size={20} />
                       </ThemeIcon>
                       <Text fz={20} fw="bold" c="red.9">
-                        {lot.second_stage_minimal_price.toLocaleString('ru-RU')}
+                        {Number(lot.second_stage_minimal_price).toLocaleString('ru-RU')}
                       </Text>
                     </Flex>
                   )
