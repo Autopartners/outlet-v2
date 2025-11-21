@@ -155,7 +155,7 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
         </Flex>
 
         <Flex mt={10} align="flex-end" justify="space-between">
-          { lot.stage !== 'first_stage' && lot.stage !== 'preparing' && (
+          { ((lot.see_second_stage && lot.stage === 'second_stage') || (lot.see_second_stage && isHistoryPage)) && (
             <Flex direction="column" gap={4}>
               <Text fz={{ base: 12, sm: 15 }}>Текущая ставка</Text>
               <Text fz={{ base: 12, sm: 16 }} fw="bold" c="red.9">
