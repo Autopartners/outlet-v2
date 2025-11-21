@@ -47,44 +47,94 @@ export function Navbar() {
                 fw={500}
               >
                 <Button
-                  variant={pathname === '/' ? 'light' : 'subtle'}
+                  variant={pathname === '/' ? 'filled' : 'subtle'}
                   size="md"
-                  color="black"
+                  color="blue"
                   onClick={() => nav('/')}
+                  radius={25}
+                  fw={600}
+                  styles={{
+                    root: {
+                      transition: 'all 0.3s ease',
+                      ...(pathname === '/' && {
+                        boxShadow: '0 4px 15px rgba(34, 139, 230, 0.3)',
+                      }),
+                    }
+                  }}
                 >
                   Главная
                 </Button>
                 {me.id && (
                   <Button
-                    variant={pathname.includes('/lots') ? 'light' : 'subtle'}
+                    variant={pathname.includes('/lots') ? 'filled' : 'subtle'}
                     size="md"
-                    color="black"
+                    color="blue"
                     onClick={() => nav('/lots')}
+                    radius={25}
+                    fw={600}
+                    styles={{
+                      root: {
+                        transition: 'all 0.3s ease',
+                        ...(pathname.includes('/lots') && {
+                          boxShadow: '0 4px 15px rgba(34, 139, 230, 0.3)',
+                        }),
+                      }
+                    }}
                   >
                     Лоты
                   </Button>
                 )}
                 <Button
-                  variant={pathname === '/about' ? 'light' : 'subtle'}
+                  variant={pathname === '/about' ? 'filled' : 'subtle'}
                   size="md"
-                  color="black"
+                  color="blue"
                   onClick={() => nav('/about')}
+                  radius={25}
+                  fw={600}
+                  styles={{
+                    root: {
+                      transition: 'all 0.3s ease',
+                      ...(pathname === '/about' && {
+                        boxShadow: '0 4px 15px rgba(34, 139, 230, 0.3)',
+                      }),
+                    }
+                  }}
                 >
                   О компании
                 </Button>
                 <Button
-                  variant={pathname === '/rules' ? 'light' : 'subtle'}
+                  variant={pathname === '/rules' ? 'filled' : 'subtle'}
                   size="md"
-                  color="black"
+                  color="blue"
                   onClick={() => nav('/rules')}
+                  radius={25}
+                  fw={600}
+                  styles={{
+                    root: {
+                      transition: 'all 0.3s ease',
+                      ...(pathname === '/rules' && {
+                        boxShadow: '0 4px 15px rgba(34, 139, 230, 0.3)',
+                      }),
+                    }
+                  }}
                 >
                   Правила
                 </Button>
                 <Button
-                  variant={pathname.includes('/history') ? 'light' : 'subtle'}
+                  variant={pathname.includes('/history') ? 'filled' : 'subtle'}
                   size="md"
-                  color="black"
+                  color="blue"
                   onClick={() => nav('/history')}
+                  radius={25}
+                  fw={600}
+                  styles={{
+                    root: {
+                      transition: 'all 0.3s ease',
+                      ...(pathname.includes('/history') && {
+                        boxShadow: '0 4px 15px rgba(34, 139, 230, 0.3)',
+                      }),
+                    }
+                  }}
                 >
                   История
                 </Button>
