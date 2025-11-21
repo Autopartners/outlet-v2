@@ -13,13 +13,13 @@ export const AppRouter = () => {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/lots" element={<LotsPage mode="lots" />} />
+        <Route path="/lots" element={<LotsPage type="lots" />} />
         <Route path="/lots/:id" element={<LotPage mode="view" />} />
         <Route path="/lots/:id/edit" element={<LotPage mode="edit" />} />
         <Route path="/history/:id/" element={<LotPage mode="history" />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/rules" element={<RulesPage />} />
-        <Route path="/history" element={<LotsPage mode="history" />} />
+        <Route path="/history" element={<LotsPage type="history" />} />
         <Route path="/profile/*" element={<ProfilePage />} />
       </Routes>
     </>

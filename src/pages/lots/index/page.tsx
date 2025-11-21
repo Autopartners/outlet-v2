@@ -4,11 +4,7 @@ import { Box, Flex } from '@mantine/core';
 import { useApp } from '@/app/providers/app/useApp';
 import { ConfirmBanner } from '@/shared/ui/Banners/ConfirmBanner.tsx';
 
-interface LotsPageProps {
-  mode: string;
-}
-
-export const LotsPage = ({ mode }: LotsPageProps) => {
+export const LotsPage = ({ type }: { type: 'lots' | 'history' }) => {
   const { isAuctionConfirmed } = useMe();
   const { isMobile } = useApp();
 
@@ -22,5 +18,5 @@ export const LotsPage = ({ mode }: LotsPageProps) => {
     );
   }
 
-  return <LotsList mode={mode} />;
+  return <LotsList type={type} />;
 };

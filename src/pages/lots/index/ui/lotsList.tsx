@@ -32,12 +32,15 @@ interface LotsListHeadProps {
   setShowFilters: (showFilters: boolean) => void,
   activeView: 'table_view' | 'cards_view',
   setActiveView: (activeView: 'table_view' | 'cards_view') => void,
+  isHistory: boolean,
 }
 
-const LotsListHead = ({ lots, showFilters, setShowFilters, activeView, setActiveView }:LotsListHeadProps) => {
+const LotsListHead = ({ lots, showFilters, setShowFilters, activeView, setActiveView, isHistory }:LotsListHeadProps) => {
   return (
-    <Flex align="flex-end" justify="space-between" gap={5}>
+    <Flex align="flex-end" justify={isHistory ? 'flex-end' : 'space-between'} gap={5}>
+      { !isHistory &&
       <AuctionCountdown lots={lots} />
+      }
       <Flex gap={{ base: 10, sm: 30 }} align="flex-end">
         <LotsFilters hasLots isLoading={false} {...{ showFilters, setShowFilters }} />
         <ViewTypeButtons {...{ activeView, setActiveView }} />
@@ -46,13 +49,10 @@ const LotsListHead = ({ lots, showFilters, setShowFilters, activeView, setActive
   );
 };
 
-interface LotsListProps {
-  mode: string;
-}
-
-export const LotsList = ({ mode }: LotsListProps) => {
+export const LotsList = ({ type }: { type: 'lots' | 'history' }) => {
   const { isMobile } = useApp();
   const { isAdmin, isRemarketing, me } = useMe();
+  const isHistory = type === 'history';
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [activeView, setActiveView] = useState<'table_view' | 'cards_view'>(me.outlet_user_setting.view_type || 'table_view');
@@ -71,8 +71,8 @@ export const LotsList = ({ mode }: LotsListProps) => {
   } = me.outlet_user_setting.filters || {};
 
   const params = {
-    started: mode === 'history' ? 'false' : 'true',
-    history: mode === 'history' ? 'true' : 'false',
+    started: isHistory ? 'false' : 'true',
+    history: isHistory ? 'true' : 'false',
     liked: liked || searchParams.get('liked') || 'false',
     q: {
       vehicle_vehicle_model_id_eq: model_id || searchParams.get('vehicle_model_id'),
@@ -117,7 +117,7 @@ export const LotsList = ({ mode }: LotsListProps) => {
 
   return (
     <Box w={{ sm: 1500, base: 'fit-content' }} mx="auto">
-      <LotsListHead {...{ lots, showFilters, setShowFilters, activeView, setActiveView }} />
+      <LotsListHead {...{ lots, showFilters, setShowFilters, activeView, setActiveView, isHistory }} />
       <>
         {activeView === 'cards_view' && <ViewTypeCards {...{ lots, page, per_page, params }} />}
         {activeView === 'table_view' && isMobile && <ViewTypeTableMobile {...{ lots, page, per_page, params }} />}
