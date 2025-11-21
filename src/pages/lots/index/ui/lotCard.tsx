@@ -1,7 +1,7 @@
 import { Badge, Box, Card, Flex, Text, ThemeIcon } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
-import { useNavigate } from 'react-router-dom';
-import { IconBuildingSkyscraper, IconCalendar, IconRoad } from '@tabler/icons-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { IconBuildingSkyscraper, IconCalendar, IconCrown, IconRoad } from '@tabler/icons-react';
 import { ApCarousel } from '@/shared/ui/Images/apCarousel.tsx';
 import { useApp } from '@/app/providers/app/useApp';
 import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBid/MakeBidPopover.tsx';
@@ -53,7 +53,10 @@ interface LotCardProps {
 
 export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplified = false }: LotCardProps) => {
   const nav = useNavigate();
+  const { pathname } = useLocation();
+  const isHistoryPage = pathname.includes('history');
   const { isMobile } = useApp();
+  const isWinner = lot.is_winner;
   const { isAdmin, isRemarketing } = useMe();
 
   return (
@@ -68,9 +71,20 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
           window.getSelection()?.toString().length
         ) { return; }
 
-        nav(`/lots/${lot.id}`);
+        nav(isHistoryPage ? `/lots/${lot.id}/history` : `/lots/${lot.id}`);
       }}
-      style={{ cursor: 'pointer' }}
+      styles={{
+        root: {
+          cursor: 'pointer',
+          border: isWinner ? '3px solid transparent' : undefined,
+          background: isWinner
+            ? 'linear-gradient(135deg, #f0fff4, #e6fffa), linear-gradient(135deg, #00b894, #00cec9, #0984e3)'
+            : undefined,
+          backgroundOrigin: isWinner ? 'border-box' : undefined,
+          backgroundClip: isWinner ? 'content-box, border-box' : undefined,
+          boxShadow: isWinner ? '0 8px 25px rgba(0, 184, 148, 0.3)' : undefined,
+        }
+      }}
       withBorder
       p={0}
       mx="auto"
@@ -147,6 +161,21 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             stageNumber={2}
             amount={lot.my_second_stage_amount}
           />
+
+          {isWinner && (
+            <Flex align="center" gap={10}>
+              <ThemeIcon variant="light" color="cyan" size="md">
+                <IconCrown size={isMobile ? 20 : 30} />
+              </ThemeIcon>
+              <Text
+                fw={700}
+                variant="gradient"
+                gradient={{ from: 'green.6', to: 'cyan.5', deg: 135 }}
+              >
+              Вы победитель!
+              </Text>
+            </Flex>
+          )}
 
           <Flex gap={10} align="center">
             {['first_stage', 'second_stage'].includes(lot.stage) && (

@@ -6,7 +6,14 @@ import { NavStatus } from '@/widgets/Navbar/ui/NavStatus';
 import { useMe } from '@/app/providers/me/useMe';
 import { useApp } from '@/app/providers/app/useApp.ts';
 import { AuthButtons } from '@/widgets/Navbar/ui/AuthButtons';
-import { IconCar, IconHome, IconBaselineDensityMedium, IconSquareRotated, IconInfoCircle } from '@tabler/icons-react';
+import {
+  IconCar,
+  IconHome,
+  IconBaselineDensityMedium,
+  IconSquareRotated,
+  IconInfoCircle,
+  IconHistory
+} from '@tabler/icons-react';
 import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
 import { Footer } from '@/widgets/Footer/Footer';
 
@@ -72,6 +79,14 @@ export function Navbar() {
                   onClick={() => nav('/rules')}
                 >
                   Правила
+                </Button>
+                <Button
+                  variant={pathname === '/history' ? 'light' : 'subtle'}
+                  size="md"
+                  color="black"
+                  onClick={() => nav('/history')}
+                >
+                  История
                 </Button>
               </Group>
               {me.id && !isMobile ? <NavStatus /> : <AuthButtons isMobile={isMobile} me={me} loading={loading} />}
@@ -141,6 +156,15 @@ export function Navbar() {
                   leftSection={<IconInfoCircle size={20} />}
                 >
                     Правила
+                </Button>
+                <Button
+                  fullWidth
+                  variant={pathname === '/history' ? 'filled' : 'light'}
+                  color="dark"
+                  onClick={() => nav('/history')}
+                  leftSection={<IconHistory size={20} />}
+                >
+                  История
                 </Button>
               </Flex>
             </Menu.Dropdown>

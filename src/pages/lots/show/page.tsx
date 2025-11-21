@@ -14,7 +14,7 @@ import { LotEditSubmodel } from '@/pages/lots/show/ui/EditPage/LotEditSubmodel.t
 import { LotShowSkeleton } from '@/pages/lots/show/ui/LotShowSkeleton';
 import { CustomLoader } from '@/shared/ui/CustomLoader/CustomLoader';
 
-export const LotPage = ({ mode = 'view' }: { mode?: 'view' | 'edit' }) => {
+export const LotPage = ({ mode = 'view' }: { mode?: 'view' | 'edit' | 'history' }) => {
   const { id } = useParams();
   const { lot, error, isLoading } = useLot({ id });
   const { isAdmin, isRemarketing } = useMe();
@@ -34,10 +34,12 @@ export const LotPage = ({ mode = 'view' }: { mode?: 'view' | 'edit' }) => {
   if (!lot) { return null; }
 
   const editable = mode === 'edit' && (isAdmin || isRemarketing);
+  const isHistory = mode === 'history';
+  const isWinner = lot.is_winner;
 
   return (
     <Container size={isMobile ? '100%' : '70%'} miw={isMobile ? 0 : 1600} mt={40}>
-      <LotHeader lot={lot} editable={editable} onClose={() => nav('/lots')} />
+      <LotHeader lot={lot} editable={editable} isWinner={isWinner} onClose={() => nav('/lots')} />
       <Card bg="gray.1" withBorder w="100%" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}>
         <Grid>
           <Grid.Col span={{ base: 12, md: 7 }}>
@@ -46,9 +48,9 @@ export const LotPage = ({ mode = 'view' }: { mode?: 'view' | 'edit' }) => {
             </Card>
           </Grid.Col>
           {editable && <LotEditSubmodel lot={lot} />}
-          {!editable && <LotBiddingSection lot={lot} />}
+          {!editable && <LotBiddingSection lot={lot} isHistory={isHistory} isWinner={isWinner} />}
         </Grid>
-        {!editable && <LotInfoSections lot={lot} />}
+        {!editable && <LotInfoSections lot={lot} isHistory={isHistory} isWinner={isWinner} />}
       </Card>
       <LotTabs lot={lot} editable={editable} />
     </Container>

@@ -5,13 +5,28 @@ import type { Lot } from '@/entities/lot';
 import { useMe } from '@/app/providers/me/useMe.ts';
 import { useApp } from '@/app/providers/app/useApp';
 
-export const LotHeader = ({ lot, editable, onClose }: { lot: Lot, editable: boolean, onClose: ()=>void }) => {
+interface LotHeaderProps {
+  lot: Lot,
+  editable: boolean,
+  isWinner: boolean,
+  onClose: () => void
+}
+
+export const LotHeader = ({ lot, editable, isWinner, onClose }: LotHeaderProps) => {
   const nav = useNavigate();
   const { isAdmin, isRemarketing } = useMe();
   const { isMobile } = useApp();
 
   return (
-    <Card bg={editable ? 'dark.5' : 'blue.9'} radius={0} style={{ borderTopRightRadius: 20, borderTopLeftRadius: 20 }} pos="relative">
+    <Card
+      bg={editable ? 'dark.5' : isWinner
+        ? 'linear-gradient(45deg, #2A7B9B, #57C785)'
+        : 'blue.9'
+      }
+      radius={0}
+      style={{ borderTopRightRadius: 20, borderTopLeftRadius: 20 }}
+      pos="relative"
+    >
       <Flex mt={{ base: 5, sm: 0 }} px={10} justify="space-between">
         <Flex gap={10} align="center">
           <Text c="white" fz={22}>

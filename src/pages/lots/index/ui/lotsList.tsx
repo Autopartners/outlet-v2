@@ -46,7 +46,11 @@ const LotsListHead = ({ lots, showFilters, setShowFilters, activeView, setActive
   );
 };
 
-export const LotsList = () => {
+interface LotsListProps {
+  mode: string;
+}
+
+export const LotsList = ({ mode }: LotsListProps) => {
   const { isMobile } = useApp();
   const { isAdmin, isRemarketing, me } = useMe();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -67,7 +71,8 @@ export const LotsList = () => {
   } = me.outlet_user_setting.filters || {};
 
   const params = {
-    started: 'true',
+    started: mode === 'history' ? 'false' : 'true',
+    history: mode === 'history' ? 'true' : 'false',
     liked: liked || searchParams.get('liked') || 'false',
     q: {
       vehicle_vehicle_model_id_eq: model_id || searchParams.get('vehicle_model_id'),

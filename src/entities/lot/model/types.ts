@@ -71,6 +71,8 @@ export interface Lot {
   remarketing_options: string;
   my_first_stage_amount: number;
   my_second_stage_amount: number;
+  see_second_stage: boolean;
+  is_winner: boolean;
 }
 
 export interface ServiceRequest {

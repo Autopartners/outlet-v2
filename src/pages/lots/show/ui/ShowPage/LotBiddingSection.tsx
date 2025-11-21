@@ -3,8 +3,9 @@ import { useApp } from '@/app/providers/app/useApp.ts';
 import { MakeBidInput } from '@/shared/ui/LotOperations/MakeBid/MakeBidInput.tsx';
 import type { Lot } from '@/entities/lot';
 import { stageIcons, stageStrings } from '@/shared/lib/constants';
+import { IconCrown } from '@tabler/icons-react';
 
-export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
+export const LotBiddingSection = ({ lot, isHistory, isWinner }: {lot: Lot; isHistory: boolean; isWinner: boolean}) => {
   const { isMobile } = useApp();
 
   const isEnd = lot.stage === 'finished' || lot.stage === 'third_stage';
@@ -14,6 +15,23 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
     <Grid.Col span={{ base: 12, md: 5 }}>
       <Card radius="lg">
         <Stack>
+          {isWinner && (
+            <Flex justify="center" align="center" gap={10}>
+              <ThemeIcon variant="light" color="green" size="lg">
+                <IconCrown size={isMobile ? 20 : 30} />
+              </ThemeIcon>
+              <Text
+                ta="center"
+                fz={isMobile ? 20 : 28}
+                fw="bold"
+                variant="gradient"
+                gradient={{ from: 'green.6', to: 'cyan.5', deg: 135 }}
+              >
+              Вы победитель!
+              </Text>
+            </Flex>
+          )
+          }
           <Card bg="gray.2" py={10} radius="lg" shadow="none">
             <Flex justify="center" align="center" gap={10}>
               <ThemeIcon variant="transparent" c="black">{stageIcons[lot.stage]}</ThemeIcon>
@@ -22,7 +40,7 @@ export const LotBiddingSection = ({ lot }: {lot: Lot}) => {
               </Text>
             </Flex>
           </Card>
-          {lot.stage === 'second_stage' && (
+          {((lot.see_second_stage && lot.stage === 'second_stage') || (lot.see_second_stage && isHistory)) && (
             <Tooltip label="Максимально предложенная сумма из первого этапа">
               <Flex justify="space-between" align={isMobile ? 'flex-start' : 'center'} direction={isMobile ? 'column' : 'row'}>
                 <Text fz={20}>Текущая ставка</Text>

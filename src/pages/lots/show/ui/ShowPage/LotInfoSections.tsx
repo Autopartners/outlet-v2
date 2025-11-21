@@ -3,7 +3,13 @@ import { IconAdjustmentsHorizontal, IconMail, IconMessage, IconPhone, IconShield
 import type { Lot } from '@/entities/lot';
 import { useApp } from '@/app/providers/app/useApp';
 
-export const LotInfoSections = ({ lot }: {lot: Lot}) => {
+interface LotInfoSectionsProps {
+  lot: Lot;
+  isHistory: boolean;
+  isWinner: boolean;
+}
+
+export const LotInfoSections = ({ lot, isHistory, isWinner }: LotInfoSectionsProps) => {
   const { isMobile } = useApp();
 
   const renderVehicleFeatureInfo = ({ head, info, line = false }: { head: string, info: string, line?: boolean }) => {
@@ -50,22 +56,26 @@ export const LotInfoSections = ({ lot }: {lot: Lot}) => {
         </Card>
       </Grid.Col>
 
-      <Grid.Col span={{ base: 12, md: 3 }}>
-        <Card h="100%">
-          <Flex gap={5} align="center">
-            <ThemeIcon color="blue.9" variant="transparent">
-              <IconShield />
-            </ThemeIcon>
-            <Text fw="bold" fz={18}>
+      { ((isHistory && isWinner) || !isHistory) &&
+      (
+        <Grid.Col span={{ base: 12, md: 3 }}>
+          <Card h="100%">
+            <Flex gap={5} align="center">
+              <ThemeIcon color="blue.9" variant="transparent">
+                <IconShield />
+              </ThemeIcon>
+              <Text fw="bold" fz={18}>
               Документы
-            </Text>
-          </Flex>
-          <Stack mt={10} pl={10} gap={5}>
-            {renderVehicleFeatureInfo({ head: 'VIN', info: lot.vin, line: true })}
-            {renderVehicleFeatureInfo({ head: 'Гос. номер', info: lot.vehicle_plate_no, line: true })}
-          </Stack>
-        </Card>
-      </Grid.Col>
+              </Text>
+            </Flex>
+            <Stack mt={10} pl={10} gap={5}>
+              {renderVehicleFeatureInfo({ head: 'VIN', info: lot.vin, line: true })}
+              {renderVehicleFeatureInfo({ head: 'Гос. номер', info: lot.vehicle_plate_no, line: true })}
+            </Stack>
+          </Card>
+        </Grid.Col>
+      )
+      }
 
       <Grid.Col span={{ base: 12, md: 2 }}>
         <Card h="100%">

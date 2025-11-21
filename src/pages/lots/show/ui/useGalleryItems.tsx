@@ -6,7 +6,7 @@ import type ImageGallery from 'react-image-gallery';
 import { IconCameraRotate, IconCameraStar, IconTrash, IconTrashX } from '@tabler/icons-react';
 import { usePicture } from '@/pages/lots/show/api/usePicture.ts';
 
-export const useGalleryItems = ({ mode, lot }: { mode: 'view' | 'edit'; lot: Lot | undefined }) => {
+export const useGalleryItems = ({ mode, lot }: { mode: 'view' | 'edit' | 'history'; lot: Lot | undefined }) => {
   const imageGallery = useRef<ImageGallery | null>(null);
   const { mutatePicture } = usePicture({ lotId: lot?.id });
 
