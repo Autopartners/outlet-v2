@@ -92,6 +92,20 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
       w={isMobile ? '100%' : 475}
       classNames={{ root: !isMobile ? 'cardHover' : undefined }}
     >
+      {isWinner && (
+        <Flex align="center" justify="center" gap={10}>
+          <ThemeIcon variant="light" color="cyan" size="md">
+            <IconCrown size={isMobile ? 20 : 30} />
+          </ThemeIcon>
+          <Text
+            fw={700}
+            variant="gradient"
+            gradient={{ from: 'green.6', to: 'cyan.5', deg: 135 }}
+          >
+            Вы победитель!
+          </Text>
+        </Flex>
+      )}
       {!mobileSimplified && (
         <ApCarousel pictures={lot.sales_pictures.slice(0, maxPhotos || lot.sales_pictures.length - 1)} />
       )}
@@ -161,21 +175,6 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
             stageNumber={2}
             amount={lot.my_second_stage_amount}
           />
-
-          {isWinner && (
-            <Flex align="center" gap={10}>
-              <ThemeIcon variant="light" color="cyan" size="md">
-                <IconCrown size={isMobile ? 20 : 30} />
-              </ThemeIcon>
-              <Text
-                fw={700}
-                variant="gradient"
-                gradient={{ from: 'green.6', to: 'cyan.5', deg: 135 }}
-              >
-              Вы победитель!
-              </Text>
-            </Flex>
-          )}
 
           <Flex gap={10} align="center">
             {['first_stage', 'second_stage'].includes(lot.stage) && (
