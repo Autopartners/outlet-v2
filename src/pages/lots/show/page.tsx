@@ -39,7 +39,7 @@ export const LotPage = ({ mode = 'view' }: { mode?: 'view' | 'edit' | 'history' 
 
   return (
     <Container size={isMobile ? '100%' : '70%'} miw={isMobile ? 0 : 1600} mt={40}>
-      <LotHeader lot={lot} editable={editable} isWinner={isWinner} onClose={() => nav('/lots')} />
+      <LotHeader lot={lot} editable={editable} isWinner={isWinner} onClose={() => isHistory ? nav('/history') : nav('/lots')} />
       <Card bg="gray.1" withBorder w="100%" radius={0} style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}>
         <Grid>
           <Grid.Col span={{ base: 12, md: 7 }}>
