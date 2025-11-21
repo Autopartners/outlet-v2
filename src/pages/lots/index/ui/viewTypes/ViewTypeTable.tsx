@@ -67,7 +67,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
                 window.getSelection()?.toString().length
               ) { return; }
 
-              nav(isHistoryPage ? `/lots/${lot.id}/history` : `/lots/${lot.id}`);
+              nav(isHistoryPage ? `/history/${lot.id}` : `/lots/${lot.id}`);
             }}
           >
             <Table.Td>

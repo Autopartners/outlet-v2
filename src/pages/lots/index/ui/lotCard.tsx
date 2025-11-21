@@ -71,7 +71,7 @@ export const LotCard = ({ lot, maxPhotos, page, per_page, params, mobileSimplifi
           window.getSelection()?.toString().length
         ) { return; }
 
-        nav(isHistoryPage ? `/lots/${lot.id}/history` : `/lots/${lot.id}`);
+        nav(isHistoryPage ? `/history/${lot.id}` : `/lots/${lot.id}`);
       }}
       styles={{
         root: {

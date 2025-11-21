@@ -81,7 +81,7 @@ export function Navbar() {
                   Правила
                 </Button>
                 <Button
-                  variant={pathname === '/history' ? 'light' : 'subtle'}
+                  variant={pathname.includes('/history') ? 'light' : 'subtle'}
                   size="md"
                   color="black"
                   onClick={() => nav('/history')}
@@ -159,7 +159,7 @@ export function Navbar() {
                 </Button>
                 <Button
                   fullWidth
-                  variant={pathname === '/history' ? 'filled' : 'light'}
+                  variant={pathname.includes('/history') ? 'filled' : 'light'}
                   color="dark"
                   onClick={() => nav('/history')}
                   leftSection={<IconHistory size={20} />}
