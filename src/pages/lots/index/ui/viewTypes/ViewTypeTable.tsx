@@ -1,6 +1,6 @@
 import { Badge, Flex, Table, Text, ThemeIcon, Tooltip } from '@mantine/core';
 import type { Lot } from '@/entities/lot';
-import { IconCurrencyRubel } from '@tabler/icons-react';
+import { IconCrown, IconCurrencyRubel } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { MakeBidPopover } from '@/shared/ui/LotOperations/MakeBid/MakeBidPopover.tsx';
 import { MakeFavourite } from '@/shared/ui/LotOperations/MakeFavourite';
@@ -56,6 +56,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
           <Table.Tr
             key={lot.id}
             style={{ cursor: 'pointer' }}
+            bg={lot.is_winner ? 'linear-gradient(45deg, #2A7B9B, #57C785)' : undefined}
             onClick={(e) => {
               const target = e.target as HTMLElement;
 
@@ -66,7 +67,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
                 window.getSelection()?.toString().length
               ) { return; }
 
-              nav(`/lots/${lot.id}`);
+              nav(isHistoryPage ? `/lots/${lot.id}/history` : `/lots/${lot.id}`);
             }}
           >
             <Table.Td>
@@ -76,7 +77,7 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
             </Table.Td>
 
             <Table.Td ta="left">
-              <Text fz={16} fw="bold" c="blue.7">
+              <Text fz={16} fw="bold" c={lot.is_winner ? 'white' : 'blue.7'}>
                 {lot.definition_name}
                 {(isAdmin || isRemarketing) && ` (${stageStrings[lot.stage]})`}
               </Text>
@@ -145,6 +146,15 @@ export const ViewTypeTable = ({ lots, page, per_page, params }: ViewTypeTablePro
 
             <Table.Td>
               <MakeFavourite {...{ lot, page, per_page, params }} />
+            </Table.Td>
+            <Table.Td>
+              {lot.is_winner && (
+                <Tooltip label="Вы победитель!">
+                  <ThemeIcon variant="light" color="white" size="lg">
+                    <IconCrown size={30} />
+                  </ThemeIcon>
+                </Tooltip>
+              )}
             </Table.Td>
           </Table.Tr>
         ))}
